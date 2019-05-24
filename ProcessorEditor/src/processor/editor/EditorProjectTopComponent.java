@@ -5,6 +5,8 @@
  */
 package processor.editor;
 
+import processor.editor.windows.PrototypePanel;
+import processor.editor.windows.CleanerPanel;
 import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
@@ -40,9 +42,9 @@ import processor.core.file.Profile;
 @TopComponent.Description(
         preferredID = "EditorProjectTopComponent",
         //iconBase="SET/PATH/TO/ICON/HERE", 
-        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
-@TopComponent.Registration(mode = "editor", openAtStartup = true)
+@TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "processor.editor.EditorProjectTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
@@ -72,18 +74,20 @@ public final class EditorProjectTopComponent extends TopComponent {
             loadProjectData();
         }
 
-        loadEditor(ProjectCentral.instance().getProjectFile());
+        loadProjectCodeEditor(ProjectCentral.instance().getProjectFile());
 
     }
 
-    protected void loadEditor(File f) {
+    protected void loadProjectCodeEditor(File f) {
         try {
-            
+
             FileObject fo = FileUtil.toFileObject(f);
             DataObject d = DataObject.find(fo);
             EditorCookie ec = (EditorCookie) d.getLookup().lookup(EditorCookie.class);
             ec.open();
+
             StyledDocument doc = ec.openDocument();
+
         } catch (DataObjectNotFoundException ex) {
             Exceptions.printStackTrace(ex);
         } catch (IOException ex) {
@@ -135,6 +139,15 @@ public final class EditorProjectTopComponent extends TopComponent {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
+        jToolBar1 = new javax.swing.JToolBar();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jButton5 = new javax.swing.JButton();
+
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -254,7 +267,7 @@ public final class EditorProjectTopComponent extends TopComponent {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -269,7 +282,7 @@ public final class EditorProjectTopComponent extends TopComponent {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+            .addComponent(jSplitPane2)
         );
 
         jSplitPane1.setLeftComponent(jPanel4);
@@ -278,16 +291,35 @@ public final class EditorProjectTopComponent extends TopComponent {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 541, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 475, Short.MAX_VALUE)
+            .addGap(0, 452, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(jPanel7);
 
         jPanel1.add(jSplitPane1, java.awt.BorderLayout.CENTER);
+
+        jToolBar1.setFloatable(false);
+        jToolBar1.setRollover(true);
+        jToolBar1.add(filler1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton5, org.openide.util.NbBundle.getMessage(EditorProjectTopComponent.class, "EditorProjectTopComponent.jButton5.text")); // NOI18N
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButton5.setEnabled(false);
+        jButton5.setFocusable(false);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton5);
+
+        jPanel1.add(jToolBar1, java.awt.BorderLayout.SOUTH);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -295,13 +327,13 @@ public final class EditorProjectTopComponent extends TopComponent {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 848, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 477, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -359,11 +391,27 @@ public final class EditorProjectTopComponent extends TopComponent {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+
+    }//GEN-LAST:event_formFocusGained
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+
+        initComponents();
+        ProjectCentral.instance().reloadProject();
+        project = ProjectCentral.instance().getProject();
+        loadProjectData();
+        jPanel1.validate();
+        jPanel1.repaint();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JList jList1;
     private javax.swing.JList jList3;
     private javax.swing.JPanel jPanel1;
@@ -377,6 +425,7 @@ public final class EditorProjectTopComponent extends TopComponent {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {

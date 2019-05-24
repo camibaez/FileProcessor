@@ -17,6 +17,8 @@ import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
 import processor.editor.ProjectCentral;
+import processor.editor.windows.ProjectEditorTopComponent;
+
 import processor.project.ProjectAdministration;
 
 @ActionID(
@@ -44,7 +46,8 @@ public final class OpenProjectAction implements ActionListener {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             ProjectCentral.instance().setProject(ProjectAdministration.loadProject(file.getAbsolutePath()));
-
+            
+            new ProjectEditorTopComponent().open();
         } else {
             Logger.getLogger(OpenProjectAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
         }

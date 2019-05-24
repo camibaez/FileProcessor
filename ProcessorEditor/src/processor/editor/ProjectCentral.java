@@ -7,6 +7,7 @@ package processor.editor;
 
 import java.io.File;
 import processor.core.file.Profile;
+import processor.project.ProjectAdministration;
 
 /**
  *
@@ -15,7 +16,7 @@ import processor.core.file.Profile;
 public class ProjectCentral {
 
     protected static ProjectCentral instance;
-    protected static Profile currentProfile;
+    protected static Profile profile;
     protected static File profileFile;
 
     public static ProjectCentral instance() {
@@ -25,13 +26,20 @@ public class ProjectCentral {
         return instance;
     }
 
+    
+    public void reloadProject(){
+        profile = ProjectAdministration.loadProject(profileFile.getAbsolutePath());
+    }
+    
+    
+    
     public void setProject(Profile p) {
-        currentProfile = p;
+        profile = p;
 
     }
 
     public Profile getProject() {
-        return currentProfile;
+        return profile;
     }
 
     public File getProjectFile() {

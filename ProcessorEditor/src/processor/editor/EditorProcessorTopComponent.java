@@ -40,7 +40,7 @@ import processor.core.file.Profile;
 @TopComponent.Description(
         preferredID = "EditorProcessorTopComponent",
         //iconBase="SET/PATH/TO/ICON/HERE", 
-        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = true)
 @ActionID(category = "Window", id = "processor.editor.EditorProcessorTopComponent")
@@ -106,20 +106,25 @@ public final class EditorProcessorTopComponent extends TopComponent {
                 @Override
                 public void run() {
                     try {
-                        
                         if (diffTopComponent == null) {
                             diffTopComponent = new TopComponent();
                             diffTopComponent.setLayout(new BorderLayout());
-                            previewFilePanel.add(diffTopComponent, BorderLayout.CENTER);
+                            
                             
                         }else{
                             diffTopComponent.remove(openendDiff.getComponent());
                         }
                         
-                        DiffView newDiffView = Diff.getDefault().createDiff(original, processed);
-                        diffTopComponent.add(newDiffView.getComponent(), BorderLayout.CENTER);
+                        openendDiff = Diff.getDefault().createDiff(original, processed);
+                        diffTopComponent.add(openendDiff.getComponent(), BorderLayout.CENTER);
                         diffTopComponent.requestActive();
-                        openendDiff = newDiffView;
+                        
+                        
+                        previewFilePanel.remove(diffTopComponent);
+                        previewFilePanel.add(diffTopComponent, BorderLayout.CENTER);
+                        previewFilePanel.validate();
+                        previewFilePanel.repaint();
+                        
                         
                     } catch (IOException ex) {
                         Exceptions.printStackTrace(ex);
@@ -285,6 +290,8 @@ public final class EditorProcessorTopComponent extends TopComponent {
                 } else {
                     matchedFilesList.setSelectedIndex(model.getSize() - 1);
                 }
+                
+                refreshProcessorView();
             } catch (IOException ex) {
                 Logger.getLogger(EditorProcessorTopComponent.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -315,12 +322,18 @@ public final class EditorProcessorTopComponent extends TopComponent {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void matchedFilesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_matchedFilesListMouseClicked
+        refreshProcessorView();
+    }//GEN-LAST:event_matchedFilesListMouseClicked
+    
+    private void refreshProcessorView(){
         Path path = (Path) matchedFilesList.getSelectedValue();
         if (path != null) {
             previewProcessing(path);
         }
-    }//GEN-LAST:event_matchedFilesListMouseClicked
-
+        
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

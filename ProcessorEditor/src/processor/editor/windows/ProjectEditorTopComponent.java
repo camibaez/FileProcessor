@@ -5,14 +5,12 @@
  */
 package processor.editor.windows;
 
-import processor.editor.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.text.StyledDocument;
-
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.cookies.EditorCookie;
 import org.openide.filesystems.FileObject;
@@ -25,6 +23,8 @@ import org.openide.util.NbBundle.Messages;
 import processor.core.file.Cleaner;
 import processor.core.file.FilePrototype;
 import processor.core.file.Profile;
+import processor.editor.DummySuplier;
+import processor.editor.ProjectCentral;
 
 /**
  * Top component which displays something.
@@ -40,25 +40,19 @@ import processor.core.file.Profile;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 
-@TopComponent.OpenActionRegistration(
-        displayName = "#CTL_EditorProjectAction",
-        preferredID = "EditorProjectTopComponent"
-)
 @Messages({
-    "CTL_EditorProjectAction=Project Editor",
-    "CTL_EditorProjectTopComponent=Project",
-    "HINT_EditorProjectTopComponent=This is a EditorProject window"
+    "CTL_ProjectEditorAction=ProjectEditor",
+    "CTL_ProjectEditorTopComponent=ProjectEditor Window",
+    "HINT_ProjectEditorTopComponent=This is a ProjectEditor window"
 })
-public final class ProjectEditor extends TopComponent {
-
+public final class ProjectEditorTopComponent extends TopComponent {
     Profile project = null;
-
-    public ProjectEditor() {
+    public ProjectEditorTopComponent() {
         initComponents();
-        setName(Bundle.CTL_EditorProjectTopComponent());
-        setToolTipText(Bundle.HINT_EditorProjectTopComponent());
+        setName(Bundle.CTL_ProjectEditorTopComponent());
+        setToolTipText(Bundle.HINT_ProjectEditorTopComponent());
         putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.TRUE);
-
+        
         //FOR TEST
         DummySuplier.loadDummyProject();
         if (ProjectCentral.instance().getProject() == null) {
@@ -71,7 +65,7 @@ public final class ProjectEditor extends TopComponent {
         loadProjectCodeEditor(ProjectCentral.instance().getProjectFile());
 
     }
-
+    
     protected void loadProjectCodeEditor(File f) {
         try {
 
@@ -79,6 +73,7 @@ public final class ProjectEditor extends TopComponent {
             DataObject d = DataObject.find(fo);
             EditorCookie ec = (EditorCookie) d.getLookup().lookup(EditorCookie.class);
             ec.open();
+            
 
             StyledDocument doc = ec.openDocument();
 
@@ -107,6 +102,7 @@ public final class ProjectEditor extends TopComponent {
         jList1.setModel(cleanersListModel);
 
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,19 +133,13 @@ public final class ProjectEditor extends TopComponent {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton5 = new javax.swing.JButton();
 
-        addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                formFocusGained(evt);
-            }
-        });
-
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel4.setMinimumSize(new java.awt.Dimension(300, 0));
 
         jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ProjectEditor.class, "ProjectEditor.jPanel2.border.title"))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ProjectEditorTopComponent.class, "ProjectEditorTopComponent.jPanel2.border.title"))); // NOI18N
         jPanel2.setMinimumSize(new java.awt.Dimension(0, 150));
 
         jList3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -160,14 +150,14 @@ public final class ProjectEditor extends TopComponent {
         });
         jScrollPane3.setViewportView(jList3);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(ProjectEditor.class, "ProjectEditor.jButton1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(ProjectEditorTopComponent.class, "ProjectEditorTopComponent.jButton1.text")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(ProjectEditor.class, "ProjectEditor.jButton2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(ProjectEditorTopComponent.class, "ProjectEditorTopComponent.jButton2.text")); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -209,7 +199,7 @@ public final class ProjectEditor extends TopComponent {
 
         jSplitPane2.setLeftComponent(jPanel2);
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ProjectEditor.class, "ProjectEditor.jPanel5.border.title"))); // NOI18N
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ProjectEditorTopComponent.class, "ProjectEditorTopComponent.jPanel5.border.title"))); // NOI18N
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -219,14 +209,14 @@ public final class ProjectEditor extends TopComponent {
         });
         jScrollPane1.setViewportView(jList1);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton3, org.openide.util.NbBundle.getMessage(ProjectEditor.class, "ProjectEditor.jButton3.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton3, org.openide.util.NbBundle.getMessage(ProjectEditorTopComponent.class, "ProjectEditorTopComponent.jButton3.text")); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton4, org.openide.util.NbBundle.getMessage(ProjectEditor.class, "ProjectEditor.jButton4.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton4, org.openide.util.NbBundle.getMessage(ProjectEditorTopComponent.class, "ProjectEditorTopComponent.jButton4.text")); // NOI18N
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -261,7 +251,7 @@ public final class ProjectEditor extends TopComponent {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -285,11 +275,11 @@ public final class ProjectEditor extends TopComponent {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 541, Short.MAX_VALUE)
+            .addGap(0, 744, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGap(0, 489, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(jPanel7);
@@ -300,7 +290,7 @@ public final class ProjectEditor extends TopComponent {
         jToolBar1.setRollover(true);
         jToolBar1.add(filler1);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton5, org.openide.util.NbBundle.getMessage(ProjectEditor.class, "ProjectEditor.jButton5.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton5, org.openide.util.NbBundle.getMessage(ProjectEditorTopComponent.class, "ProjectEditorTopComponent.jButton5.text")); // NOI18N
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton5.setEnabled(false);
         jButton5.setFocusable(false);
@@ -319,13 +309,13 @@ public final class ProjectEditor extends TopComponent {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 848, Short.MAX_VALUE)
+            .addGap(0, 1051, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 477, Short.MAX_VALUE)
+            .addGap(0, 514, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -384,10 +374,6 @@ public final class ProjectEditor extends TopComponent {
             }
         }
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-
-    }//GEN-LAST:event_formFocusGained
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 

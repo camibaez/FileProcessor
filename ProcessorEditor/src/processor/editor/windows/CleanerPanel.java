@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.editor;
+package processor.editor.windows;
 
 
 import java.awt.Color;
