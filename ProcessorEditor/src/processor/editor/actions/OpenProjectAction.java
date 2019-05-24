@@ -43,7 +43,7 @@ public final class OpenProjectAction implements ActionListener {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            ProjectCentral.instance().setProfile(ProjectAdministration.loadProject(file.getAbsolutePath()));
+            ProjectCentral.instance().setProject(ProjectAdministration.loadProject(file.getAbsolutePath()));
 
         } else {
             Logger.getLogger(OpenProjectAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");

@@ -32,6 +32,11 @@ public class CleanerPanel extends javax.swing.JPanel {
         initComponents();
         loadComboBoxData();
     }
+    
+    
+    public void loadCustomEditor(){
+        
+    }
 
     public void loadComboBoxData() {
         DefaultComboBoxModel<String> prototypes = new DefaultComboBoxModel<>();

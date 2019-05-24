@@ -40,7 +40,7 @@ public final class LoadMatcher implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Profile profile = ProjectCentral.instance().getProfile();
+        Profile profile = ProjectCentral.instance().getProject();
         if (profile == null) {
             return;
         }

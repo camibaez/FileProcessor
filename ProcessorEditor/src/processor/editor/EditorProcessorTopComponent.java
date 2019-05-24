@@ -50,21 +50,23 @@ import processor.core.file.Profile;
         preferredID = "EditorProcessorTopComponent"
 )
 @Messages({
-    "CTL_EditorProcessorAction=EditorProcessor",
-    "CTL_EditorProcessorTopComponent=EditorProcessor Window",
+    "CTL_EditorProcessorAction=File Processor",
+    "CTL_EditorProcessorTopComponent=File Processor",
     "HINT_EditorProcessorTopComponent=This is a EditorProcessor window"
 })
 public final class EditorProcessorTopComponent extends TopComponent {
 
     Profile profile;
+    TopComponent diffTopComponent = null;
+    DiffView openendDiff = null;
 
     public EditorProcessorTopComponent() {
         initComponents();
         setName(Bundle.CTL_EditorProcessorTopComponent());
         setToolTipText(Bundle.HINT_EditorProcessorTopComponent());
 
-        profile = ProjectCentral.instance().getProfile();
-        
+        profile = ProjectCentral.instance().getProject();
+
         //FOR TEST
         DummySuplier.loadMatchingFiles();
         loadMatchedFiles();
@@ -104,15 +106,21 @@ public final class EditorProcessorTopComponent extends TopComponent {
                 @Override
                 public void run() {
                     try {
-                        DiffView view = Diff.getDefault().createDiff(original, processed);
                         
-                        TopComponent tc = new TopComponent();
-                        tc.setDisplayName("Diff Viewer");
-                        tc.setLayout(new BorderLayout());
-                        tc.add(view.getComponent(), BorderLayout.CENTER);
-                        //tc.open();
-                        tc.requestActive();
-                        previewFilePanel.add(tc, BorderLayout.CENTER);
+                        if (diffTopComponent == null) {
+                            diffTopComponent = new TopComponent();
+                            diffTopComponent.setLayout(new BorderLayout());
+                            previewFilePanel.add(diffTopComponent, BorderLayout.CENTER);
+                            
+                        }else{
+                            diffTopComponent.remove(openendDiff.getComponent());
+                        }
+                        
+                        DiffView newDiffView = Diff.getDefault().createDiff(original, processed);
+                        diffTopComponent.add(newDiffView.getComponent(), BorderLayout.CENTER);
+                        diffTopComponent.requestActive();
+                        openendDiff = newDiffView;
+                        
                     } catch (IOException ex) {
                         Exceptions.printStackTrace(ex);
                     }

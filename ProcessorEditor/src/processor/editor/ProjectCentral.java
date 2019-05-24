@@ -6,10 +6,7 @@
 package processor.editor;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import processor.core.file.Profile;
-import processor.project.ProjectAdministration;
 
 /**
  *
@@ -19,6 +16,7 @@ public class ProjectCentral {
 
     protected static ProjectCentral instance;
     protected static Profile currentProfile;
+    protected static File profileFile;
 
     public static ProjectCentral instance() {
         if (instance == null) {
@@ -27,14 +25,21 @@ public class ProjectCentral {
         return instance;
     }
 
-    public void setProfile(Profile p) {
+    public void setProject(Profile p) {
         currentProfile = p;
 
     }
 
-    public Profile getProfile() {
+    public Profile getProject() {
         return currentProfile;
     }
 
-    
+    public File getProjectFile() {
+        return profileFile;
+    }
+
+    public void setProjectFile(File profileFile) {
+        ProjectCentral.profileFile = profileFile;
+    }
+
 }
