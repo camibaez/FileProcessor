@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-AutoUpdate-Show-In-Client: true
-OpenIDE-Module: processor.project
-OpenIDE-Module-Localizing-Bundle: processor/project/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-

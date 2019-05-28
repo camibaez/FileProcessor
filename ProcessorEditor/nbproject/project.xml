@@ -140,27 +140,15 @@
                         <specification-version>6.71.1</specification-version>
                     </run-dependency>
                 </dependency>
-                <dependency>
-                    <code-name-base>processor.coremodule</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>processor.project</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0</specification-version>
-                    </run-dependency>
-                </dependency>
             </module-dependencies>
             <public-packages/>
             <class-path-extension>
-                <runtime-relative-path>ext/rsyntaxtextarea-3.0.3-SNAPSHOT.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/rsyntaxtextarea-3.0.3-SNAPSHOT.jar</binary-origin>
+                <runtime-relative-path>ext/json-simple-1.1.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/json-simple-1.1.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/FileProcessorCore.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/FileProcessorCore.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>
