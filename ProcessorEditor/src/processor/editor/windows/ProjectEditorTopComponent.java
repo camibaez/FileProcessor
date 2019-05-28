@@ -5,19 +5,10 @@
  */
 package processor.editor.windows;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.text.StyledDocument;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.openide.cookies.EditorCookie;
-import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileUtil;
-import org.openide.loaders.DataObject;
-import org.openide.loaders.DataObjectNotFoundException;
-import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import processor.core.file.Cleaner;
@@ -42,45 +33,26 @@ import processor.editor.ProjectCentral;
 
 @Messages({
     "CTL_ProjectEditorAction=ProjectEditor",
-    "CTL_ProjectEditorTopComponent=ProjectEditor Window",
+    "CTL_ProjectEditorTopComponent=Project Editor",
     "HINT_ProjectEditorTopComponent=This is a ProjectEditor window"
 })
 public final class ProjectEditorTopComponent extends TopComponent {
+
     Profile project = null;
+
     public ProjectEditorTopComponent() {
         initComponents();
         setName(Bundle.CTL_ProjectEditorTopComponent());
         setToolTipText(Bundle.HINT_ProjectEditorTopComponent());
         putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.TRUE);
-        
+
         //FOR TEST
-        DummySuplier.loadDummyProject();
+        //DummySuplier.loadDummyProject();
         if (ProjectCentral.instance().getProject() == null) {
             this.setEnabled(false);
         } else {
             project = ProjectCentral.instance().getProject();
             loadProjectData();
-        }
-
-        loadProjectCodeEditor(ProjectCentral.instance().getProjectFile());
-
-    }
-    
-    protected void loadProjectCodeEditor(File f) {
-        try {
-
-            FileObject fo = FileUtil.toFileObject(f);
-            DataObject d = DataObject.find(fo);
-            EditorCookie ec = (EditorCookie) d.getLookup().lookup(EditorCookie.class);
-            ec.open();
-            
-
-            StyledDocument doc = ec.openDocument();
-
-        } catch (DataObjectNotFoundException ex) {
-            Exceptions.printStackTrace(ex);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
         }
     }
 
@@ -102,7 +74,6 @@ public final class ProjectEditorTopComponent extends TopComponent {
         jList1.setModel(cleanersListModel);
 
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -202,6 +173,11 @@ public final class ProjectEditorTopComponent extends TopComponent {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ProjectEditorTopComponent.class, "ProjectEditorTopComponent.jPanel5.border.title"))); // NOI18N
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jList1ValueChanged(evt);
@@ -323,7 +299,10 @@ public final class ProjectEditorTopComponent extends TopComponent {
 
     private void jList3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList3MouseClicked
         FilePrototype proto = (FilePrototype) jList3.getSelectedValue();
-        jSplitPane1.setRightComponent(new PrototypePanel(proto));
+        if(proto != null){
+            jSplitPane1.setRightComponent(new PrototypePanel(proto));
+        }
+        
     }//GEN-LAST:event_jList3MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -348,8 +327,6 @@ public final class ProjectEditorTopComponent extends TopComponent {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        Cleaner cleaner = (Cleaner) jList1.getSelectedValue();
-        jSplitPane1.setRightComponent(new CleanerPanel(project, cleaner));
 
         //jList2.setModel(rulesListModel);
     }//GEN-LAST:event_jList1ValueChanged
@@ -384,6 +361,15 @@ public final class ProjectEditorTopComponent extends TopComponent {
         jPanel1.validate();
         jPanel1.repaint();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        Cleaner cleaner = (Cleaner) jList1.getSelectedValue();
+        if(cleaner != null){
+             jSplitPane1.setRightComponent(new CleanerPanel(project, cleaner));
+        }
+       
+
+    }//GEN-LAST:event_jList1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;

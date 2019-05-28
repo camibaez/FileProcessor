@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import processor.core.file.FileMatcher;
 import processor.core.file.FileProcessor;
 import processor.core.file.Profile;
-import processor.editor.actions.LoadMatcher;
+
 
 import processor.project.ProjectAdministration;
 
@@ -54,7 +54,7 @@ public class DummySuplier {
             FileProcessor fileProcessor = new FileProcessor(profile, profile.getCleaners());
             profile.setFileProcessor(fileProcessor);
         } catch (IOException ex) {
-            Logger.getLogger(LoadMatcher.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DummySuplier.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

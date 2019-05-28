@@ -27,7 +27,7 @@ import processor.project.ProjectAdministration;
         displayName = "#CTL_SaveProjectAction"
 )
 @ActionReferences({
-    @ActionReference(path = "Menu/File", position = 0),
+    @ActionReference(path = "Menu/File", position = 103),
     @ActionReference(path = "Shortcuts", name = "D-S")
 })
 @Messages("CTL_SaveProjectAction=Save Project")

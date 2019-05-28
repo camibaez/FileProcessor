@@ -6,6 +6,7 @@
 package processor.editor.windows;
 
 
+import java.awt.Color;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -328,7 +329,17 @@ public class PrototypePanel extends javax.swing.JPanel {
 
     private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
         ConditionalPattern p = (ConditionalPattern) jComboBox1.getModel().getSelectedItem();
-        p.setPattern(Pattern.compile(jTextArea1.getText(), p.getPattern().flags()));
+        Pattern pattern = null;
+        try{
+            pattern = Pattern.compile(jTextArea1.getText(), p.getPattern().flags());
+            p.setPattern(Pattern.compile(jTextArea1.getText(), p.getPattern().flags()));
+            jTextArea1.setForeground(Color.BLACK);
+        }catch(Exception e){
+            System.err.println("Malformed pattern in conditional pattern: " + p );
+            jTextArea1.setForeground(Color.RED);
+        }
+        
+        
     }//GEN-LAST:event_jTextArea1KeyReleased
 
     private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased

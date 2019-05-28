@@ -9,13 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.text.StyledDocument;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
-import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.cookies.EditorCookie;
 import org.openide.filesystems.FileObject;
@@ -26,46 +26,47 @@ import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
 import processor.editor.ProjectCentral;
 import processor.editor.windows.ProjectEditorTopComponent;
-
 import processor.project.ProjectAdministration;
 
 @ActionID(
         category = "File",
-        id = "processor.editor.OpenProjectAction"
+        id = "processor.editor.actions.NewProjectAcion"
 )
 @ActionRegistration(
-        displayName = "#CTL_OpenProjectAction"
+        displayName = "#CTL_NewProjectAcion"
 )
-@ActionReferences({
-    @ActionReference(path = "Menu/File", position = 102),
-    @ActionReference(path = "Shortcuts", name = "D-O")
-})
-@Messages("CTL_OpenProjectAction=Open Project")
-public final class OpenProjectAction implements ActionListener {
+@ActionReference(path = "Menu/File", position = 101)
+@Messages("CTL_NewProjectAcion=New Project")
+public final class NewProjectAcion implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //Create a file chooser
         final JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new java.io.File("C:\\Users\\cbaez\\Documents\\NetBeansProjects\\HTMLFixer\\conf\\test-files\\BigChangeTest"));
-        fc.setDialogTitle("Open project");
-        int returnVal = fc.showOpenDialog(null);
+        fc.setDialogTitle("Select working directory");
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fc.setAcceptAllFileFilterUsed(false);
 
+        int returnVal = fc.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            ProjectCentral.instance().setProject(ProjectAdministration.loadProject(file.getAbsolutePath()));
-            ProjectCentral.instance().setProjectFile(file);
-            
-            new ProjectEditorTopComponent().open();
-            
-            loadProjectCodeEditor(ProjectCentral.instance().getProjectFile());
-        } else {
-            Logger.getLogger(OpenProjectAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
+            File currentDirectory = fc.getCurrentDirectory();
+            String name = new SimpleDateFormat("yyMMdd_hhmmss").format(new Date()) + ".json";
+            File file = new File(currentDirectory, name);
+
+            try {
+                if (file.createNewFile()) {
+                    ProjectAdministration.createEmptyProject(file.getAbsolutePath());
+                    ProjectCentral.instance().setProject(ProjectAdministration.loadProject(file.getAbsolutePath()));
+                    ProjectCentral.instance().setProjectFile(file);
+                    new ProjectEditorTopComponent().open();
+                    loadProjectCodeEditor(ProjectCentral.instance().getProjectFile());
+                    
+                }
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+
         }
     }
-    
-    
-    
     
     
     protected void loadProjectCodeEditor(File f) {

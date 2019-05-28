@@ -42,7 +42,7 @@ import processor.core.file.Profile;
         //iconBase="SET/PATH/TO/ICON/HERE", 
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
-@TopComponent.Registration(mode = "editor", openAtStartup = true)
+@TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "processor.editor.EditorProcessorTopComponent")
 @ActionReference(path = "Menu/Window" /*, position = 333 */)
 @TopComponent.OpenActionRegistration(
@@ -160,6 +160,7 @@ public final class EditorProcessorTopComponent extends TopComponent {
         jLabel2 = new javax.swing.JLabel();
         previewFilePanel = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton1 = new javax.swing.JButton();
 
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -244,6 +245,7 @@ public final class EditorProcessorTopComponent extends TopComponent {
 
     jToolBar1.setFloatable(false);
     jToolBar1.setRollover(true);
+    jToolBar1.add(filler1);
 
     org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(EditorProcessorTopComponent.class, "EditorProcessorTopComponent.jButton1.text")); // NOI18N
     jButton1.setFocusable(false);
@@ -335,6 +337,7 @@ public final class EditorProcessorTopComponent extends TopComponent {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

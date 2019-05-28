@@ -22,31 +22,35 @@ import org.openide.util.NbBundle.Messages;
 import processor.core.file.FileMatcher;
 import processor.core.file.FileProcessor;
 import processor.core.file.Profile;
+import processor.editor.EditorProcessorTopComponent;
 import processor.editor.ProjectCentral;
 
 @ActionID(
         category = "File",
-        id = "processor.editor.actions.LoadMatcher"
+        id = "processor.editor.actions.LoadFilesAction"
 )
 @ActionRegistration(
-        displayName = "#CTL_LoadMatcher"
+        iconBase = "processor/editor/actions/icon.png",
+        displayName = "#CTL_LoadFilesAction"
 )
 @ActionReferences({
-    @ActionReference(path = "Menu/Run", position = 1200),
+    @ActionReference(path = "Menu/File", position = 401),
+    @ActionReference(path = "Menu/Run", position = 1),
+    @ActionReference(path = "Toolbars/File", position = 0),
     @ActionReference(path = "Shortcuts", name = "D-L")
 })
-@Messages("CTL_LoadMatcher=Load Files")
-public final class LoadMatcher implements ActionListener {
+@Messages("CTL_LoadFilesAction=Load Files")
+public final class LoadFilesAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Profile profile = ProjectCentral.instance().getProject();
+       Profile profile = ProjectCentral.instance().getProject();
         if (profile == null) {
             return;
         }
         final JFileChooser fc = new JFileChooser();
         if (profile.getLastWorkingDirectory() == null || profile.getLastWorkingDirectory().isEmpty()) {
-            fc.setCurrentDirectory(new java.io.File("."));
+            fc.setCurrentDirectory(new java.io.File("C:\\Users\\cbaez\\Documents\\NetBeansProjects\\HTMLFixer\\conf\\test-files\\BigChangeTest\\files"));
         } else {
             fc.setCurrentDirectory(new File(profile.getLastWorkingDirectory()));
         }
@@ -68,16 +72,17 @@ public final class LoadMatcher implements ActionListener {
                         + profile.getFileCentral().getMatchedFiles().size()
                         + " Time = " + (System.currentTimeMillis() - time)
                 );
-                
 
                 FileProcessor fileProcessor = new FileProcessor(profile, profile.getCleaners());
                 profile.setFileProcessor(fileProcessor);
+
+                new EditorProcessorTopComponent().open();
             } catch (IOException ex) {
-                Logger.getLogger(LoadMatcher.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LoadFilesAction.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } else {
-            Logger.getLogger(LoadMatcher.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
+            Logger.getLogger(LoadFilesAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
         }
     }
 }

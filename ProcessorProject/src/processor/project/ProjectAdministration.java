@@ -10,6 +10,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.LinkedList;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -19,6 +22,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import processor.core.file.Cleaner;
+import processor.core.file.FilePrototype;
 import processor.core.file.Profile;
 
 /**
@@ -26,7 +30,15 @@ import processor.core.file.Profile;
  * @author cbaez
  */
 public class ProjectAdministration {
-
+    public static void createEmptyProject(String path) throws FileNotFoundException, IOException{
+        String data = new String(Files.readAllBytes(Paths.get("C:\\Users\\cbaez\\Documents\\baseproject.json")));
+        try (PrintWriter pw = new PrintWriter(path)) {
+            pw.write(data);
+            pw.flush();
+        }
+    }
+    
+    
     public static String generateProfileJSON(Profile profile) {
         JSONObject jo = new JSONObject();
 
