@@ -5,10 +5,18 @@
  */
 package processor.editor.windows;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.text.StyledDocument;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.cookies.EditorCookie;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
+import org.openide.loaders.DataObject;
+import org.openide.loaders.DataObjectNotFoundException;
+import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import processor.core.file.Cleaner;
@@ -16,6 +24,7 @@ import processor.core.file.FilePrototype;
 import processor.core.file.Profile;
 import processor.editor.DummySuplier;
 import processor.editor.ProjectCentral;
+import processor.editor.actions.CodeEditorOpener;
 
 /**
  * Top component which displays something.
@@ -48,10 +57,10 @@ public final class ProjectEditorTopComponent extends TopComponent {
 
         //FOR TEST
         //DummySuplier.loadDummyProject();
-        if (ProjectCentral.instance().getProject() == null) {
+        if (ProjectCentral.instance().getProfile() == null) {
             this.setEnabled(false);
         } else {
-            project = ProjectCentral.instance().getProject();
+            project = ProjectCentral.instance().getProfile();
             loadProjectData();
         }
     }
@@ -99,7 +108,9 @@ public final class ProjectEditorTopComponent extends TopComponent {
         jPanel6 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jSplitPane3 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton5 = new javax.swing.JButton();
@@ -247,18 +258,35 @@ public final class ProjectEditorTopComponent extends TopComponent {
 
         jSplitPane1.setLeftComponent(jPanel4);
 
+        jSplitPane3.setDividerLocation(300);
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 744, Short.MAX_VALUE)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 489, Short.MAX_VALUE)
+            .addGap(0, 487, Short.MAX_VALUE)
         );
 
-        jSplitPane1.setRightComponent(jPanel7);
+        jSplitPane3.setLeftComponent(jPanel7);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 637, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 487, Short.MAX_VALUE)
+        );
+
+        jSplitPane3.setRightComponent(jPanel8);
+
+        jSplitPane1.setRightComponent(jSplitPane3);
 
         jPanel1.add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
@@ -268,7 +296,6 @@ public final class ProjectEditorTopComponent extends TopComponent {
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton5, org.openide.util.NbBundle.getMessage(ProjectEditorTopComponent.class, "ProjectEditorTopComponent.jButton5.text")); // NOI18N
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton5.setEnabled(false);
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -300,7 +327,7 @@ public final class ProjectEditorTopComponent extends TopComponent {
     private void jList3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList3MouseClicked
         FilePrototype proto = (FilePrototype) jList3.getSelectedValue();
         if(proto != null){
-            jSplitPane1.setRightComponent(new PrototypePanel(proto));
+            jSplitPane3.setLeftComponent(new PrototypePanel(proto));
         }
         
     }//GEN-LAST:event_jList3MouseClicked
@@ -353,19 +380,13 @@ public final class ProjectEditorTopComponent extends TopComponent {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-
-        initComponents();
-        ProjectCentral.instance().reloadProject();
-        project = ProjectCentral.instance().getProject();
-        loadProjectData();
-        jPanel1.validate();
-        jPanel1.repaint();
+       new CodeEditorOpener().openEditor(ProjectCentral.instance().getProfileFile());
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         Cleaner cleaner = (Cleaner) jList1.getSelectedValue();
         if(cleaner != null){
-             jSplitPane1.setRightComponent(new CleanerPanel(project, cleaner));
+             jSplitPane3.setRightComponent(new CleanerPanel(project, cleaner));
         }
        
 
@@ -387,10 +408,12 @@ public final class ProjectEditorTopComponent extends TopComponent {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
     @Override

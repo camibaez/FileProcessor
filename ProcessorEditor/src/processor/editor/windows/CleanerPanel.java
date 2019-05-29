@@ -5,7 +5,6 @@
  */
 package processor.editor.windows;
 
-
 import java.awt.Color;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
@@ -32,10 +31,9 @@ public class CleanerPanel extends javax.swing.JPanel {
         initComponents();
         loadComboBoxData();
     }
-    
-    
-    public void loadCustomEditor(){
-        
+
+    public void loadCustomEditor() {
+
     }
 
     public void loadComboBoxData() {
@@ -71,7 +69,7 @@ public class CleanerPanel extends javax.swing.JPanel {
     }
 
     public void loadRuleData(ReplaceText rule) {
-        jTextField3.setEnabled(rule != null);
+        jCheckBox1.setEnabled(rule != null);
         jTextArea1.setEnabled(rule != null);
         jTextArea2.setEnabled(rule != null);
 
@@ -79,7 +77,8 @@ public class CleanerPanel extends javax.swing.JPanel {
             return;
         }
 
-        jTextField3.setText(rule.getPattern().flags() + "");
+        boolean ignoreCase = (rule.getFlags() | Pattern.CASE_INSENSITIVE) == Pattern.CASE_INSENSITIVE;
+        jCheckBox1.setSelected(!ignoreCase);
         jTextArea1.setText(rule.getPattern().pattern());
         jTextArea2.setText(rule.getReplace());
 
@@ -114,7 +113,7 @@ public class CleanerPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         jLabel6.setText("jLabel6");
 
@@ -178,22 +177,22 @@ public class CleanerPanel extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField2)
                     .addComponent(jTextField1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jComboBox2, 0, 508, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(jButton2))
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -233,7 +232,7 @@ public class CleanerPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTextArea1);
 
-        jLabel7.setText("Replace:");
+        jLabel7.setText("Flags:");
 
         jTextArea2.setColumns(20);
         jTextArea2.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
@@ -245,16 +244,12 @@ public class CleanerPanel extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(jTextArea2);
 
-        jLabel8.setText("Flags:");
+        jLabel8.setText("Replace:");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField3KeyReleased(evt);
+        jCheckBox1.setText("Match case");
+        jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox1ItemStateChanged(evt);
             }
         });
 
@@ -265,32 +260,37 @@ public class CleanerPanel extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel8))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jTextField3))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane1)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBox1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jLabel8)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jCheckBox1))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -314,28 +314,12 @@ public class CleanerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jTextField2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MouseReleased
-        
+
     }//GEN-LAST:event_jTextField2MouseReleased
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         cleaner.setPrototype(project.getPrototypesMap().getOrDefault(jComboBox1.getSelectedItem(), null));
     }//GEN-LAST:event_jComboBox1ItemStateChanged
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
-        ReplaceText rule = (ReplaceText) jComboBox2.getSelectedItem();
-        try{
-            rule.setPattern(Pattern.compile(rule.getPatternText(), Integer.parseInt(jTextField3.getText())));
-            jTextField3.setForeground(Color.BLACK);
-        }catch(Exception e){
-            System.out.println("Error compiling pattern");
-            jTextField3.setForeground(Color.RED);
-        }
-        
-    }//GEN-LAST:event_jTextField3KeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ReplaceText p = new ReplaceText("", "", 0);
@@ -345,25 +329,6 @@ public class CleanerPanel extends javax.swing.JPanel {
         loadRuleData(p);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
-        ReplaceText rule = (ReplaceText) jComboBox2.getSelectedItem();
-        Pattern p = null;
-        try{
-            p = Pattern.compile(jTextArea1.getText(), rule.getPattern().flags());
-            rule.setPattern(p);
-            jTextArea1.setForeground(Color.BLACK);
-        }catch(Exception e){
-            System.err.println("Malformed pattern in rule: " + rule );
-            jTextArea1.setForeground(Color.RED);
-        }
-       
-    }//GEN-LAST:event_jTextArea1KeyReleased
-
-    private void jTextArea2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyReleased
-        ReplaceText rule = (ReplaceText) jComboBox2.getSelectedItem();
-        rule.setReplace(jTextArea2.getText());
-    }//GEN-LAST:event_jTextArea2KeyReleased
-
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
         cleaner.setDescription(jTextField2.getText());
     }//GEN-LAST:event_jTextField2KeyReleased
@@ -372,10 +337,41 @@ public class CleanerPanel extends javax.swing.JPanel {
         loadRuleData((ReplaceText) jComboBox2.getSelectedItem());
     }//GEN-LAST:event_jComboBox2ItemStateChanged
 
+    private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
+        ReplaceText rule = (ReplaceText) jComboBox2.getSelectedItem();
+        int flags = rule.getFlags();
+        if(!jCheckBox1.isSelected())
+        flags |= Pattern.CASE_INSENSITIVE;
+        try {
+            rule.setPattern(Pattern.compile(rule.getPatternText(), flags));
+        } catch (Exception e) {
+            System.out.println("Error compiling pattern");
+        }
+    }//GEN-LAST:event_jCheckBox1ItemStateChanged
+
+    private void jTextArea2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyReleased
+        ReplaceText rule = (ReplaceText) jComboBox2.getSelectedItem();
+        rule.setReplace(jTextArea2.getText());
+    }//GEN-LAST:event_jTextArea2KeyReleased
+
+    private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
+        ReplaceText rule = (ReplaceText) jComboBox2.getSelectedItem();
+        Pattern p = null;
+        try {
+            p = Pattern.compile(jTextArea1.getText(), rule.getPattern().flags());
+            rule.setPattern(p);
+            jTextArea1.setForeground(Color.BLACK);
+        } catch (Exception e) {
+            System.err.println("Malformed pattern in rule: " + rule);
+            jTextArea1.setForeground(Color.RED);
+        }
+    }//GEN-LAST:event_jTextArea1KeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -394,6 +390,5 @@ public class CleanerPanel extends javax.swing.JPanel {
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

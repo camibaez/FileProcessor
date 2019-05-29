@@ -27,10 +27,10 @@ public class DummySuplier {
 
     public static void loadDummyProject() {
         File file = new File("C:\\Users\\cbaez\\Documents\\NetBeansProjects\\HTMLFixer\\conf\\test-files\\BigChangeTest\\proj1.json");
-        ProjectCentral.instance().setProjectFile(file);
-        ProjectCentral.instance().setProject(ProjectAdministration.loadProject(file.getAbsolutePath()));
-        ProjectCentral.instance().getProject().setLastWorkingDirectory(getDummyFileFolder().toString());
-        ProjectCentral.instance().getProject().setWorkingDirectory(getDummyFileFolder().toString());
+        ProjectCentral.instance().setProfileFile(file);
+        ProjectCentral.instance().setProfile(ProjectAdministration.loadProject(file.getAbsolutePath()));
+        ProjectCentral.instance().getProfile().setLastWorkingDirectory(getDummyFileFolder().toString());
+        ProjectCentral.instance().getProfile().setWorkingDirectory(getDummyFileFolder().toString());
     }
 
     public static Path getDummyFileFolder() {
@@ -39,7 +39,7 @@ public class DummySuplier {
     }
 
     public static void loadMatchingFiles() {
-        Profile profile = ProjectCentral.instance().getProject();
+        Profile profile = ProjectCentral.instance().getProfile();
         FileMatcher fileMatcher = new FileMatcher(profile);
         profile.setFileMatcher(fileMatcher);
         try {

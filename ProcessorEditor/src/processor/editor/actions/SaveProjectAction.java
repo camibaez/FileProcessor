@@ -36,9 +36,9 @@ public final class SaveProjectAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            if(ProjectCentral.instance().getProject() == null)
+            if(ProjectCentral.instance().getProfile() == null)
                 throw new Exception("No project loaded");
-            ProjectAdministration.saveProject(ProjectCentral.instance().getProject(), ProjectCentral.instance().getProjectFile().getAbsolutePath());
+            ProjectAdministration.saveProject(ProjectCentral.instance().getProfile(), ProjectCentral.instance().getProfileFile().getAbsolutePath());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

@@ -53,33 +53,14 @@ public final class OpenProjectAction implements ActionListener {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            ProjectCentral.instance().setProject(ProjectAdministration.loadProject(file.getAbsolutePath()));
-            ProjectCentral.instance().setProjectFile(file);
+            ProjectCentral.instance().setProfile(ProjectAdministration.loadProject(file.getAbsolutePath()));
+            ProjectCentral.instance().setProfileFile(file);
             
             new ProjectEditorTopComponent().open();
             
-            loadProjectCodeEditor(ProjectCentral.instance().getProjectFile());
+            
         } else {
             Logger.getLogger(OpenProjectAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
-        }
-    }
-    
-    
-    
-    
-    
-    protected void loadProjectCodeEditor(File f) {
-        try {
-            FileObject fo = FileUtil.toFileObject(f);
-            DataObject d = DataObject.find(fo);
-            EditorCookie ec = (EditorCookie) d.getLookup().lookup(EditorCookie.class);
-            ec.open();
-            StyledDocument doc = ec.openDocument();
-
-        } catch (DataObjectNotFoundException ex) {
-            Exceptions.printStackTrace(ex);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
         }
     }
 }

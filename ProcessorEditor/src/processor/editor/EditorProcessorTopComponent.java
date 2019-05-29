@@ -65,11 +65,32 @@ public final class EditorProcessorTopComponent extends TopComponent {
         setName(Bundle.CTL_EditorProcessorTopComponent());
         setToolTipText(Bundle.HINT_EditorProcessorTopComponent());
 
-        profile = ProjectCentral.instance().getProject();
+        profile = ProjectCentral.instance().getProfile();
 
-        //FOR TEST
-        DummySuplier.loadMatchingFiles();
-        loadMatchedFiles();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                int lastSize = 0;
+                boolean done = false;
+                while (!done) {
+                    done = profile.getFileMatcher().isDone();
+                    int size = profile.getFileCentral().getMatchedFiles().size();
+                    if (size > lastSize) {
+                        loadMatchedFiles();
+                    }
+                    if (!done) {
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+                    }
+
+                }
+
+            }
+        });
+
     }
 
     public void loadMatchedFiles() {
@@ -109,23 +130,20 @@ public final class EditorProcessorTopComponent extends TopComponent {
                         if (diffTopComponent == null) {
                             diffTopComponent = new TopComponent();
                             diffTopComponent.setLayout(new BorderLayout());
-                            
-                            
-                        }else{
+
+                        } else {
                             diffTopComponent.remove(openendDiff.getComponent());
                         }
-                        
+
                         openendDiff = Diff.getDefault().createDiff(original, processed);
                         diffTopComponent.add(openendDiff.getComponent(), BorderLayout.CENTER);
                         diffTopComponent.requestActive();
-                        
-                        
+
                         previewFilePanel.remove(diffTopComponent);
                         previewFilePanel.add(diffTopComponent, BorderLayout.CENTER);
                         previewFilePanel.validate();
                         previewFilePanel.repaint();
-                        
-                        
+
                     } catch (IOException ex) {
                         Exceptions.printStackTrace(ex);
                     }
@@ -292,7 +310,7 @@ public final class EditorProcessorTopComponent extends TopComponent {
                 } else {
                     matchedFilesList.setSelectedIndex(model.getSize() - 1);
                 }
-                
+
                 refreshProcessorView();
             } catch (IOException ex) {
                 Logger.getLogger(EditorProcessorTopComponent.class.getName()).log(Level.SEVERE, null, ex);
@@ -326,16 +344,16 @@ public final class EditorProcessorTopComponent extends TopComponent {
     private void matchedFilesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_matchedFilesListMouseClicked
         refreshProcessorView();
     }//GEN-LAST:event_matchedFilesListMouseClicked
-    
-    private void refreshProcessorView(){
+
+    private void refreshProcessorView() {
         Path path = (Path) matchedFilesList.getSelectedValue();
         if (path != null) {
             previewProcessing(path);
         }
-        
+
     }
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButton1;

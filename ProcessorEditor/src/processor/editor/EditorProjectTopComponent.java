@@ -67,14 +67,14 @@ public final class EditorProjectTopComponent extends TopComponent {
 
         //FOR TEST
         DummySuplier.loadDummyProject();
-        if (ProjectCentral.instance().getProject() == null) {
+        if (ProjectCentral.instance().getProfile() == null) {
             this.setEnabled(false);
         } else {
-            project = ProjectCentral.instance().getProject();
+            project = ProjectCentral.instance().getProfile();
             loadProjectData();
         }
 
-        loadProjectCodeEditor(ProjectCentral.instance().getProjectFile());
+        loadProjectCodeEditor(ProjectCentral.instance().getProfileFile());
 
     }
 
@@ -399,7 +399,7 @@ public final class EditorProjectTopComponent extends TopComponent {
 
         initComponents();
         ProjectCentral.instance().reloadProject();
-        project = ProjectCentral.instance().getProject();
+        project = ProjectCentral.instance().getProfile();
         loadProjectData();
         jPanel1.validate();
         jPanel1.repaint();

@@ -55,10 +55,10 @@ public final class NewProjectAcion implements ActionListener {
             try {
                 if (file.createNewFile()) {
                     ProjectAdministration.createEmptyProject(file.getAbsolutePath());
-                    ProjectCentral.instance().setProject(ProjectAdministration.loadProject(file.getAbsolutePath()));
-                    ProjectCentral.instance().setProjectFile(file);
+                    ProjectCentral.instance().setProfile(ProjectAdministration.loadProject(file.getAbsolutePath()));
+                    ProjectCentral.instance().setProfileFile(file);
                     new ProjectEditorTopComponent().open();
-                    loadProjectCodeEditor(ProjectCentral.instance().getProjectFile());
+                    
                     
                 }
             } catch (IOException ex) {
@@ -68,19 +68,5 @@ public final class NewProjectAcion implements ActionListener {
         }
     }
     
-    
-    protected void loadProjectCodeEditor(File f) {
-        try {
-            FileObject fo = FileUtil.toFileObject(f);
-            DataObject d = DataObject.find(fo);
-            EditorCookie ec = (EditorCookie) d.getLookup().lookup(EditorCookie.class);
-            ec.open();
-            StyledDocument doc = ec.openDocument();
-
-        } catch (DataObjectNotFoundException ex) {
-            Exceptions.printStackTrace(ex);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }
+   
 }

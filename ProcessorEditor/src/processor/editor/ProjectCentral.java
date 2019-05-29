@@ -33,20 +33,20 @@ public class ProjectCentral {
     
     
     
-    public void setProject(Profile p) {
+    public void setProfile(Profile p) {
         profile = p;
 
     }
 
-    public Profile getProject() {
+    public Profile getProfile() {
         return profile;
     }
 
-    public File getProjectFile() {
+    public File getProfileFile() {
         return profileFile;
     }
 
-    public void setProjectFile(File profileFile) {
+    public void setProfileFile(File profileFile) {
         ProjectCentral.profileFile = profileFile;
     }
 

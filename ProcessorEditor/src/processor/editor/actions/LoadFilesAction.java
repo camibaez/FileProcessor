@@ -18,6 +18,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
 import processor.core.file.FileMatcher;
 import processor.core.file.FileProcessor;
@@ -44,15 +45,15 @@ public final class LoadFilesAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-       Profile profile = ProjectCentral.instance().getProject();
+        Profile profile = ProjectCentral.instance().getProfile();
         if (profile == null) {
             return;
         }
         final JFileChooser fc = new JFileChooser();
-        if (profile.getLastWorkingDirectory() == null || profile.getLastWorkingDirectory().isEmpty()) {
-            fc.setCurrentDirectory(new java.io.File("C:\\Users\\cbaez\\Documents\\NetBeansProjects\\HTMLFixer\\conf\\test-files\\BigChangeTest\\files"));
-        } else {
-            fc.setCurrentDirectory(new File(profile.getLastWorkingDirectory()));
+        String dir = profile.getLastWorkingDirectory();
+        
+        if (dir != null && !dir.isEmpty()) {
+            fc.setCurrentDirectory(new File(dir));
         }
         fc.setDialogTitle("Select working directory");
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -64,22 +65,23 @@ public final class LoadFilesAction implements ActionListener {
             profile.setWorkingDirectory(file.getAbsolutePath());
             FileMatcher fileMatcher = new FileMatcher(profile);
             profile.setFileMatcher(fileMatcher);
-            try {
-                long time = System.currentTimeMillis();
-                Files.walkFileTree(Paths.get(profile.getWorkingDirectory()), fileMatcher);
+            
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Files.walkFileTree(Paths.get(profile.getWorkingDirectory()), fileMatcher);
+                        ProjectCentral.instance().getProfile().getFileMatcher().setDone(true);
+                        System.out.println("Matching done!!!");
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+            }).start();
 
-                System.out.println("Serching ended. Matched = "
-                        + profile.getFileCentral().getMatchedFiles().size()
-                        + " Time = " + (System.currentTimeMillis() - time)
-                );
-
-                FileProcessor fileProcessor = new FileProcessor(profile, profile.getCleaners());
-                profile.setFileProcessor(fileProcessor);
-
-                new EditorProcessorTopComponent().open();
-            } catch (IOException ex) {
-                Logger.getLogger(LoadFilesAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            FileProcessor fileProcessor = new FileProcessor(profile, profile.getCleaners());
+            profile.setFileProcessor(fileProcessor);
+            new EditorProcessorTopComponent().open();
 
         } else {
             Logger.getLogger(LoadFilesAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
