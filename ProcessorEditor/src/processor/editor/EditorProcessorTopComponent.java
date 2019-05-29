@@ -18,6 +18,8 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import org.netbeans.api.diff.Diff;
 import org.netbeans.api.diff.DiffView;
 import org.netbeans.api.diff.StreamSource;
@@ -55,18 +57,18 @@ import processor.core.file.Profile;
     "HINT_EditorProcessorTopComponent=This is a EditorProcessor window"
 })
 public final class EditorProcessorTopComponent extends TopComponent {
-
+    
     Profile profile;
     TopComponent diffTopComponent = null;
     DiffView openendDiff = null;
-
+    
     public EditorProcessorTopComponent() {
         initComponents();
         setName(Bundle.CTL_EditorProcessorTopComponent());
         setToolTipText(Bundle.HINT_EditorProcessorTopComponent());
-
+        
         profile = ProjectCentral.instance().getProfile();
-
+        
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -85,39 +87,36 @@ public final class EditorProcessorTopComponent extends TopComponent {
                             Exceptions.printStackTrace(ex);
                         }
                     }
-
+                    
                 }
-
+                
             }
         });
-
+        
     }
-
+    
     public void loadMatchedFiles() {
         DefaultListModel<Path> filesDataModel = new DefaultListModel<>();
-        profile.getFileCentral().getMatchedFiles().forEach(p -> filesDataModel.addElement(p));
+        DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+        profile.getFileCentral().getMatchedFiles().forEach(p -> {
+            List<Cleaner> assignedCleaners = profile.getFileProcessor().getAssignedCleaners(p);
+            tableModel.addRow(new Object[]{p, assignedCleaners});
+            filesDataModel.addElement(p);
+        });
         jLabel1.setText(profile.getFileCentral().getMatchedFiles().size() + " files matched");
         matchedFilesList.setModel(filesDataModel);
-
+        
     }
-
+    
     public void previewProcessing(Path path) {
         if (profile.getFileProcessor() == null) {
             System.out.println("You must init the FileProcessor first.");
             return;
         }
-
-        DefaultListModel<Cleaner> listModel = new DefaultListModel<>();
-        List<Cleaner> assignedCleaners = profile.getFileProcessor().getAssignedCleaners(path);
-        assignedCleaners.forEach(c -> {
-            listModel.addElement(c);
-
-        });
-        processedFilesList.setModel(listModel);
         loadDiffComponent(path);
-
+        
     }
-
+    
     public void loadDiffComponent(Path p) {
         try {
             StreamSource original = StreamSource.createSource("Original", "Original", "text/html", p.toFile());
@@ -130,20 +129,20 @@ public final class EditorProcessorTopComponent extends TopComponent {
                         if (diffTopComponent == null) {
                             diffTopComponent = new TopComponent();
                             diffTopComponent.setLayout(new BorderLayout());
-
+                            
                         } else {
                             diffTopComponent.remove(openendDiff.getComponent());
                         }
-
+                        
                         openendDiff = Diff.getDefault().createDiff(original, processed);
                         diffTopComponent.add(openendDiff.getComponent(), BorderLayout.CENTER);
                         diffTopComponent.requestActive();
-
+                        
                         previewFilePanel.remove(diffTopComponent);
                         previewFilePanel.add(diffTopComponent, BorderLayout.CENTER);
                         previewFilePanel.validate();
                         previewFilePanel.repaint();
-
+                        
                     } catch (IOException ex) {
                         Exceptions.printStackTrace(ex);
                     }
@@ -152,7 +151,7 @@ public final class EditorProcessorTopComponent extends TopComponent {
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
-
+        
     }
 
     /**
@@ -167,8 +166,6 @@ public final class EditorProcessorTopComponent extends TopComponent {
         jSplitPane1 = new javax.swing.JSplitPane();
         jSplitPane2 = new javax.swing.JSplitPane();
         processedFilesPanel = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        processedFilesList = new javax.swing.JList();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         previewFilePanel = new javax.swing.JPanel();
@@ -176,6 +173,8 @@ public final class EditorProcessorTopComponent extends TopComponent {
         jScrollPane2 = new javax.swing.JScrollPane();
         matchedFilesList = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
@@ -187,20 +186,6 @@ public final class EditorProcessorTopComponent extends TopComponent {
 
         processedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(EditorProcessorTopComponent.class, "EditorProcessorTopComponent.processedFilesPanel.border.title"))); // NOI18N
         processedFilesPanel.setLayout(new java.awt.BorderLayout());
-
-        processedFilesList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                processedFilesListMouseClicked(evt);
-            }
-        });
-        processedFilesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                processedFilesListValueChanged(evt);
-            }
-        });
-        jScrollPane3.setViewportView(processedFilesList);
-
-        processedFilesPanel.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
@@ -217,7 +202,6 @@ public final class EditorProcessorTopComponent extends TopComponent {
         jSplitPane1.setTopComponent(jSplitPane2);
 
         matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(EditorProcessorTopComponent.class, "EditorProcessorTopComponent.matchedFilesPanel.border.title"))); // NOI18N
-        matchedFilesPanel.setLayout(new java.awt.BorderLayout());
 
         matchedFilesList.setCellRenderer(new DefaultListCellRenderer(){
 
@@ -248,14 +232,59 @@ public final class EditorProcessorTopComponent extends TopComponent {
     });
     jScrollPane2.setViewportView(matchedFilesList);
 
-    matchedFilesPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
-
     jPanel3.setLayout(new java.awt.BorderLayout());
 
-    org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(EditorProcessorTopComponent.class, "EditorProcessorTopComponent.jLabel1.text")); // NOI18N
-    jPanel3.add(jLabel1, java.awt.BorderLayout.CENTER);
+    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
 
-    matchedFilesPanel.add(jPanel3, java.awt.BorderLayout.PAGE_END);
+        },
+        new String [] {
+            "File", "Cleaners"
+        }
+    ) {
+        boolean[] canEdit = new boolean [] {
+            false, false
+        };
+
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+    });
+    jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jTable1MouseClicked(evt);
+        }
+    });
+    jScrollPane1.setViewportView(jTable1);
+
+    org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(EditorProcessorTopComponent.class, "EditorProcessorTopComponent.jLabel1.text")); // NOI18N
+
+    javax.swing.GroupLayout matchedFilesPanelLayout = new javax.swing.GroupLayout(matchedFilesPanel);
+    matchedFilesPanel.setLayout(matchedFilesPanelLayout);
+    matchedFilesPanelLayout.setHorizontalGroup(
+        matchedFilesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(matchedFilesPanelLayout.createSequentialGroup()
+            .addGroup(matchedFilesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(matchedFilesPanelLayout.createSequentialGroup()
+                    .addGroup(matchedFilesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE))
+                    .addGap(16, 16, 16))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, matchedFilesPanelLayout.createSequentialGroup()
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE))
+    );
+    matchedFilesPanelLayout.setVerticalGroup(
+        matchedFilesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(matchedFilesPanelLayout.createSequentialGroup()
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+    );
 
     jSplitPane1.setBottomComponent(matchedFilesPanel);
 
@@ -286,7 +315,7 @@ public final class EditorProcessorTopComponent extends TopComponent {
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, Short.MAX_VALUE)
     );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -310,32 +339,23 @@ public final class EditorProcessorTopComponent extends TopComponent {
                 } else {
                     matchedFilesList.setSelectedIndex(model.getSize() - 1);
                 }
-
+                
                 refreshProcessorView();
             } catch (IOException ex) {
                 Logger.getLogger(EditorProcessorTopComponent.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_matchedFilesListKeyReleased
-
+    
 
     private void matchedFilesListKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_matchedFilesListKeyTyped
 
     }//GEN-LAST:event_matchedFilesListKeyTyped
 
     private void matchedFilesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_matchedFilesListValueChanged
-
+        
 
     }//GEN-LAST:event_matchedFilesListValueChanged
-
-    private void processedFilesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_processedFilesListMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_processedFilesListMouseClicked
-
-    private void processedFilesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_processedFilesListValueChanged
-        Cleaner cleaner = (Cleaner) processedFilesList.getSelectedValue();
-        processedFilesList.setToolTipText(cleaner.getDescription());
-    }//GEN-LAST:event_processedFilesListValueChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         loadMatchedFiles();
@@ -345,12 +365,23 @@ public final class EditorProcessorTopComponent extends TopComponent {
         refreshProcessorView();
     }//GEN-LAST:event_matchedFilesListMouseClicked
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+        if(row > -1){
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            Path path = (Path) model.getValueAt(row, 0);
+            previewProcessing(path);
+            
+            
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+    
     private void refreshProcessorView() {
         Path path = (Path) matchedFilesList.getSelectedValue();
         if (path != null) {
             previewProcessing(path);
         }
-
+        
     }
 
 
@@ -362,34 +393,34 @@ public final class EditorProcessorTopComponent extends TopComponent {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JList matchedFilesList;
     private javax.swing.JPanel matchedFilesPanel;
     private javax.swing.JPanel previewFilePanel;
-    private javax.swing.JList processedFilesList;
     private javax.swing.JPanel processedFilesPanel;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
         // TODO add custom code on component opening
     }
-
+    
     @Override
     public void componentClosed() {
         // TODO add custom code on component closing
     }
-
+    
     void writeProperties(java.util.Properties p) {
         // better to version settings since initial version as advocated at
         // http://wiki.apidesign.org/wiki/PropertyFiles
         p.setProperty("version", "1.0");
         // TODO store your settings
     }
-
+    
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
         // TODO read your settings according to their version
