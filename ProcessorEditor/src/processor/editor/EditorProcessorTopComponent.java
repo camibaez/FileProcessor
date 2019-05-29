@@ -165,11 +165,6 @@ public final class EditorProcessorTopComponent extends TopComponent {
 
         jPanel1 = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
-        matchedFilesPanel = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        matchedFilesList = new javax.swing.JList();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jSplitPane2 = new javax.swing.JSplitPane();
         processedFilesPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -177,6 +172,11 @@ public final class EditorProcessorTopComponent extends TopComponent {
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         previewFilePanel = new javax.swing.JPanel();
+        matchedFilesPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        matchedFilesList = new javax.swing.JList();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton1 = new javax.swing.JButton();
@@ -184,6 +184,37 @@ public final class EditorProcessorTopComponent extends TopComponent {
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        processedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(EditorProcessorTopComponent.class, "EditorProcessorTopComponent.processedFilesPanel.border.title"))); // NOI18N
+        processedFilesPanel.setLayout(new java.awt.BorderLayout());
+
+        processedFilesList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                processedFilesListMouseClicked(evt);
+            }
+        });
+        processedFilesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                processedFilesListValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(processedFilesList);
+
+        processedFilesPanel.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        jPanel4.setLayout(new java.awt.BorderLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(EditorProcessorTopComponent.class, "EditorProcessorTopComponent.jLabel2.text")); // NOI18N
+        jPanel4.add(jLabel2, java.awt.BorderLayout.CENTER);
+
+        processedFilesPanel.add(jPanel4, java.awt.BorderLayout.PAGE_END);
+
+        jSplitPane2.setLeftComponent(processedFilesPanel);
+
+        previewFilePanel.setLayout(new java.awt.BorderLayout());
+        jSplitPane2.setRightComponent(previewFilePanel);
+
+        jSplitPane1.setTopComponent(jSplitPane2);
 
         matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(EditorProcessorTopComponent.class, "EditorProcessorTopComponent.matchedFilesPanel.border.title"))); // NOI18N
         matchedFilesPanel.setLayout(new java.awt.BorderLayout());
@@ -226,38 +257,7 @@ public final class EditorProcessorTopComponent extends TopComponent {
 
     matchedFilesPanel.add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
-    jSplitPane1.setTopComponent(matchedFilesPanel);
-
-    processedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(EditorProcessorTopComponent.class, "EditorProcessorTopComponent.processedFilesPanel.border.title"))); // NOI18N
-    processedFilesPanel.setLayout(new java.awt.BorderLayout());
-
-    processedFilesList.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            processedFilesListMouseClicked(evt);
-        }
-    });
-    processedFilesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-        public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-            processedFilesListValueChanged(evt);
-        }
-    });
-    jScrollPane3.setViewportView(processedFilesList);
-
-    processedFilesPanel.add(jScrollPane3, java.awt.BorderLayout.CENTER);
-
-    jPanel4.setLayout(new java.awt.BorderLayout());
-
-    org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(EditorProcessorTopComponent.class, "EditorProcessorTopComponent.jLabel2.text")); // NOI18N
-    jPanel4.add(jLabel2, java.awt.BorderLayout.CENTER);
-
-    processedFilesPanel.add(jPanel4, java.awt.BorderLayout.PAGE_END);
-
-    jSplitPane2.setLeftComponent(processedFilesPanel);
-
-    previewFilePanel.setLayout(new java.awt.BorderLayout());
-    jSplitPane2.setRightComponent(previewFilePanel);
-
-    jSplitPane1.setRightComponent(jSplitPane2);
+    jSplitPane1.setBottomComponent(matchedFilesPanel);
 
     jPanel1.add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
@@ -282,7 +282,7 @@ public final class EditorProcessorTopComponent extends TopComponent {
     this.setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE)
+        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
