@@ -17,7 +17,7 @@ import org.openide.awt.ActionRegistration;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
 import processor.editor.ProjectCentral;
-import processor.project.ProjectAdministration;
+import processor.profile.ProfileAdministration;
 
 @ActionID(
         category = "File",
@@ -38,7 +38,7 @@ public final class SaveProjectAction implements ActionListener {
         try {
             if(ProjectCentral.instance().getProfile() == null)
                 throw new Exception("No project loaded");
-            ProjectAdministration.saveProject(ProjectCentral.instance().getProfile(), ProjectCentral.instance().getProfileFile().getAbsolutePath());
+            ProfileAdministration.saveProject(ProjectCentral.instance().getProfile(), ProjectCentral.instance().getProfileFile().getAbsolutePath());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

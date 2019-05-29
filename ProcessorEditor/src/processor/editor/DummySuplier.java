@@ -17,7 +17,7 @@ import processor.core.file.FileProcessor;
 import processor.core.file.Profile;
 
 
-import processor.project.ProjectAdministration;
+import processor.profile.ProfileAdministration;
 
 /**
  *
@@ -28,7 +28,7 @@ public class DummySuplier {
     public static void loadDummyProject() {
         File file = new File("C:\\Users\\cbaez\\Documents\\NetBeansProjects\\HTMLFixer\\conf\\test-files\\BigChangeTest\\proj1.json");
         ProjectCentral.instance().setProfileFile(file);
-        ProjectCentral.instance().setProfile(ProjectAdministration.loadProject(file.getAbsolutePath()));
+        ProjectCentral.instance().setProfile(ProfileAdministration.loadProject(file.getAbsolutePath()));
         ProjectCentral.instance().getProfile().setLastWorkingDirectory(getDummyFileFolder().toString());
         ProjectCentral.instance().getProfile().setWorkingDirectory(getDummyFileFolder().toString());
     }

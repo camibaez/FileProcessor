@@ -26,7 +26,7 @@ import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
 import processor.editor.ProjectCentral;
 import processor.editor.windows.ProjectEditorTopComponent;
-import processor.project.ProjectAdministration;
+import processor.profile.ProfileAdministration;
 
 @ActionID(
         category = "File",
@@ -54,8 +54,8 @@ public final class NewProjectAcion implements ActionListener {
 
             try {
                 if (file.createNewFile()) {
-                    ProjectAdministration.createEmptyProject(file.getAbsolutePath());
-                    ProjectCentral.instance().setProfile(ProjectAdministration.loadProject(file.getAbsolutePath()));
+                    ProfileAdministration.createEmptyProject(file.getAbsolutePath());
+                    ProjectCentral.instance().setProfile(ProfileAdministration.loadProject(file.getAbsolutePath()));
                     ProjectCentral.instance().setProfileFile(file);
                     new ProjectEditorTopComponent().open();
                     

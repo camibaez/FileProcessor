@@ -146,10 +146,6 @@
                 <runtime-relative-path>ext/json-simple-1.1.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/json-simple-1.1.jar</binary-origin>
             </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/FileProcessorCore.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/FileProcessorCore.jar</binary-origin>
-            </class-path-extension>
         </data>
     </configuration>
 </project>

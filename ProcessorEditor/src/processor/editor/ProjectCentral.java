@@ -7,7 +7,7 @@ package processor.editor;
 
 import java.io.File;
 import processor.core.file.Profile;
-import processor.project.ProjectAdministration;
+import processor.profile.ProfileAdministration;
 
 /**
  *
@@ -28,7 +28,7 @@ public class ProjectCentral {
 
     
     public void reloadProject(){
-        profile = ProjectAdministration.loadProject(profileFile.getAbsolutePath());
+        profile = ProfileAdministration.loadProject(profileFile.getAbsolutePath());
     }
     
     

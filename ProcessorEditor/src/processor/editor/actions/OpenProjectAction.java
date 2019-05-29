@@ -26,8 +26,9 @@ import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
 import processor.editor.ProjectCentral;
 import processor.editor.windows.ProjectEditorTopComponent;
+import processor.editor.windows.ProjectExplorerTopComponent;
 
-import processor.project.ProjectAdministration;
+import processor.profile.ProfileAdministration;
 
 @ActionID(
         category = "File",
@@ -53,10 +54,11 @@ public final class OpenProjectAction implements ActionListener {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            ProjectCentral.instance().setProfile(ProjectAdministration.loadProject(file.getAbsolutePath()));
+            ProjectCentral.instance().setProfile(ProfileAdministration.loadProject(file.getAbsolutePath()));
             ProjectCentral.instance().setProfileFile(file);
             
             new ProjectEditorTopComponent().open();
+            //new ProjectExplorerTopComponent();
             
             
         } else {
