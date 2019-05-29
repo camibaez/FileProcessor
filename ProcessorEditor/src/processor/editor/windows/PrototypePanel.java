@@ -187,7 +187,6 @@ public class PrototypePanel extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -205,7 +204,7 @@ public class PrototypePanel extends javax.swing.JPanel {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Expression"));
@@ -275,11 +274,12 @@ public class PrototypePanel extends javax.swing.JPanel {
                         .addComponent(jLabel6))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jCheckBox1))
-                .addContainerGap(35, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jCheckBox1)))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -293,47 +293,10 @@ public class PrototypePanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void idChanged(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idChanged
-
-    }//GEN-LAST:event_idChanged
-
-    private void descChanged(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descChanged
-        //
-    }//GEN-LAST:event_descChanged
-
-    private void extensionChanged(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_extensionChanged
-
-    }//GEN-LAST:event_extensionChanged
-
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        prototype.setId(jTextField1.getText());
-    }//GEN-LAST:event_jTextField1KeyReleased
-
-    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
-        prototype.setExtensions(jTextField3.getText());
-    }//GEN-LAST:event_jTextField3KeyReleased
-
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        ConditionalPattern p = (ConditionalPattern) jComboBox1.getSelectedItem();
-        loadExpressionData(p);
-
-    }//GEN-LAST:event_jComboBox1ItemStateChanged
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this expression?");
-        if (showConfirmDialog == JOptionPane.YES_OPTION) {
-            ConditionalPattern p = (ConditionalPattern) jComboBox1.getModel().getSelectedItem();
-            prototype.getExpressions().remove(p);
-            jComboBox1.removeItem(p);
-            loadData();
-        }
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
         ConditionalPattern p = (ConditionalPattern) jComboBox1.getModel().getSelectedItem();
@@ -349,14 +312,6 @@ public class PrototypePanel extends javax.swing.JPanel {
 
 
     }//GEN-LAST:event_jTextArea1KeyReleased
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ConditionalPattern p = ConditionalPattern.compile("", 2, "+");
-        prototype.getExpressions().add(p);
-        jComboBox1.addItem(p);
-        jComboBox1.setSelectedItem(p);
-        loadExpressionData(p);
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
@@ -383,6 +338,49 @@ public class PrototypePanel extends javax.swing.JPanel {
         p.setPattern(Pattern.compile(p.getPattern().pattern(), flags));
 
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ConditionalPattern p = ConditionalPattern.compile("", 2, "+");
+        prototype.getExpressions().add(p);
+        jComboBox1.addItem(p);
+        jComboBox1.setSelectedItem(p);
+        loadExpressionData(p);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this expression?");
+        if (showConfirmDialog == JOptionPane.YES_OPTION) {
+            ConditionalPattern p = (ConditionalPattern) jComboBox1.getModel().getSelectedItem();
+            prototype.getExpressions().remove(p);
+            jComboBox1.removeItem(p);
+            loadData();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void idChanged(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idChanged
+
+    }//GEN-LAST:event_idChanged
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        prototype.setId(jTextField1.getText());
+    }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void extensionChanged(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_extensionChanged
+
+    }//GEN-LAST:event_extensionChanged
+
+    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
+        prototype.setExtensions(jTextField3.getText());
+    }//GEN-LAST:event_jTextField3KeyReleased
+
+    private void descChanged(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descChanged
+        //
+    }//GEN-LAST:event_descChanged
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        ConditionalPattern p = (ConditionalPattern) jComboBox1.getSelectedItem();
+        loadExpressionData(p);
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

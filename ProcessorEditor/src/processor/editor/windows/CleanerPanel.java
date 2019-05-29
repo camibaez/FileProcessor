@@ -77,7 +77,7 @@ public class CleanerPanel extends javax.swing.JPanel {
             return;
         }
 
-        boolean ignoreCase = (rule.getFlags() | Pattern.CASE_INSENSITIVE) == Pattern.CASE_INSENSITIVE;
+        boolean ignoreCase = (rule.getFlags() & Pattern.CASE_INSENSITIVE) == Pattern.CASE_INSENSITIVE;
         jCheckBox1.setSelected(!ignoreCase);
         jTextArea1.setText(rule.getPattern().pattern());
         jTextArea2.setText(rule.getReplace());
