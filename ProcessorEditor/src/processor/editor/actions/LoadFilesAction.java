@@ -10,6 +10,7 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
+import processor.editor.windows.EditorProcessorTopComponent;
 
 @ActionID(
         category = "File",
@@ -27,6 +28,11 @@ import org.openide.util.NbBundle.Messages;
 })
 @Messages("CTL_LoadFilesAction=Load Files")
 public final class LoadFilesAction extends processor.genericeditor.actions.LoadFilesAction{
+
+    @Override
+    public void openProcessorWindow() {
+        new EditorProcessorTopComponent().open();
+    }
 
    
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.editor.windows;
+package processor.genericeditor.windows;
 
 import java.awt.BorderLayout;
 import java.io.File;
@@ -24,23 +24,20 @@ import processor.core.file.Profile;
  */
 public class DiffPanel extends javax.swing.JPanel {
     Profile profile;
-    File file;
     TopComponent diffTopComponent = null;
     DiffView openendDiff = null;
 
     /**
      * Creates new form DiffPanel
      */
-    public DiffPanel(Profile profile, Path p) {
+    public DiffPanel(Profile profile) {
         this.profile = profile;
-        this.file = p.toFile();
-       
+
         initComponents();
-        
-        loadDiffComponent(p);
+
     }
 
-    private void loadDiffComponent(Path p) {
+    public void loadDiffComponent(Path p) {
         try {
             StreamSource original = StreamSource.createSource("Original", "Original", "text/html", p.toFile());
             String processResult = profile.getFileProcessor().processFile(p);
@@ -65,7 +62,6 @@ public class DiffPanel extends javax.swing.JPanel {
                         previewFilePanel.add(diffTopComponent, BorderLayout.CENTER);
                         previewFilePanel.validate();
                         previewFilePanel.repaint();
-
                     } catch (IOException ex) {
                         Exceptions.printStackTrace(ex);
                     }

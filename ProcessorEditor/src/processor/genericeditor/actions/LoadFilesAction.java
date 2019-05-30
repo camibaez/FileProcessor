@@ -22,7 +22,7 @@ import processor.editor.windows.EditorProcessorTopComponent;
 import processor.genericeditor.ProjectCentral;
 
 
-public class LoadFilesAction implements ActionListener {
+public abstract class LoadFilesAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -62,10 +62,13 @@ public class LoadFilesAction implements ActionListener {
 
             FileProcessor fileProcessor = new FileProcessor(profile, profile.getCleaners());
             profile.setFileProcessor(fileProcessor);
-            new EditorProcessorTopComponent().open();
+            openProcessorWindow();
 
         } else {
             Logger.getLogger(LoadFilesAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
         }
     }
+    
+    public abstract void openProcessorWindow();
+    
 }

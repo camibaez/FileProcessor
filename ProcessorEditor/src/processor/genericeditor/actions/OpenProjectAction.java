@@ -16,7 +16,7 @@ import processor.editor.windows.ProjectEditorTopComponent;
 
 import processor.profile.ProfileAdministration;
 
-public class OpenProjectAction implements ActionListener {
+public abstract class OpenProjectAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -30,9 +30,8 @@ public class OpenProjectAction implements ActionListener {
             File file = fc.getSelectedFile();
             ProjectCentral.instance().setProfile(ProfileAdministration.loadProject(file.getAbsolutePath()));
             ProjectCentral.instance().setProfileFile(file);
+            openProjectWindow();
             
-            new ProjectEditorTopComponent().open();
-            //new ProjectExplorerTopComponent();
             
             
         } else {
@@ -40,5 +39,5 @@ public class OpenProjectAction implements ActionListener {
         }
     }
     
-    
+    public abstract void openProjectWindow();
 }

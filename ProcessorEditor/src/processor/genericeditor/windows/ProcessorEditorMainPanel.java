@@ -5,6 +5,7 @@
  */
 package processor.genericeditor.windows;
 
+import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -17,19 +18,21 @@ import javax.swing.table.DefaultTableModel;
 import org.openide.util.Exceptions;
 import processor.core.file.Cleaner;
 import processor.core.file.Profile;
-import processor.editor.windows.DiffPanel;
 
 public final class ProcessorEditorMainPanel extends JPanel {
 
     Profile profile;
+    DiffPanel diffPanel;
 
     public ProcessorEditorMainPanel(Profile profile) {
         initComponents();
         this.profile = profile;
+        diffPanel = new DiffPanel(profile);
+        diffContainerPanel.add(diffPanel, BorderLayout.CENTER);
         startFillingThread();
     }
-    
-    private void startFillingThread(){
+
+    private void startFillingThread() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -63,16 +66,19 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jLabel1.setText(profile.getFileCentral().getMatchedFiles().size() + " files matched");
     }
 
-    public void previewProcessing(Path path) {
-        if (profile.getFileProcessor() == null) {
-            System.out.println("You must init the FileProcessor first.");
-            return;
-        }
-        loadDiffComponent(path);
-    }
+    private void refreshProcessorView() {
+        int row = jTable1.getSelectedRow();
+        if (row > -1) {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            Path path = (Path) model.getValueAt(row, 0);
+            if (profile.getFileProcessor() == null) {
+                System.out.println("You must init the FileProcessor first.");
+                return;
+            }
+            diffPanel.loadDiffComponent(path);
 
-    public void loadDiffComponent(Path p) {
-        diffContainerPanel.add(new DiffPanel(profile, p));
+        }
+
     }
 
     /**
@@ -207,16 +213,6 @@ public final class ProcessorEditorMainPanel extends JPanel {
         }
     }//GEN-LAST:event_jTable1KeyReleased
 
-    private void refreshProcessorView() {
-        int row = jTable1.getSelectedRow();
-        if (row > -1) {
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            Path path = (Path) model.getValueAt(row, 0);
-            previewProcessing(path);
-        }
-
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel diffContainerPanel;
@@ -230,5 +226,5 @@ public final class ProcessorEditorMainPanel extends JPanel {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel matchedFilesPanel;
     // End of variables declaration//GEN-END:variables
-    
+
 }

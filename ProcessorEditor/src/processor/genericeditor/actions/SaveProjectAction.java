@@ -10,23 +10,23 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.openide.util.Exceptions;
+
 import processor.genericeditor.ProjectCentral;
 import processor.profile.ProfileAdministration;
-
 
 public class SaveProjectAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            if(ProjectCentral.instance().getProfile() == null)
+            if (ProjectCentral.instance().getProfile() == null) {
                 throw new Exception("No project loaded");
+            }
             ProfileAdministration.saveProject(ProjectCentral.instance().getProfile(), ProjectCentral.instance().getProfileFile().getAbsolutePath());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Exceptions.printStackTrace(ex);
+            ex.printStackTrace();
         }
     }
 }
