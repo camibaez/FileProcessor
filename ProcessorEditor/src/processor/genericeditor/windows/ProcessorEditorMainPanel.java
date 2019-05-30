@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import org.openide.util.Exceptions;
+
 import processor.core.file.Cleaner;
 import processor.core.file.Profile;
 
@@ -36,21 +36,18 @@ public final class ProcessorEditorMainPanel extends JPanel {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                int lastSize = 0;
-                boolean done = false;
-                while (!done) {
-                    done = profile.getFileMatcher().isDone();
-                    int size = profile.getFileCentral().getMatchedFiles().size();
-                    if (size > lastSize) {
-                        fillFilesTable();
-                    }
-                    if (!done) {
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException ex) {
-                            Exceptions.printStackTrace(ex);
+                while (true) {
+                    try {
+                        if(profile.getFileMatcher().isDone()){
+                            fillFilesTable();
+                            break;
+                        }else{
+                           Thread.sleep(1000); 
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+
                 }
             }
         });
@@ -60,8 +57,9 @@ public final class ProcessorEditorMainPanel extends JPanel {
         DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
         tableModel.setRowCount(0);
         profile.getFileCentral().getMatchedFiles().forEach(p -> {
-            List<Cleaner> assignedCleaners = profile.getFileProcessor().getAssignedCleaners(p);
-            tableModel.addRow(new Object[]{p, assignedCleaners});
+            //List<Cleaner> assignedCleaners = profile.getFileProcessor().getAssignedCleaners(p);
+            List<Cleaner> affectingCleaners = profile.getFileProcessor().getAffectingCleaners(p);
+            tableModel.addRow(new Object[]{p, affectingCleaners});
         });
         jLabel1.setText(profile.getFileCentral().getMatchedFiles().size() + " files matched");
     }
@@ -98,7 +96,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jLabel1 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -108,7 +106,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         diffContainerPanel.setLayout(new java.awt.BorderLayout());
         jSplitPane1.setTopComponent(diffContainerPanel);
 
-        matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Files Result")); // NOI18N
+        matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Files Result"));
         matchedFilesPanel.setLayout(new java.awt.BorderLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -153,16 +151,16 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jToolBar1.setRollover(true);
         jToolBar1.add(filler1);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, "Reload"); // NOI18N
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(ProcessorEditorMainPanel.class, "ProcessorEditorMainPanel.jButton2.text")); // NOI18N
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(jButton2);
 
         jPanel1.add(jToolBar1, java.awt.BorderLayout.SOUTH);
 
@@ -178,10 +176,6 @@ public final class ProcessorEditorMainPanel extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        fillFilesTable();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         refreshProcessorView();
@@ -213,11 +207,15 @@ public final class ProcessorEditorMainPanel extends JPanel {
         }
     }//GEN-LAST:event_jTable1KeyReleased
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         fillFilesTable();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel diffContainerPanel;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

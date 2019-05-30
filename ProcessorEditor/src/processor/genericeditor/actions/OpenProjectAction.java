@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import processor.genericeditor.ProjectCentral;
-import processor.editor.windows.ProjectEditorTopComponent;
+
 
 import processor.profile.ProfileAdministration;
 

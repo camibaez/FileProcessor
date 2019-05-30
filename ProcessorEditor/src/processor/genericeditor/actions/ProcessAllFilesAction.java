@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import processor.genericeditor.ProjectCentral;
 
 
-public class ProcessAllFiles implements ActionListener {
+public class ProcessAllFilesAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {

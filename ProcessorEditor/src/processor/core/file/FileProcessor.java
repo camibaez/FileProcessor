@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -39,11 +40,32 @@ public class FileProcessor {
         return cleaner.getPrototype() == null || project.getFileCentral().belongsTo(cleaner.getPrototype(), file);
     }
 
+    public boolean isAffectig(Cleaner cleaner, Path file) throws IOException{
+        String original = new String(Files.readAllBytes(file));
+        String processed = TypeTransformer.transformForType(String.class, cleaner.clean(original));
+        
+        return !original.equals(processed);
+    }
+    
     public List<Cleaner> getAssignedCleaners(Path file) {
         List<Cleaner> list = new LinkedList<>();
         for (Cleaner cleaner : cleaners) {
             if (isAssigned(cleaner, file)) {
                 list.add(cleaner);
+            }
+        }
+        return list;
+    }
+    
+    public List<Cleaner> getAffectingCleaners(Path file){
+        List<Cleaner> list = new LinkedList<>();
+        for (Cleaner cleaner : cleaners) {
+            try {
+                if (isAffectig(cleaner, file)) {
+                    list.add(cleaner);
+                }
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
             }
         }
         return list;

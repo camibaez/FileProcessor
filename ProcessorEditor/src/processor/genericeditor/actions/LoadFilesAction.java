@@ -18,7 +18,7 @@ import javax.swing.JFileChooser;
 import processor.core.file.FileMatcher;
 import processor.core.file.FileProcessor;
 import processor.core.file.Profile;
-import processor.editor.windows.EditorProcessorTopComponent;
+
 import processor.genericeditor.ProjectCentral;
 
 

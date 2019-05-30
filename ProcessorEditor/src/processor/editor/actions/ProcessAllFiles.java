@@ -28,7 +28,7 @@ import processor.genericeditor.ProjectCentral;
     @ActionReference(path = "Shortcuts", name = "DS-R")
 })
 @Messages("CTL_ProcessAllFiles=Process All Files")
-public final class ProcessAllFiles extends processor.genericeditor.actions.ProcessAllFiles {
+public final class ProcessAllFiles extends processor.genericeditor.actions.ProcessAllFilesAction {
 
    
 }

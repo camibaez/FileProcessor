@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFileChooser;
 import processor.genericeditor.ProjectCentral;
-import processor.editor.windows.ProjectEditorTopComponent;
+
 import processor.profile.ProfileAdministration;
 
 
