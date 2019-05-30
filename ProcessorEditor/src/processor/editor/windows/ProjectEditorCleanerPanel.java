@@ -17,7 +17,7 @@ import processor.core.rules.ReplaceText;
  *
  * @author cbaez
  */
-public class CleanerPanel extends javax.swing.JPanel {
+public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
 
     protected Cleaner cleaner;
     protected Profile project;
@@ -25,7 +25,7 @@ public class CleanerPanel extends javax.swing.JPanel {
     /**
      * Creates new form CleanerPane
      */
-    public CleanerPanel(Profile p, Cleaner c) {
+    public ProjectEditorCleanerPanel(Profile p, Cleaner c) {
         cleaner = c;
         project = p;
         initComponents();

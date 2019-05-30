@@ -16,7 +16,7 @@ import processor.core.file.FilePrototype;
  *
  * @author cbaez
  */
-public class PrototypePanel extends javax.swing.JPanel {
+public class ProjectEditorPrototypePanel extends javax.swing.JPanel {
 
     protected FilePrototype prototype;
 
@@ -25,7 +25,7 @@ public class PrototypePanel extends javax.swing.JPanel {
      *
      * @param prototype
      */
-    public PrototypePanel(FilePrototype prototype) {
+    public ProjectEditorPrototypePanel(FilePrototype prototype) {
         this.prototype = prototype;
         initComponents();
         loadData();
@@ -112,7 +112,7 @@ public class PrototypePanel extends javax.swing.JPanel {
 
         jLabel4.setText("Expressions:");
 
-        jLabel3.setText("Extensions:");
+        jLabel3.setText("File pattern:");
 
         jTextField3.setText(this.prototype.getExtensions());
         jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -279,7 +279,7 @@ public class PrototypePanel extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
                         .addComponent(jCheckBox1)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -293,7 +293,7 @@ public class PrototypePanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents

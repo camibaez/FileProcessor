@@ -23,7 +23,7 @@ import org.openide.util.NbBundle.Messages;
 import processor.core.file.FileMatcher;
 import processor.core.file.FileProcessor;
 import processor.core.file.Profile;
-import processor.editor.EditorProcessorTopComponent;
+import processor.editor.windows.EditorProcessorTopComponent;
 import processor.editor.ProjectCentral;
 
 @ActionID(

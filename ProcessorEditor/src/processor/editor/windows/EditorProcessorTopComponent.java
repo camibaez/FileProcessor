@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.editor;
+package processor.editor.windows;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -31,6 +31,8 @@ import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import processor.core.file.Cleaner;
 import processor.core.file.Profile;
+import processor.editor.windows.Bundle;
+import processor.editor.ProjectCentral;
 
 /**
  * Top component which displays something.
