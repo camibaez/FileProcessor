@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.editor.windows;
+package processor.genericeditor.windows;
 
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
@@ -82,11 +82,13 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         jPanel4.setMinimumSize(new java.awt.Dimension(300, 0));
+        jPanel4.setLayout(new java.awt.BorderLayout());
 
         jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jPanel2.border.title"))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Prototypes"));
         jPanel2.setMinimumSize(new java.awt.Dimension(0, 150));
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
         jList3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -96,14 +98,16 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(jList3);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton1.text")); // NOI18N
+        jPanel2.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, "Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton2, "Delete");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -115,7 +119,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(156, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
@@ -128,24 +132,12 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 .addComponent(jButton2))
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        jPanel2.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
         jSplitPane2.setLeftComponent(jPanel2);
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jPanel5.border.title"))); // NOI18N
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Cleaners")); // NOI18N
+        jPanel5.setLayout(new java.awt.BorderLayout());
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -160,14 +152,16 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jList1);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton3, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton3.text")); // NOI18N
+        jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton3, "Add");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton4, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton4.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton4, "Delete");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -192,62 +186,20 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 .addComponent(jButton4))
         );
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        jPanel5.add(jPanel6, java.awt.BorderLayout.SOUTH);
 
         jSplitPane2.setRightComponent(jPanel5);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
-        );
+        jPanel4.add(jSplitPane2, java.awt.BorderLayout.CENTER);
 
         jSplitPane1.setLeftComponent(jPanel4);
 
         jSplitPane3.setDividerLocation(300);
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 86, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 558, Short.MAX_VALUE)
-        );
-
+        jPanel7.setLayout(new java.awt.BorderLayout());
         jSplitPane3.setLeftComponent(jPanel7);
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 558, Short.MAX_VALUE)
-        );
-
+        jPanel8.setLayout(new java.awt.BorderLayout());
         jSplitPane3.setRightComponent(jPanel8);
 
         jSplitPane1.setRightComponent(jSplitPane3);
@@ -258,7 +210,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jToolBar1.setRollover(true);
         jToolBar1.add(filler1);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton5, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton5.text")); // NOI18N
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

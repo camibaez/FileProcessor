@@ -5,27 +5,13 @@
  */
 package processor.editor.windows;
 
+import processor.genericeditor.windows.ProjectEditorMainPanel;
 import java.awt.BorderLayout;
-import java.io.IOException;
-import java.util.LinkedList;
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-import javax.swing.text.StyledDocument;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.openide.cookies.EditorCookie;
-import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileUtil;
-import org.openide.loaders.DataObject;
-import org.openide.loaders.DataObjectNotFoundException;
-import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
-import processor.core.file.Cleaner;
-import processor.core.file.FilePrototype;
 import processor.core.file.Profile;
-import processor.editor.DummySuplier;
-import processor.editor.ProjectCentral;
-import processor.editor.actions.CodeEditorOpener;
+import processor.genericeditor.ProjectCentral;
 
 /**
  * Top component which displays something.

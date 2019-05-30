@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.editor.windows;
+package processor.genericeditor.windows;
 
-import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,19 +14,14 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import org.netbeans.api.diff.Diff;
-import org.netbeans.api.diff.DiffView;
-import org.netbeans.api.diff.StreamSource;
 import org.openide.util.Exceptions;
-import org.openide.windows.TopComponent;
 import processor.core.file.Cleaner;
 import processor.core.file.Profile;
+import processor.editor.windows.DiffPanel;
 
 public final class ProcessorEditorMainPanel extends JPanel {
 
     Profile profile;
-    TopComponent diffTopComponent = null;
-    DiffView openendDiff = null;
 
     public ProcessorEditorMainPanel(Profile profile) {
         initComponents();
@@ -55,9 +48,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
                             Exceptions.printStackTrace(ex);
                         }
                     }
-
                 }
-
             }
         });
     }
@@ -70,7 +61,6 @@ public final class ProcessorEditorMainPanel extends JPanel {
             tableModel.addRow(new Object[]{p, assignedCleaners});
         });
         jLabel1.setText(profile.getFileCentral().getMatchedFiles().size() + " files matched");
-
     }
 
     public void previewProcessing(Path path) {
@@ -82,40 +72,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
     }
 
     public void loadDiffComponent(Path p) {
-        try {
-            StreamSource original = StreamSource.createSource("Original", "Original", "text/html", p.toFile());
-            String processResult = profile.getFileProcessor().processFile(p);
-            StreamSource processed = StreamSource.createSource("Processed", "Processed", "text/html", new StringReader(processResult));
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        if (diffTopComponent == null) {
-                            diffTopComponent = new TopComponent();
-                            diffTopComponent.setLayout(new BorderLayout());
-
-                        } else {
-                            diffTopComponent.remove(openendDiff.getComponent());
-                        }
-
-                        openendDiff = Diff.getDefault().createDiff(original, processed);
-                        diffTopComponent.add(openendDiff.getComponent(), BorderLayout.CENTER);
-                        diffTopComponent.requestActive();
-
-                        previewFilePanel.remove(diffTopComponent);
-                        previewFilePanel.add(diffTopComponent, BorderLayout.CENTER);
-                        previewFilePanel.validate();
-                        previewFilePanel.repaint();
-
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                }
-            });
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-
+        diffContainerPanel.add(new DiffPanel(profile, p));
     }
 
     /**
@@ -128,7 +85,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
-        previewFilePanel = new javax.swing.JPanel();
+        diffContainerPanel = new javax.swing.JPanel();
         matchedFilesPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -142,10 +99,10 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jSplitPane1.setDividerLocation(250);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        previewFilePanel.setLayout(new java.awt.BorderLayout());
-        jSplitPane1.setTopComponent(previewFilePanel);
+        diffContainerPanel.setLayout(new java.awt.BorderLayout());
+        jSplitPane1.setTopComponent(diffContainerPanel);
 
-        matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(ProcessorEditorMainPanel.class, "ProcessorEditorMainPanel.matchedFilesPanel.border.title"))); // NOI18N
+        matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Files Result")); // NOI18N
         matchedFilesPanel.setLayout(new java.awt.BorderLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -179,7 +136,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
 
         matchedFilesPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(ProcessorEditorMainPanel.class, "ProcessorEditorMainPanel.jLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, "Files processed:"); // NOI18N
         matchedFilesPanel.add(jLabel1, java.awt.BorderLayout.SOUTH);
 
         jSplitPane1.setBottomComponent(matchedFilesPanel);
@@ -190,7 +147,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jToolBar1.setRollover(true);
         jToolBar1.add(filler1);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(ProcessorEditorMainPanel.class, "ProcessorEditorMainPanel.jButton1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(jButton1, "Reload"); // NOI18N
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -262,6 +219,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel diffContainerPanel;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -271,7 +229,6 @@ public final class ProcessorEditorMainPanel extends JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel matchedFilesPanel;
-    private javax.swing.JPanel previewFilePanel;
     // End of variables declaration//GEN-END:variables
     
 }

@@ -13,7 +13,7 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
-import processor.editor.ProjectCentral;
+import processor.genericeditor.ProjectCentral;
 
 @ActionID(
         category = "File",
@@ -28,13 +28,7 @@ import processor.editor.ProjectCentral;
     @ActionReference(path = "Shortcuts", name = "DS-R")
 })
 @Messages("CTL_ProcessAllFiles=Process All Files")
-public final class ProcessAllFiles implements ActionListener {
+public final class ProcessAllFiles extends processor.genericeditor.actions.ProcessAllFiles {
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        int response = JOptionPane.showConfirmDialog(null, "Are you shure you want to process all the files?");
-        if(response == JOptionPane.YES_OPTION){
-            ProjectCentral.instance().getProfile().getFileProcessor().processAll();
-        }
-    }
+   
 }

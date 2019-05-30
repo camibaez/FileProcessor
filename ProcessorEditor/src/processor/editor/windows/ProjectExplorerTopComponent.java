@@ -16,7 +16,7 @@ import org.openide.util.LookupListener;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import processor.core.file.Profile;
-import processor.editor.ProjectCentral;
+import processor.genericeditor.ProjectCentral;
 
 /**
  * Top component which displays something.

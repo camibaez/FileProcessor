@@ -16,7 +16,7 @@ import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
-import processor.editor.ProjectCentral;
+import processor.genericeditor.ProjectCentral;
 import processor.profile.ProfileAdministration;
 
 @ActionID(
@@ -31,18 +31,7 @@ import processor.profile.ProfileAdministration;
     @ActionReference(path = "Shortcuts", name = "D-S")
 })
 @Messages("CTL_SaveProjectAction=Save Project")
-public final class SaveProjectAction implements ActionListener {
+public final class SaveProjectAction extends processor.genericeditor.actions.SaveProjectAction{
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        try {
-            if(ProjectCentral.instance().getProfile() == null)
-                throw new Exception("No project loaded");
-            ProfileAdministration.saveProject(ProjectCentral.instance().getProfile(), ProjectCentral.instance().getProfileFile().getAbsolutePath());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }
+  
 }
