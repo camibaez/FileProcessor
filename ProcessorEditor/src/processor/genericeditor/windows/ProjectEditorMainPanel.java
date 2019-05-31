@@ -5,9 +5,14 @@
  */
 package processor.genericeditor.windows;
 
+import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import processor.core.file.Cleaner;
 import processor.core.file.FilePrototype;
 import processor.core.file.Profile;
@@ -19,6 +24,7 @@ import processor.core.file.Profile;
 public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
     Profile project = null;
+    ProjectsTree projectsTree;
 
     /**
      * Creates new form ProjectEditorMainPanel
@@ -26,29 +32,36 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     public ProjectEditorMainPanel(Profile profile) {
         this.project = profile;
         initComponents();
-
-        loadProjectData();
+        
+        createTree();
 
     }
 
-    protected void loadProjectData() {
-        DefaultListModel<FilePrototype> prototypesListModel = new DefaultListModel<>();
-        prototypesListModel.addElement(project.getBasePrototype());
-        project.getPrototypesMap().values().forEach(p -> {
-            if (p == project.getBasePrototype()) {
-                return;
+    protected void createTree() {
+        projectsTree = new ProjectsTree(project);
+        projectsTree.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) projectsTree.getLastSelectedPathComponent();
+                if(node == null)
+                    return;
+                Object userObject = node.getUserObject();
+                if (userObject instanceof FilePrototype) {
+                    FilePrototype proto = (FilePrototype) userObject;
+                    jSplitPane3.setLeftComponent(new ProjectEditorPrototypePanel(proto));
+                }
+                if (userObject instanceof Cleaner) {
+                    Cleaner cleaner = (Cleaner) userObject;
+                    jSplitPane3.setRightComponent(new ProjectEditorCleanerPanel(project, cleaner));
+
+                }
             }
-            prototypesListModel.addElement(p);
         });
-        jList3.setModel(prototypesListModel);
-
-        DefaultListModel<Cleaner> cleanersListModel = new DefaultListModel<>();
-        project.getCleaners().stream().forEach((cleaner) -> {
-            cleanersListModel.addElement(cleaner);
-        });
-        jList1.setModel(cleanersListModel);
-
+        
+        jPanel4.add(projectsTree, BorderLayout.CENTER);
     }
+
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,18 +74,12 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel4 = new javax.swing.JPanel();
-        jSplitPane2 = new javax.swing.JSplitPane();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList();
-        jPanel3 = new javax.swing.JPanel();
+        jToolBar2 = new javax.swing.JToolBar();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
         jButton2 = new javax.swing.JButton();
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
@@ -86,21 +93,9 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel4.setMinimumSize(new java.awt.Dimension(300, 0));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Prototypes"));
-        jPanel2.setMinimumSize(new java.awt.Dimension(0, 150));
-        jPanel2.setLayout(new java.awt.BorderLayout());
-
-        jList3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jList3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList3MouseClicked(evt);
-            }
-        });
-        jScrollPane3.setViewportView(jList3);
-
-        jPanel2.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+        jToolBar2.setFloatable(false);
+        jToolBar2.setRollover(true);
+        jToolBar2.add(filler2);
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton6, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton6.text")); // NOI18N
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -108,53 +103,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 jButton6ActionPerformed(evt);
             }
         });
-
-        org.openide.awt.Mnemonics.setLocalizedText(jButton7, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton7.text")); // NOI18N
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(156, Short.MAX_VALUE)
-                .addComponent(jButton6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
-                .addGap(2, 2, 2))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton6)
-                .addComponent(jButton7))
-        );
-
-        jPanel2.add(jPanel3, java.awt.BorderLayout.SOUTH);
-
-        jSplitPane2.setLeftComponent(jPanel2);
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Cleaners"));
-        jPanel5.setLayout(new java.awt.BorderLayout());
-
-        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList1MouseClicked(evt);
-            }
-        });
-        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList1ValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jList1);
-
-        jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        jToolBar2.add(jButton6);
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton1.text")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -162,6 +111,16 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
+        jToolBar2.add(jButton1);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton7, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton7.text")); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton7);
+        jToolBar2.add(jSeparator1);
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton2.text")); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -169,29 +128,9 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
+        jToolBar2.add(jButton2);
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(158, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton1)
-                .addComponent(jButton2))
-        );
-
-        jPanel5.add(jPanel6, java.awt.BorderLayout.SOUTH);
-
-        jSplitPane2.setRightComponent(jPanel5);
-
-        jPanel4.add(jSplitPane2, java.awt.BorderLayout.CENTER);
+        jPanel4.add(jToolBar2, java.awt.BorderLayout.SOUTH);
 
         jSplitPane1.setLeftComponent(jPanel4);
 
@@ -225,27 +164,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         add(jToolBar1, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jList3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList3MouseClicked
-        FilePrototype proto = (FilePrototype) jList3.getSelectedValue();
-        if (proto != null) {
-            jSplitPane3.setLeftComponent(new ProjectEditorPrototypePanel(proto));
-        }
-
-    }//GEN-LAST:event_jList3MouseClicked
-
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-        Cleaner cleaner = (Cleaner) jList1.getSelectedValue();
-        if (cleaner != null) {
-            jSplitPane3.setRightComponent(new ProjectEditorCleanerPanel(project, cleaner));
-        }
-
-    }//GEN-LAST:event_jList1MouseClicked
-
-    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-
-        //jList2.setModel(rulesListModel);
-    }//GEN-LAST:event_jList1ValueChanged
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         //new CodeEditorOpener().openEditor(ProjectCentral.instance().getProfileFile());
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -254,20 +172,26 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         FilePrototype p = new FilePrototype("", new LinkedList<>());
         p.setId("newProto");
         project.getPrototypesMap().put(p.getId(), p);
-        ((DefaultListModel<FilePrototype>) jList3.getModel()).addElement(p);
-        jList3.setSelectedValue(p, true);
+        projectsTree.reloadData(project);
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this prototype?");
         if (showConfirmDialog == JOptionPane.YES_OPTION) {
-            jSplitPane1.remove(2);
-            FilePrototype selectedValue = (FilePrototype) jList3.getSelectedValue();
-            project.getPrototypesMap().remove(selectedValue.getId());
-            ((DefaultListModel) jList3.getModel()).removeElement(selectedValue);
-            if (jList3.getModel().getSize() >= 1) {
-                jList3.setSelectedIndex(0);
+            jSplitPane3.remove(2);
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) projectsTree.getLastSelectedPathComponent();
+            Object obj = node.getUserObject();
+            if(obj instanceof FilePrototype){
+                FilePrototype selectedValue = (FilePrototype) obj;
+                project.getPrototypesMap().remove(selectedValue.getId());
             }
+            if(obj instanceof Cleaner){
+                Cleaner selectedValue = (Cleaner) obj;
+                project.getCleaners().remove(selectedValue);
+            }
+            
+            projectsTree.reloadData(project);
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -275,45 +199,30 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         Cleaner c = new Cleaner(new LinkedList<>());
         c.setId("newClaner");
         project.getCleaners().add(c);
-        ((DefaultListModel<Cleaner>) jList1.getModel()).addElement(c);
-        jList1.setSelectedValue(c, true);
+        projectsTree.reloadData(project);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this cleaner?");
-        if (showConfirmDialog == JOptionPane.YES_OPTION) {
-            jSplitPane1.remove(2);
-            Cleaner selectedValue = (Cleaner) jList1.getSelectedValue();
-            project.getCleaners().remove(selectedValue);
-            ((DefaultListModel) jList1.getModel()).removeElement(selectedValue);
-            if (jList1.getModel().getSize() >= 1) {
-                jList1.setSelectedIndex(0);
-            }
-        }
+       projectsTree.reloadData(project);
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList3;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables
 }

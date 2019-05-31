@@ -5,9 +5,16 @@
  */
 package processor.genericeditor.windows;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JDialog;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+import processor.core.file.Cleaner;
+import processor.core.file.FilePrototype;
 import processor.core.file.Profile;
 
 /**
@@ -23,10 +30,12 @@ public class ProjectTreePanel extends javax.swing.JPanel {
     public ProjectTreePanel(Profile profile) {
         initComponents();
         this.profile = profile;
-        projectsTree.setRootVisible(false);
+       
+        loadNodesData(profile);
     }
 
     public void loadNodesData(Profile p){
+        projectsTree.setRootVisible(false);
         DefaultTreeModel model = (DefaultTreeModel) projectsTree.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
         
@@ -35,6 +44,7 @@ public class ProjectTreePanel extends javax.swing.JPanel {
         
         //Filling prototypes
         DefaultMutableTreeNode prototypesChildren =  new DefaultMutableTreeNode("Prototypes");
+        
         p.getPrototypes().forEach(proto -> {
             DefaultMutableTreeNode protoNode = new DefaultMutableTreeNode(proto);
             proto.getExpressions().forEach(e -> {
@@ -51,17 +61,18 @@ public class ProjectTreePanel extends javax.swing.JPanel {
         p.getCleaners().forEach(c -> {
             DefaultMutableTreeNode cleanerNode = new DefaultMutableTreeNode(c);
             if(c.getPrototype() != null){
-                DefaultMutableTreeNode prototypeNode = new DefaultMutableTreeNode(c.getPrototype());
-                model.insertNodeInto(prototypeNode, cleanerNode, 0);
+                DefaultMutableTreeNode prototypeNodeParent = new DefaultMutableTreeNode("Prototype");
+                prototypeNodeParent.add(new DefaultMutableTreeNode(c.getPrototype()));
+                cleanerNode.add(prototypeNodeParent);
             }
             
             c.getRules().forEach(r -> {
                 DefaultMutableTreeNode ruleNode = new DefaultMutableTreeNode(r);
-                model.insertNodeInto(ruleNode, cleanerNode, cleanerNode.getChildCount());
+                cleanerNode.add(ruleNode);
             });
             
             
-            model.insertNodeInto(cleanerNode, cleanersChildren, cleanersChildren.getChildCount());
+            cleanersChildren.add(cleanerNode);
         });
         model.insertNodeInto(cleanersChildren, profileChild, 1);
         projectsTree.expandPath(new TreePath(prototypesChildren.getPath()));
@@ -85,12 +96,45 @@ public class ProjectTreePanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        projectsTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        projectsTree.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                projectsTreeMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(projectsTree);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void projectsTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsTreeMouseClicked
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) projectsTree.getLastSelectedPathComponent();
+        Object userObject = node.getUserObject();
+        if(userObject instanceof FilePrototype){
+            System.out.println("Selected a prototype: " + ((FilePrototype) userObject));
+        }
+        if(userObject instanceof Cleaner){
+            System.out.println("Selected a cleaner: " + ((Cleaner) userObject));
+        }
+    }//GEN-LAST:event_projectsTreeMouseClicked
 
+    class NodeSelectedListener extends MouseAdapter{
+        @Override
+        public void mouseClicked(MouseEvent e){
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) projectsTree.getLastSelectedPathComponent();
+            Object userObject = node.getUserObject();
+            if (userObject instanceof FilePrototype) {
+                System.out.println("Selected a prototype: " + ((FilePrototype) userObject));
+            }
+            if (userObject instanceof Cleaner) {
+                System.out.println("Selected a cleaner: " + ((Cleaner) userObject));
+            }
+        }
+        
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree projectsTree;

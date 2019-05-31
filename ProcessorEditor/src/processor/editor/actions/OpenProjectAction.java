@@ -30,6 +30,7 @@ public final class OpenProjectAction extends processor.genericeditor.actions.Ope
     @Override
     public void openProjectWindow() {
         new ProjectEditorTopComponent().open();
+        //new ProjectExplorerTopComponent().open();
         
     }
 
