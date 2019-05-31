@@ -5,6 +5,7 @@
  */
 package processor.editor.windows;
 
+import java.awt.BorderLayout;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -17,6 +18,7 @@ import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import processor.core.file.Profile;
 import processor.genericeditor.ProjectCentral;
+import processor.genericeditor.windows.ProjectTreePanel;
 
 /**
  * Top component which displays something.
@@ -53,36 +55,13 @@ public final class ProjectExplorerTopComponent extends TopComponent {
         putClientProperty(TopComponent.PROP_MAXIMIZATION_DISABLED, Boolean.TRUE);
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         
-        projectsTree.setRootVisible(false);
+        jPanel1.add(new ProjectTreePanel(ProjectCentral.instance().getProfile()), BorderLayout.CENTER);
         
-        Profile profile = ProjectCentral.instance().getProfile();
-        loadNodesData(profile);
         
     }
     
     
-    public void loadNodesData(Profile p){
-        DefaultTreeModel model = (DefaultTreeModel) projectsTree.getModel();
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        
-        DefaultMutableTreeNode profileChild = new DefaultMutableTreeNode(p);
-        model.insertNodeInto(profileChild, root, 0);
-        
-        DefaultMutableTreeNode prototypesChildren =  new DefaultMutableTreeNode("Prototypes");
-        p.getPrototypes().forEach(proto -> {
-            model.insertNodeInto(new DefaultMutableTreeNode(proto), prototypesChildren, prototypesChildren.getChildCount());
-        });
-        model.insertNodeInto(prototypesChildren, profileChild, 0);
-        
-        DefaultMutableTreeNode cleanersChildren = new DefaultMutableTreeNode("Cleaners");
-        p.getCleaners().forEach(c -> {
-            model.insertNodeInto(new DefaultMutableTreeNode(c), cleanersChildren, cleanersChildren.getChildCount());
-        });
-        model.insertNodeInto(cleanersChildren, profileChild, 1);
-        projectsTree.expandPath(new TreePath(prototypesChildren.getPath()));
-        
-        
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -93,33 +72,15 @@ public final class ProjectExplorerTopComponent extends TopComponent {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        projectsTree = new javax.swing.JTree();
+
+        setLayout(new java.awt.BorderLayout());
 
         jPanel1.setLayout(new java.awt.BorderLayout());
-
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
-        projectsTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane1.setViewportView(projectsTree);
-
-        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
-        );
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTree projectsTree;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {

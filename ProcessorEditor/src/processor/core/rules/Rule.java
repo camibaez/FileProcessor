@@ -13,6 +13,8 @@ package processor.core.rules;
 public abstract class Rule<T> {
     protected String id ="";
     protected String description="";
+    
+    protected boolean active;
 
     public Object process(Object target) {
         T result = TypeTransformer.transformFor(this, target);
@@ -36,4 +38,14 @@ public abstract class Rule<T> {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+    
 }

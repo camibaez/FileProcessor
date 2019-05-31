@@ -19,6 +19,8 @@ public class Cleaner {
     protected FilePrototype prototype;
 
     protected List<Rule> rules;
+    
+    protected boolean active = true;
 
     public Cleaner(List<Rule> rules) {
         this.rules = rules;
@@ -62,5 +64,14 @@ public class Cleaner {
     public void setPrototype(FilePrototype prototype) {
         this.prototype = prototype;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
     
 }

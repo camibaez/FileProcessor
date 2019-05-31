@@ -8,7 +8,6 @@ package processor.core.file;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -21,6 +20,7 @@ public class FileCentral{
     protected Profile project;
     protected Map<FilePrototype, Set<Path>> prototypeFileMap;
     protected Set<Path> processedFiles;
+    
 
     
     public FileCentral(Profile project){
