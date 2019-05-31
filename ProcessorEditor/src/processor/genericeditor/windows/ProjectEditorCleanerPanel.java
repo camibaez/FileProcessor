@@ -6,12 +6,15 @@
 package processor.genericeditor.windows;
 
 import java.awt.Color;
+import java.awt.event.KeyListener;
+import java.util.Collections;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import processor.core.file.Cleaner;
 import processor.core.file.Profile;
 import processor.core.rules.ReplaceText;
+import processor.core.rules.Rule;
 
 /**
  *
@@ -29,14 +32,11 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
         cleaner = c;
         project = p;
         initComponents();
-        loadComboBoxData();
+        loadPrototype();
+        loadRules();
     }
 
-    public void loadCustomEditor() {
-
-    }
-
-    public void loadComboBoxData() {
+    public void loadPrototype() {
         DefaultComboBoxModel<String> prototypes = new DefaultComboBoxModel<>();
         project.getPrototypesMap().values().forEach(p -> {
             if (p == project.getBasePrototype()) {
@@ -53,19 +53,14 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
         } else {
             jComboBox1.setSelectedItem(cleaner.getPrototype().getId());
         }
+    }
 
-        DefaultComboBoxModel<ReplaceText> rules = new DefaultComboBoxModel<>();
+    public void loadRules() {
+        DefaultListModel<ReplaceText> rules = new DefaultListModel<>();
         cleaner.getRules().forEach(r -> {
             rules.addElement((ReplaceText) r);
         });
-        jComboBox2.setModel(rules);
-        if (jComboBox2.getModel().getSize() > 0) {
-            jComboBox2.setSelectedIndex(0);
-            loadRuleData((ReplaceText) jComboBox2.getSelectedItem());
-        } else {
-            loadRuleData(null);
-        }
-
+        jList2.setModel(rules);
     }
 
     public void loadRuleData(ReplaceText rule) {
@@ -102,9 +97,13 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
         jTextField2 = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -155,12 +154,8 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Rule:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox2ItemStateChanged(evt);
-            }
-        });
+        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jToolBar1.setRollover(true);
 
         jButton1.setText("Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -168,8 +163,39 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
+        jToolBar1.add(jButton1);
 
         jButton2.setText("Delete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton2);
+
+        jButton3.setText("Up");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton3);
+
+        jButton4.setText("Down");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton4);
+
+        jList2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList2MouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jList2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -183,17 +209,18 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox2, 0, 508, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField1)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(11, 11, 11))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(11, 11, 11))
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,12 +237,11 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
                     .addComponent(jLabel2)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(0, 7, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Rule"));
@@ -290,7 +316,7 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jCheckBox1))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -303,10 +329,9 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(7, 7, 7))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -323,26 +348,24 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ReplaceText p = new ReplaceText("", "", 0);
+        ReplaceText p = new ReplaceText("<pattern>", "", 0);
         cleaner.getRules().add(p);
-        jComboBox2.addItem(p);
-        jComboBox2.setSelectedItem(p);
-        loadRuleData(p);
+        ((DefaultListModel) jList2.getModel()).addElement(p);
+       
+        //jList2.setSelectedValue(p, true);
+        //loadRuleData(p);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
         cleaner.setDescription(jTextField2.getText());
     }//GEN-LAST:event_jTextField2KeyReleased
 
-    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
-        loadRuleData((ReplaceText) jComboBox2.getSelectedItem());
-    }//GEN-LAST:event_jComboBox2ItemStateChanged
-
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
-        ReplaceText rule = (ReplaceText) jComboBox2.getSelectedItem();
+        ReplaceText rule = (ReplaceText) jList2.getSelectedValue();
         int flags = rule.getFlags();
-        if(!jCheckBox1.isSelected())
-        flags |= Pattern.CASE_INSENSITIVE;
+        if (!jCheckBox1.isSelected()) {
+            flags |= Pattern.CASE_INSENSITIVE;
+        }
         try {
             rule.setPattern(Pattern.compile(rule.getPatternText(), flags));
         } catch (Exception e) {
@@ -351,12 +374,12 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
     private void jTextArea2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyReleased
-        ReplaceText rule = (ReplaceText) jComboBox2.getSelectedItem();
+        ReplaceText rule = (ReplaceText) jList2.getSelectedValue();
         rule.setReplace(jTextArea2.getText());
     }//GEN-LAST:event_jTextArea2KeyReleased
 
     private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
-        ReplaceText rule = (ReplaceText) jComboBox2.getSelectedItem();
+        ReplaceText rule = (ReplaceText) jList2.getSelectedValue();
         Pattern p = null;
         try {
             p = Pattern.compile(jTextArea1.getText(), rule.getPattern().flags());
@@ -368,13 +391,52 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTextArea1KeyReleased
 
+    private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
+        loadRuleData((ReplaceText) jList2.getSelectedValue());
+    }//GEN-LAST:event_jList2MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Rule rule = (Rule) jList2.getSelectedValue();
+        cleaner.getRules().remove(rule);
+        ((DefaultListModel) jList2.getModel()).removeElement(rule);
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (cleaner.getRules().size() > 1) {
+            Rule rule = (Rule) jList2.getSelectedValue();
+            int i = cleaner.getRules().indexOf(rule);
+            if(i > 0){
+                Collections.swap(cleaner.getRules(), i, i - 1);   
+                loadRules();
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (cleaner.getRules().size() > 1) {
+            Rule rule = (Rule) jList2.getSelectedValue();
+            int i = cleaner.getRules().indexOf(rule);
+            if(i < cleaner.getRules().size() - 1){
+                Collections.swap(cleaner.getRules(), i, i + 1);   
+                loadRules();
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    @Override
+    public synchronized void addKeyListener(KeyListener l) {
+        super.addKeyListener(l); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -383,13 +445,16 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JList jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
