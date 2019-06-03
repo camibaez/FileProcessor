@@ -41,12 +41,11 @@ public class TreeTest {
         
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    @Test
-    public void hello() {
-        new GraphBuilder().build(profile);
+   
     
+    @Test
+    public void saveGraph(){
+        profile.setGraph(new GraphBuilder().build(profile));
+        System.out.println(ProfileAdministration.generateProfileJSON(profile));
     }
 }

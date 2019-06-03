@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import org.openide.util.Exceptions;
-import processor.core.file.ConditionalPattern;
 
 /**
  *
@@ -71,5 +70,10 @@ public class FileContent extends Condition<File>{
     public String toString(){
         return expressions.toString();
     }
+
+    public List<ConditionalPattern> getExpressions() {
+        return expressions;
+    }
+    
     
 }

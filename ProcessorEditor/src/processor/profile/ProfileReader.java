@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import processor.core.file.Cleaner;
-import processor.core.file.ConditionalPattern;
-import processor.core.file.FilePrototype;
+import processor.core.rules.RuleCluster;
+import processor.core.conditions.ConditionalPattern;
+import processor.core.conditions.FilePrototype;
 import processor.core.file.Profile;
 import processor.core.rules.ReplaceText;
 import processor.core.rules.Rule;
@@ -82,8 +82,8 @@ public class ProfileReader {
             return prototype;
         }
 
-        public static List<Cleaner> readCleaners(JSONObject json) {
-            List<Cleaner> cleaners = new LinkedList<>();
+        public static List<RuleCluster> readCleaners(JSONObject json) {
+            List<RuleCluster> cleaners = new LinkedList<>();
             JSONArray cleanersData = (JSONArray) json.get("cleaners");
             cleanersData.forEach((Object c) -> {
                 String id = (String) ((Map) c).get("id");
@@ -91,7 +91,7 @@ public class ProfileReader {
                 JSONArray rulesData = (JSONArray) ((Map) c).get("rules");
                 List<Rule> rules = readRules(rulesData);
                 
-                Cleaner cleaner = new Cleaner(rules);
+                RuleCluster cleaner = new RuleCluster(rules);
                 cleaner.setId(id);
                 cleaner.setDescription(desc);
                 String prototypeId = (String) ((Map)c).get("prototype");

@@ -5,10 +5,16 @@
  */
 package processor.core.file;
 
+import processor.core.conditions.FilePrototype;
+import processor.core.rules.RuleCluster;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import processor.core.DecisionEdge;
+import processor.core.ProcessingNode;
 
 /**
  *
@@ -23,13 +29,15 @@ public class Profile {
     protected FilePrototype basePrototype;
     protected Map<String, FilePrototype> prototypesMap;
     
-    protected List<Cleaner> cleaners;
+    protected List<RuleCluster> cleaners;
     protected FileCentral fileCentral;
     
     protected FileMatcher fileMatcher;
     protected FileProcessor fileProcessor;
+    
+    protected DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph;
 
-    public Profile(FilePrototype prototype, List<Cleaner> cleaners) {
+    public Profile(FilePrototype prototype, List<RuleCluster> cleaners) {
         this.basePrototype = prototype;
         this.cleaners = cleaners;
         this.fileCentral = new FileCentral(this);
@@ -48,11 +56,11 @@ public class Profile {
         this.basePrototype = prototype;
     }
 
-    public List<Cleaner> getCleaners() {
+    public List<RuleCluster> getCleaners() {
         return cleaners;
     }
 
-    public void setCleaners(List<Cleaner> cleaners) {
+    public void setCleaners(List<RuleCluster> cleaners) {
         this.cleaners = cleaners;
     }
 
@@ -121,6 +129,15 @@ public class Profile {
     public void setFileProcessor(FileProcessor fileProcessor) {
         this.fileProcessor = fileProcessor;
     }
+
+    public DefaultDirectedGraph<ProcessingNode, DecisionEdge> getGraph() {
+        return graph;
+    }
+
+    public void setGraph(DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph) {
+        this.graph = graph;
+    }
+    
     
     
     public String toString(){

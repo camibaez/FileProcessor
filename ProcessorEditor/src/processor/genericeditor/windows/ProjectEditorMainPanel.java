@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
-import processor.core.file.Cleaner;
-import processor.core.file.FilePrototype;
+import processor.core.rules.RuleCluster;
+import processor.core.conditions.FilePrototype;
 import processor.core.file.Profile;
 
 /**
@@ -50,8 +50,8 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                     FilePrototype proto = (FilePrototype) userObject;
                     jSplitPane3.setRightComponent(new ProjectEditorPrototypePanel(proto));
                 }
-                if (userObject instanceof Cleaner) {
-                    Cleaner cleaner = (Cleaner) userObject;
+                if (userObject instanceof RuleCluster) {
+                    RuleCluster cleaner = (RuleCluster) userObject;
                     jSplitPane3.setLeftComponent(new ProjectEditorCleanerPanel(project, cleaner));
 
                 }
@@ -207,8 +207,8 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 project.getPrototypesMap().remove(selectedValue.getId());
                  jSplitPane3.remove(2);
             }
-            if(obj instanceof Cleaner){
-                Cleaner selectedValue = (Cleaner) obj;
+            if(obj instanceof RuleCluster){
+                RuleCluster selectedValue = (RuleCluster) obj;
                 project.getCleaners().remove(selectedValue);
                  jSplitPane3.remove(1);
             }
@@ -218,7 +218,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Cleaner c = new Cleaner(new LinkedList<>());
+        RuleCluster c = new RuleCluster(new LinkedList<>());
         c.setId("newClaner");
         project.getCleaners().add(c);
         projectsTree.reloadData(project);

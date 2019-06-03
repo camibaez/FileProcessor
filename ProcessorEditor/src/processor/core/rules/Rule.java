@@ -5,7 +5,6 @@
  */
 package processor.core.rules;
 
-import processor.core.Action;
 import processor.core.ProcessingNode;
 
 /**

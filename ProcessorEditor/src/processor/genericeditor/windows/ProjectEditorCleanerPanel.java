@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import processor.core.file.Cleaner;
+import processor.core.rules.RuleCluster;
 import processor.core.file.Profile;
 import processor.core.rules.ReplaceText;
 import processor.core.rules.Rule;
@@ -22,13 +22,13 @@ import processor.core.rules.Rule;
  */
 public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
 
-    protected Cleaner cleaner;
+    protected RuleCluster cleaner;
     protected Profile project;
 
     /**
      * Creates new form CleanerPane
      */
-    public ProjectEditorCleanerPanel(Profile p, Cleaner c) {
+    public ProjectEditorCleanerPanel(Profile p, RuleCluster c) {
         cleaner = c;
         project = p;
         initComponents();

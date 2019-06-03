@@ -5,6 +5,7 @@
  */
 package processor.core.file;
 
+import processor.core.rules.RuleCluster;
 import processor.core.rules.TypeTransformer;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,27 +30,27 @@ public class FileProcessor {
 
     protected int processedCount;
     protected Profile project;
-    private List<Cleaner> cleaners;
+    private List<RuleCluster> cleaners;
 
-    public FileProcessor(Profile project, List<Cleaner> cleaners) {
+    public FileProcessor(Profile project, List<RuleCluster> cleaners) {
         this.project = project;
         this.cleaners = cleaners;
     }
 
-    public boolean isAssigned(Cleaner cleaner, Path file) {
+    public boolean isAssigned(RuleCluster cleaner, Path file) {
         return cleaner.getPrototype() == null || project.getFileCentral().belongsTo(cleaner.getPrototype(), file);
     }
 
-    public boolean isAffectig(Cleaner cleaner, Path file) throws IOException{
+    public boolean isAffectig(RuleCluster cleaner, Path file) throws IOException{
         String original = new String(Files.readAllBytes(file));
         String processed = TypeTransformer.transformForType(String.class, cleaner.process(original));
         
         return !original.equals(processed);
     }
     
-    public List<Cleaner> getAssignedCleaners(Path file) {
-        List<Cleaner> list = new LinkedList<>();
-        for (Cleaner cleaner : cleaners) {
+    public List<RuleCluster> getAssignedCleaners(Path file) {
+        List<RuleCluster> list = new LinkedList<>();
+        for (RuleCluster cleaner : cleaners) {
             if (isAssigned(cleaner, file)) {
                 list.add(cleaner);
             }
@@ -57,9 +58,9 @@ public class FileProcessor {
         return list;
     }
     
-    public List<Cleaner> getAffectingCleaners(Path file){
-        List<Cleaner> list = new LinkedList<>();
-        for (Cleaner cleaner : cleaners) {
+    public List<RuleCluster> getAffectingCleaners(Path file){
+        List<RuleCluster> list = new LinkedList<>();
+        for (RuleCluster cleaner : cleaners) {
             try {
                 if (isAffectig(cleaner, file)) {
                     list.add(cleaner);
@@ -73,7 +74,7 @@ public class FileProcessor {
 
     public String processFile(Path file) throws IOException {
         Object result = null;
-        for (Cleaner cleaner : cleaners) {
+        for (RuleCluster cleaner : cleaners) {
             if(!isAssigned(cleaner, file))
                 continue;
             if (result == null) {
@@ -110,11 +111,11 @@ public class FileProcessor {
         }
     }
 
-    public List<Cleaner> getCleaners() {
+    public List<RuleCluster> getCleaners() {
         return cleaners;
     }
 
-    public void setCleaners(List<Cleaner> cleaners) {
+    public void setCleaners(List<RuleCluster> cleaners) {
         this.cleaners = cleaners;
     }
 

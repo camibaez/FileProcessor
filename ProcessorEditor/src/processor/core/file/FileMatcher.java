@@ -5,6 +5,8 @@
  */
 package processor.core.file;
 
+import processor.core.conditions.FilePrototype;
+import processor.core.conditions.ConditionalPattern;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -43,7 +45,7 @@ public class FileMatcher extends SimpleFileVisitor<Path> {
     }
 
     protected boolean checkContent(FilePrototype prototype, Path file) throws IOException {
-        if (prototype.expressions == null || prototype.expressions.isEmpty()) {
+        if (prototype.getExpressions() == null || prototype.getExpressions().isEmpty()) {
             return true;
         }
         List<ConditionalPattern> expressions = new LinkedList<>(prototype.getExpressions());

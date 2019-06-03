@@ -14,12 +14,12 @@ import java.nio.file.PathMatcher;
  * @author cbaez
  */
 public class FileType extends Condition<Path>{
-    protected String namePattern;
-    private final PathMatcher matcher;
+    protected String pattern;
+    private transient final PathMatcher matcher;
     
     public FileType(String namePattern){
-        this.namePattern = namePattern;
-        matcher = FileSystems.getDefault().getPathMatcher("glob:" + namePattern);
+        this.pattern = namePattern;
+        matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
     }
     
     @Override
@@ -31,6 +31,14 @@ public class FileType extends Condition<Path>{
     
     
     public String toString(){
-        return namePattern;
+        return pattern;
     }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+   
+    
+    
 }

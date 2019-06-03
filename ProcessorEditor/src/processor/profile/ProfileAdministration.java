@@ -5,31 +5,51 @@
  */
 package processor.profile;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import processor.core.file.Cleaner;
-import processor.core.file.FilePrototype;
+import processor.core.conditions.Condition;
+import processor.core.conditions.ConditionalPattern;
+import processor.core.rules.RuleCluster;
+import processor.core.conditions.FilePrototype;
 import processor.core.file.Profile;
+import processor.core.rules.Action;
+import processor.core.rules.TextRule;
 
 /**
  *
  * @author cbaez
  */
 public class ProfileAdministration {
+
+    
+    
+    
     public static void createEmptyProject(String path) throws FileNotFoundException, IOException{
         String data = new String(Files.readAllBytes(Paths.get("C:\\Users\\cbaez\\Documents\\baseproject.json")));
         try (PrintWriter pw = new PrintWriter(path)) {
@@ -39,6 +59,34 @@ public class ProfileAdministration {
     }
     
     
+    public static String generateProfileJSON(Profile profile){
+        JSONObject jo = new JSONObject();
+        ProfileStructure structure = new ProfileStructure(profile.getGraph());
+        
+        jo.put("name", structure.getName());
+        jo.put("description", structure.getDescription());
+        jo.put("lastWorkingDirectory", structure.getLastWorkingDirectory());
+        
+        JSONArray actions = new JSONArray();
+        structure.getActions().forEach(a -> {
+            actions.add(ProfileWriter.writeAction(a));
+        });
+        jo.put("actions", actions);
+        
+        JSONArray conditions = new JSONArray();
+        structure.getConditions().forEach(c -> {
+            conditions.add(ProfileWriter.writeCondition(a));
+        });
+        
+        
+        return jo.toJSONString();
+    }
+    
+    
+   
+    
+    
+    /*
     public static String generateProfileJSON(Profile profile) {
         JSONObject jo = new JSONObject();
 
@@ -59,6 +107,7 @@ public class ProfileAdministration {
         jo.put("cleaners", cleanersArray);
         return jo.toJSONString();
     }
+    */
 
     public static void saveProject(Profile project, String path) throws FileNotFoundException {
 
@@ -79,7 +128,7 @@ public class ProfileAdministration {
             Profile project = ProfileReader.readProject(jsonObject);
             project.setPrototypesMap(ProfileReader.readPrototypes(jsonObject));
 
-            List<Cleaner> cleaners = ProfileReader.readCleaners(jsonObject);
+            List<RuleCluster> cleaners = ProfileReader.readCleaners(jsonObject);
             project.setCleaners(cleaners);
 
             return project;

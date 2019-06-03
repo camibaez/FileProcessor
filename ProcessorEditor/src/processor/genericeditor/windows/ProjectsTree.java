@@ -9,7 +9,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
-import processor.core.file.FilePrototype;
+import processor.core.conditions.FilePrototype;
 import processor.core.file.Profile;
 
 /**

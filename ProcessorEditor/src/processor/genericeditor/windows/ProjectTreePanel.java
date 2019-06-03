@@ -13,8 +13,8 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
-import processor.core.file.Cleaner;
-import processor.core.file.FilePrototype;
+import processor.core.rules.RuleCluster;
+import processor.core.conditions.FilePrototype;
 import processor.core.file.Profile;
 
 /**
@@ -119,8 +119,8 @@ public class ProjectTreePanel extends javax.swing.JPanel {
         if(userObject instanceof FilePrototype){
             System.out.println("Selected a prototype: " + ((FilePrototype) userObject));
         }
-        if(userObject instanceof Cleaner){
-            System.out.println("Selected a cleaner: " + ((Cleaner) userObject));
+        if(userObject instanceof RuleCluster){
+            System.out.println("Selected a cleaner: " + ((RuleCluster) userObject));
         }
     }//GEN-LAST:event_projectsTreeMouseClicked
 
@@ -132,8 +132,8 @@ public class ProjectTreePanel extends javax.swing.JPanel {
             if (userObject instanceof FilePrototype) {
                 System.out.println("Selected a prototype: " + ((FilePrototype) userObject));
             }
-            if (userObject instanceof Cleaner) {
-                System.out.println("Selected a cleaner: " + ((Cleaner) userObject));
+            if (userObject instanceof RuleCluster) {
+                System.out.println("Selected a cleaner: " + ((RuleCluster) userObject));
             }
         }
         

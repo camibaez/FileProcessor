@@ -5,6 +5,7 @@
  */
 package processor.core.file;
 
+import processor.core.conditions.FilePrototype;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;

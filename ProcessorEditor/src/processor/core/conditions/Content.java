@@ -5,8 +5,6 @@
  */
 package processor.core.conditions;
 
-import processor.core.file.ConditionalPattern;
-
 /**
  *
  * @author cbaez

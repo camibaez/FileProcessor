@@ -7,28 +7,17 @@ package processor.core;
 
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Pattern;
+import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.io.ComponentNameProvider;
 import org.jgrapht.io.DOTExporter;
 import org.jgrapht.io.ExportException;
 import org.jgrapht.io.GraphExporter;
-import org.openide.util.Exceptions;
-import processor.core.conditions.Condition;
 import processor.core.conditions.Content;
 import processor.core.conditions.FileContent;
 import processor.core.conditions.FileType;
-import processor.core.file.Cleaner;
-import processor.core.file.ConditionalPattern;
-import processor.core.file.FilePrototype;
+import processor.core.rules.RuleCluster;
 import processor.core.file.Profile;
-import processor.core.rules.ReplaceText;
-import processor.core.rules.Rule;
-import processor.core.rules.TextRule;
 
 /**
  *
@@ -36,27 +25,27 @@ import processor.core.rules.TextRule;
  */
 public class GraphBuilder {
 
-    public void build(Profile p) {
-        DefaultDirectedGraph<ProcessingNode, MyEdge> graph = new DefaultDirectedGraph<>(MyEdge.class);
+    public DefaultDirectedGraph<ProcessingNode, DecisionEdge> build(Profile p) {
+        DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph = new DefaultDirectedGraph<>(DecisionEdge.class);
 
         ProcessingNode end = new EndNode();
         graph.addVertex(end);
 
         FileType fileTypeNode = new FileType(p.getBasePrototype().getExtensions());
         graph.addVertex(fileTypeNode);
-        graph.addEdge(fileTypeNode, end, new MyEdge(false));
+        graph.addEdge(fileTypeNode, end, new DecisionEdge(false));
 
         FileContent fileContentNode = new FileContent(p.getBasePrototype().getExpressions());
         graph.addVertex(fileContentNode);
-        graph.addEdge(fileContentNode, end, new MyEdge(false));
+        graph.addEdge(fileContentNode, end, new DecisionEdge(false));
 
-        graph.addEdge(fileTypeNode, fileContentNode, new MyEdge(true));
+        graph.addEdge(fileTypeNode, fileContentNode, new DecisionEdge(true));
 
-        Cleaner eventChanger = null;
-        Cleaner appendOptMenu = null;
-        Cleaner addContextMenu = null;
+        RuleCluster eventChanger = null;
+        RuleCluster appendOptMenu = null;
+        RuleCluster addContextMenu = null;
 
-        for (Cleaner c : p.getCleaners()) {
+        for (RuleCluster c : p.getCleaners()) {
             if (c.getId().contains("eventChanger")) {
                 eventChanger = c;
             }
@@ -69,31 +58,35 @@ public class GraphBuilder {
         }
 
         graph.addVertex(eventChanger);
-        graph.addEdge(fileContentNode, eventChanger, new MyEdge(true));
+        graph.addEdge(fileContentNode, eventChanger, new DecisionEdge(true));
 
         Content coditionOptMenu = new Content(appendOptMenu.getPrototype().getExpressions().get(0));
         graph.addVertex(coditionOptMenu);
-        graph.addEdge(eventChanger, coditionOptMenu, new MyEdge(true));
+        graph.addEdge(eventChanger, coditionOptMenu, new DecisionEdge(true));
 
         graph.addVertex(appendOptMenu);
-        graph.addEdge(coditionOptMenu, appendOptMenu, new MyEdge(true));
+        graph.addEdge(coditionOptMenu, appendOptMenu, new DecisionEdge(true));
 
         Content conditionCss = new Content(addContextMenu.getPrototype().getExpressions().get(0));
         graph.addVertex(conditionCss);
-        graph.addEdge(coditionOptMenu, conditionCss, new MyEdge(false));
-        graph.addEdge(appendOptMenu, conditionCss, new MyEdge(true));
+        graph.addEdge(coditionOptMenu, conditionCss, new DecisionEdge(false));
+        graph.addEdge(appendOptMenu, conditionCss, new DecisionEdge(true));
 
-        graph.addEdge(conditionCss, end, new MyEdge(false));
+        graph.addEdge(conditionCss, end, new DecisionEdge(false));
 
         graph.addVertex(addContextMenu);
-        graph.addEdge(conditionCss, addContextMenu, new MyEdge(true));
+        graph.addEdge(conditionCss, addContextMenu, new DecisionEdge(true));
 
+        return graph;
+    }
+    
+    public String export(Graph graph){
         ComponentNameProvider<ProcessingNode> idProvider = new ComponentNameProvider<ProcessingNode>() {
             @Override
             public String getName(ProcessingNode t) {
                 String res = t.toString();
-                if (t instanceof Cleaner) {
-                    res = ((Cleaner) t).getId();
+                if (t instanceof RuleCluster) {
+                    res = ((RuleCluster) t).getId();
                 }
                 if (t instanceof FileType) {
                     res = t.toString().replace("*", "_").replace(".", "_");
@@ -117,22 +110,30 @@ public class GraphBuilder {
             }
 
         };
-
-        ComponentNameProvider<MyEdge> edgeLabel = new ComponentNameProvider<MyEdge>() {
+        
+        ComponentNameProvider<DecisionEdge> edgeId = new ComponentNameProvider<DecisionEdge>(){
             @Override
-            public String getName(MyEdge t) {
+            public String getName(DecisionEdge t) {
+                return "e" + t.hashCode();
+            }
+            
+        };
+        
+        ComponentNameProvider<DecisionEdge> edgeLabel = new ComponentNameProvider<DecisionEdge>() {
+            @Override
+            public String getName(DecisionEdge t) {
                 return t.sign + "";
             }
 
         };
-
-        GraphExporter<ProcessingNode, MyEdge> exporter = new DOTExporter<>(idProvider, labelProvider, edgeLabel);
+        
+        GraphExporter<ProcessingNode, DecisionEdge> exporter = new DOTExporter<>(idProvider, labelProvider, edgeLabel);
         Writer writer = new StringWriter();
         try {
             exporter.exportGraph(graph, writer);
         } catch (ExportException ex) {
             ex.printStackTrace();
         }
-        System.out.println(writer.toString());
+        return writer.toString();
     }
 }
