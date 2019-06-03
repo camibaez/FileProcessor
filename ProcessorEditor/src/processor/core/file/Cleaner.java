@@ -6,13 +6,14 @@
 package processor.core.file;
 
 import java.util.List;
+import processor.core.Action;
 import processor.core.rules.Rule;
 
 /**
  *
  * @author cbaez
  */
-public class Cleaner {
+public class Cleaner extends Action{
 
     protected String id ="";
     protected String description ="";
@@ -72,6 +73,7 @@ public class Cleaner {
     public void setActive(boolean active) {
         this.active = active;
     }
+
     
     
 }

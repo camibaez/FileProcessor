@@ -48,11 +48,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 Object userObject = node.getUserObject();
                 if (userObject instanceof FilePrototype) {
                     FilePrototype proto = (FilePrototype) userObject;
-                    jSplitPane3.setLeftComponent(new ProjectEditorPrototypePanel(proto));
+                    jSplitPane3.setRightComponent(new ProjectEditorPrototypePanel(proto));
                 }
                 if (userObject instanceof Cleaner) {
                     Cleaner cleaner = (Cleaner) userObject;
-                    jSplitPane3.setRightComponent(new ProjectEditorCleanerPanel(project, cleaner));
+                    jSplitPane3.setLeftComponent(new ProjectEditorCleanerPanel(project, cleaner));
 
                 }
             }
@@ -150,7 +150,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jToolBar2.add(jButton2);
 
-        jPanel4.add(jToolBar2, java.awt.BorderLayout.EAST);
+        jPanel4.add(jToolBar2, java.awt.BorderLayout.WEST);
 
         jSplitPane1.setLeftComponent(jPanel4);
 
@@ -199,16 +199,18 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this prototype?");
         if (showConfirmDialog == JOptionPane.YES_OPTION) {
-            jSplitPane3.remove(2);
+           
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) projectsTree.getLastSelectedPathComponent();
             Object obj = node.getUserObject();
             if(obj instanceof FilePrototype){
                 FilePrototype selectedValue = (FilePrototype) obj;
                 project.getPrototypesMap().remove(selectedValue.getId());
+                 jSplitPane3.remove(2);
             }
             if(obj instanceof Cleaner){
                 Cleaner selectedValue = (Cleaner) obj;
                 project.getCleaners().remove(selectedValue);
+                 jSplitPane3.remove(1);
             }
             
             projectsTree.reloadData(project);

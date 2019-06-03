@@ -5,12 +5,15 @@
  */
 package processor.core.rules;
 
+import processor.core.Action;
+import processor.core.ProcessingNode;
+
 /**
  *
  * @author cbaez
  * @param <T>
  */
-public abstract class Rule<T> {
+public abstract class Rule<T> implements ProcessingNode{
     protected String id ="";
     protected String description="";
     

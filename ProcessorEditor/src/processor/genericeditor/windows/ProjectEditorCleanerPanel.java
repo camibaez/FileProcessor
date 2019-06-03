@@ -152,7 +152,7 @@ public class ProjectEditorCleanerPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setText("Rule:");
+        jLabel4.setText("Rules:");
 
         jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar1.setRollover(true);

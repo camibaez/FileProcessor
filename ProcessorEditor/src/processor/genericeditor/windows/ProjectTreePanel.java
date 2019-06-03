@@ -42,20 +42,6 @@ public class ProjectTreePanel extends javax.swing.JPanel {
         DefaultMutableTreeNode profileChild = new DefaultMutableTreeNode(p);
         model.insertNodeInto(profileChild, root, 0);
         
-        //Filling prototypes
-        DefaultMutableTreeNode prototypesChildren =  new DefaultMutableTreeNode("Prototypes");
-        
-        p.getPrototypes().forEach(proto -> {
-            DefaultMutableTreeNode protoNode = new DefaultMutableTreeNode(proto);
-            proto.getExpressions().forEach(e -> {
-                protoNode.add(new DefaultMutableTreeNode(e));
-            });
-            prototypesChildren.add(new DefaultMutableTreeNode(proto));
-            //model.insertNodeInto(new DefaultMutableTreeNode(proto), prototypesChildren, prototypesChildren.getChildCount());
-        });
-        model.insertNodeInto(prototypesChildren, profileChild, 0);
-        
-        
         //Filling Cleaners
         DefaultMutableTreeNode cleanersChildren = new DefaultMutableTreeNode("Cleaners");
         p.getCleaners().forEach(c -> {
@@ -74,7 +60,26 @@ public class ProjectTreePanel extends javax.swing.JPanel {
             
             cleanersChildren.add(cleanerNode);
         });
-        model.insertNodeInto(cleanersChildren, profileChild, 1);
+        profileChild.add(cleanersChildren);
+        
+        
+        
+        //Filling prototypes
+        DefaultMutableTreeNode prototypesChildren =  new DefaultMutableTreeNode("Prototypes");
+        
+        p.getPrototypes().forEach(proto -> {
+            DefaultMutableTreeNode protoNode = new DefaultMutableTreeNode(proto);
+            proto.getExpressions().forEach(e -> {
+                protoNode.add(new DefaultMutableTreeNode(e));
+            });
+            prototypesChildren.add(new DefaultMutableTreeNode(proto));
+            //model.insertNodeInto(new DefaultMutableTreeNode(proto), prototypesChildren, prototypesChildren.getChildCount());
+        });
+        profileChild.add(prototypesChildren);
+        
+        
+        
+        
         projectsTree.expandPath(new TreePath(prototypesChildren.getPath()));
         
         

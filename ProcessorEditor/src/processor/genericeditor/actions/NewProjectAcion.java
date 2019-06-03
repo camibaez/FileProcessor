@@ -34,6 +34,7 @@ public abstract class NewProjectAcion implements ActionListener {
 
             try {
                 if (file.createNewFile()) {
+                    System.out.println("Project created at: " + file.getAbsolutePath());
                     ProfileAdministration.createEmptyProject(file.getAbsolutePath());
                     ProjectCentral.instance().setProfile(ProfileAdministration.loadProject(file.getAbsolutePath()));
                     ProjectCentral.instance().setProfileFile(file);
