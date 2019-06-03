@@ -31,7 +31,8 @@ public class Cleaner extends Action{
         return rules;
     }
 
-    public Object clean(Object content) {
+    @Override
+    public Object process(Object content) {
         for (Rule rule : rules) {
             content = rule.process(content);
         }
@@ -55,7 +56,7 @@ public class Cleaner extends Action{
     }
 
     public String toString(){
-        return "<" + id + ">";
+        return  id ;
     }
 
     public FilePrototype getPrototype() {

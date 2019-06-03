@@ -10,5 +10,5 @@ package processor.core;
  * @author cbaez
  */
 public abstract class Action implements ProcessingNode{
-    
+    public abstract Object process(Object o);
 }

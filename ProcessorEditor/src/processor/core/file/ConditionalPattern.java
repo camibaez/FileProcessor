@@ -20,7 +20,7 @@ public class ConditionalPattern {
     protected boolean found = false;
     protected int state = 0;
 
-    protected ConditionalPattern(Pattern pattern, String condition) {
+    public ConditionalPattern(Pattern pattern, String condition) {
         this.pattern = pattern;
         this.condition = condition;
     }
@@ -30,9 +30,7 @@ public class ConditionalPattern {
         return new ConditionalPattern(p, condition);
 
     }
-
     
-
     /**
      * Returns an stateful response depending on the condition and on the fact
      * that whether the pattern has been found or not.

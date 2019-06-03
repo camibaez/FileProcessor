@@ -9,6 +9,8 @@ package processor.core;
  *
  * @author cbaez
  */
-public abstract class Condition implements ProcessingNode{
-    public abstract boolean test(Object o);
+public class EndNode implements ProcessingNode{
+    public String toString(){
+        return "END_NODE";
+    }
 }

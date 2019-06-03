@@ -42,7 +42,7 @@ public class FileProcessor {
 
     public boolean isAffectig(Cleaner cleaner, Path file) throws IOException{
         String original = new String(Files.readAllBytes(file));
-        String processed = TypeTransformer.transformForType(String.class, cleaner.clean(original));
+        String processed = TypeTransformer.transformForType(String.class, cleaner.process(original));
         
         return !original.equals(processed);
     }
@@ -79,7 +79,7 @@ public class FileProcessor {
             if (result == null) {
                 result = new String(Files.readAllBytes(file));
             }
-            result = cleaner.clean(result);
+            result = cleaner.process(result);
         }
         if (result == null) {
             return "";

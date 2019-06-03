@@ -13,7 +13,7 @@ import processor.core.ProcessingNode;
  * @author cbaez
  * @param <T>
  */
-public abstract class Rule<T> implements ProcessingNode{
+public abstract class Rule<T> extends Action{
     protected String id ="";
     protected String description="";
     

@@ -10,5 +10,18 @@ package processor.core;
  * @author cbaez
  */
 public class MyEdge {
+    protected boolean sign;
+
+    public MyEdge() {
+    }
+
+    public MyEdge(boolean sign) {
+        this.sign = sign;
+    }
+    
+    public boolean isSign() {
+        return sign;
+    }
+    
     
 }
