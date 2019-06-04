@@ -12,6 +12,7 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import processor.core.DecisionEdge;
 import processor.core.ProcessingNode;
 import processor.core.conditions.Condition;
+import processor.core.file.Profile;
 import processor.core.rules.Action;
 import processor.core.rules.RuleCluster;
 
@@ -28,25 +29,14 @@ public class ProfileStructure {
     protected List<Condition> conditions;
     protected List<Action> actions;
 
-    public ProfileStructure(DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph){
-        conditions = new LinkedList();
-        actions = new LinkedList<>();
+    public ProfileStructure(Profile profile){
+        name = profile.getName();
+        description = profile.getDescription();
+        lastWorkingDirectory = profile.getLastWorkingDirectory();
+        treeLocation = "";
         
-        graph.vertexSet().forEach(v -> {
-            if(v instanceof Condition)
-                conditions.add((Condition) v);
-            if(v instanceof Action){
-                if(v instanceof RuleCluster){
-                    ((RuleCluster) v).getRules().forEach(r -> {
-                        actions.add(r);
-                    });
-                }else{
-                   actions.add((Action) v); 
-                }
-                
-            }
-                
-        });
+        conditions = profile.getConditions();
+        actions = profile.getActions();
     }
 
     public String getName() {

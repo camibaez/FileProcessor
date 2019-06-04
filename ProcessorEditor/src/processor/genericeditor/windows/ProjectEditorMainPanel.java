@@ -13,9 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+import processor.core.conditions.Condition;
 import processor.core.rules.RuleCluster;
 import processor.core.conditions.FilePrototype;
 import processor.core.file.Profile;
+import processor.core.rules.Action;
 
 /**
  *
@@ -46,13 +48,13 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 if(node == null)
                     return;
                 Object userObject = node.getUserObject();
-                if (userObject instanceof FilePrototype) {
-                    FilePrototype proto = (FilePrototype) userObject;
-                    jSplitPane3.setRightComponent(new ProjectEditorPrototypePanel(proto));
+                if (userObject instanceof Condition) {
+                    Condition proto = (Condition) userObject;
+                    //jSplitPane3.setLeftComponent(new ProjectEditorPrototypePanel(proto));
                 }
-                if (userObject instanceof RuleCluster) {
-                    RuleCluster cleaner = (RuleCluster) userObject;
-                    jSplitPane3.setLeftComponent(new ProjectEditorCleanerPanel(project, cleaner));
+                if (userObject instanceof Action) {
+                    Action cleaner = (Action) userObject;
+                    jSplitPane3.setLeftComponent(new ProjectEditorActionPanel(project, cleaner));
 
                 }
             }

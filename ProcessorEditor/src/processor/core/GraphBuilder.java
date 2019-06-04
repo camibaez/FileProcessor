@@ -13,7 +13,7 @@ import org.jgrapht.io.ComponentNameProvider;
 import org.jgrapht.io.DOTExporter;
 import org.jgrapht.io.ExportException;
 import org.jgrapht.io.GraphExporter;
-import processor.core.conditions.Content;
+import processor.core.conditions.GenericContent;
 import processor.core.conditions.FileContent;
 import processor.core.conditions.FileType;
 import processor.core.rules.RuleCluster;
@@ -60,14 +60,14 @@ public class GraphBuilder {
         graph.addVertex(eventChanger);
         graph.addEdge(fileContentNode, eventChanger, new DecisionEdge(true));
 
-        Content coditionOptMenu = new Content(appendOptMenu.getPrototype().getExpressions().get(0));
+        GenericContent coditionOptMenu = new GenericContent(appendOptMenu.getPrototype().getExpressions().get(0));
         graph.addVertex(coditionOptMenu);
         graph.addEdge(eventChanger, coditionOptMenu, new DecisionEdge(true));
 
         graph.addVertex(appendOptMenu);
         graph.addEdge(coditionOptMenu, appendOptMenu, new DecisionEdge(true));
 
-        Content conditionCss = new Content(addContextMenu.getPrototype().getExpressions().get(0));
+        GenericContent conditionCss = new GenericContent(addContextMenu.getPrototype().getExpressions().get(0));
         graph.addVertex(conditionCss);
         graph.addEdge(coditionOptMenu, conditionCss, new DecisionEdge(false));
         graph.addEdge(appendOptMenu, conditionCss, new DecisionEdge(true));
@@ -94,7 +94,7 @@ public class GraphBuilder {
                 if (t instanceof FileContent) {
                     res = FileContent.class.getSimpleName().replace("*", "_").replace(".", "_");
                 }
-                if (t instanceof Content) {
+                if (t instanceof GenericContent) {
                     res = "condition_" + t.hashCode();
                 }
 

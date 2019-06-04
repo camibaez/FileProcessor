@@ -41,11 +41,17 @@ public class TreeTest {
         
     }
 
-   
+   @Test
+   public void graphTree(){
+       GraphBuilder gb = new GraphBuilder();
+       profile.setGraph(gb.build(profile));
+       System.out.println(gb.export(profile.getGraph()));
+   }
     
     @Test
     public void saveGraph(){
         profile.setGraph(new GraphBuilder().build(profile));
         System.out.println(ProfileAdministration.generateProfileJSON(profile));
     }
+
 }

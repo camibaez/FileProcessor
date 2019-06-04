@@ -15,6 +15,7 @@ import processor.core.conditions.FileContent;
 import processor.core.rules.RuleCluster;
 import processor.core.conditions.FilePrototype;
 import processor.core.conditions.FileType;
+import processor.core.conditions.GenericContent;
 import processor.core.rules.Action;
 import processor.core.rules.ReplaceText;
 import processor.core.rules.Rule;
@@ -24,32 +25,6 @@ import processor.core.rules.Rule;
  * @author cbaez
  */
 public class ProfileWriter {
-
-    protected static JSONArray writePrototypes(Map<String, FilePrototype> map) {
-        JSONArray prototypesData = new JSONArray();
-        map.values().forEach(e -> {
-            prototypesData.add(writePrototype(e));
-        });
-
-        return prototypesData;
-    }
-
-    protected static Map writePrototype(FilePrototype prototype) {
-        Map prototypeData = new LinkedHashMap(2);
-        prototypeData.put("extensions", prototype.getExtensions());
-        JSONArray expressionsData = new JSONArray();
-        prototype.getExpressions().forEach(e -> {
-            Map data = new LinkedHashMap();
-            data.put("pattern", e.getPattern().pattern());
-            data.put("flags", e.getPattern().flags());
-            data.put("condition", e.getCondition());
-            expressionsData.add(data);
-        });
-        prototypeData.put("expressions", expressionsData);
-        prototypeData.put("id", prototype.getId());
-        return prototypeData;
-    }
-
     public static Map writeAction(Action action) {
         Map ruleData = null;
         if (action instanceof ReplaceText) {
@@ -77,7 +52,9 @@ public class ProfileWriter {
         if (c instanceof FileContent) {
             fileContentCondition(conditionData, (FileContent) c);
         }
-
+        if(c instanceof GenericContent){
+            genericContentCondition(conditionData, (GenericContent) c);
+        }
         if (conditionData != null) {
             conditionData.put("class", c.getClass().getSimpleName());
         }
@@ -100,15 +77,10 @@ public class ProfileWriter {
         map.put("expressions", expressionsData);
     }
 
-    protected static Map writeCleaner(RuleCluster cleaner, JSONArray rules) {
-        Map cleanerData = new LinkedHashMap(3);
-        cleanerData.put("id", cleaner.getId());
-        cleanerData.put("description", cleaner.getDescription());
-        cleanerData.put("rules", rules);
-        if (cleaner.getPrototype() != null) {
-            cleanerData.put("prototype", cleaner.getPrototype().getId());
-        }
-        return cleanerData;
+    private static void genericContentCondition(Map map, GenericContent genContent){
+        map.put("pattern", genContent.getPattern().getPattern().pattern());
+        map.put("flags", genContent.getPattern().getPattern().flags());
+        map.put("condition", genContent.getPattern().getCondition());
     }
 
 }

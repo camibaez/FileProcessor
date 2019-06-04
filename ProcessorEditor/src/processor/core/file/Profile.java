@@ -15,6 +15,8 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import processor.core.DecisionEdge;
 import processor.core.ProcessingNode;
+import processor.core.conditions.Condition;
+import processor.core.rules.Action;
 
 /**
  *
@@ -36,6 +38,8 @@ public class Profile {
     protected FileProcessor fileProcessor;
     
     protected DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph;
+    protected List<Action> actions;
+    protected List<Condition> conditions;
 
     public Profile(FilePrototype prototype, List<RuleCluster> cleaners) {
         this.basePrototype = prototype;
@@ -137,6 +141,33 @@ public class Profile {
     public void setGraph(DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph) {
         this.graph = graph;
     }
+    
+    protected void loadGraphData(Graph graph){
+        graph.vertexSet().forEach(v -> {
+            if(v instanceof Condition)
+                conditions.add((Condition) v);
+            if(v instanceof Action){
+                if(v instanceof RuleCluster){
+                    ((RuleCluster) v).getRules().forEach(r -> {
+                        actions.add(r);
+                    });
+                }else{
+                   actions.add((Action) v); 
+                }
+                
+            }
+                
+        });
+    }
+
+    public List<Action> getActions() {
+        return actions;
+    }
+
+    public List<Condition> getConditions() {
+        return conditions;
+    }
+    
     
     
     

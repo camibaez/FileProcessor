@@ -13,9 +13,11 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+import processor.core.conditions.Condition;
 import processor.core.rules.RuleCluster;
 import processor.core.conditions.FilePrototype;
 import processor.core.file.Profile;
+import processor.core.rules.Action;
 
 /**
  *
@@ -42,45 +44,26 @@ public class ProjectTreePanel extends javax.swing.JPanel {
         DefaultMutableTreeNode profileChild = new DefaultMutableTreeNode(p);
         model.insertNodeInto(profileChild, root, 0);
         
-        //Filling Cleaners
-        DefaultMutableTreeNode cleanersChildren = new DefaultMutableTreeNode("Cleaners");
-        p.getCleaners().forEach(c -> {
-            DefaultMutableTreeNode cleanerNode = new DefaultMutableTreeNode(c);
-            if(c.getPrototype() != null){
-                DefaultMutableTreeNode prototypeNodeParent = new DefaultMutableTreeNode("Prototype");
-                prototypeNodeParent.add(new DefaultMutableTreeNode(c.getPrototype()));
-                cleanerNode.add(prototypeNodeParent);
-            }
-            
-            c.getRules().forEach(r -> {
-                DefaultMutableTreeNode ruleNode = new DefaultMutableTreeNode(r);
-                cleanerNode.add(ruleNode);
-            });
-            
-            
-            cleanersChildren.add(cleanerNode);
+        //Filling Actions
+        DefaultMutableTreeNode actionsChildren = new DefaultMutableTreeNode("Actions");
+        p.getActions().forEach(a -> {
+            DefaultMutableTreeNode actionNode = new DefaultMutableTreeNode(a);
+            actionsChildren.add(actionNode);
         });
-        profileChild.add(cleanersChildren);
+        profileChild.add(actionsChildren);
         
         
         
-        //Filling prototypes
-        DefaultMutableTreeNode prototypesChildren =  new DefaultMutableTreeNode("Prototypes");
-        
-        p.getPrototypes().forEach(proto -> {
-            DefaultMutableTreeNode protoNode = new DefaultMutableTreeNode(proto);
-            proto.getExpressions().forEach(e -> {
-                protoNode.add(new DefaultMutableTreeNode(e));
-            });
-            prototypesChildren.add(new DefaultMutableTreeNode(proto));
-            //model.insertNodeInto(new DefaultMutableTreeNode(proto), prototypesChildren, prototypesChildren.getChildCount());
+        //Filling Conditions
+        DefaultMutableTreeNode conditionsChildren =  new DefaultMutableTreeNode("Conditions");
+        p.getConditions().forEach(c -> {
+            DefaultMutableTreeNode conditionNode = new DefaultMutableTreeNode(c);
+            conditionsChildren.add(conditionNode);
+          
         });
-        profileChild.add(prototypesChildren);
+        profileChild.add(conditionsChildren);
         
-        
-        
-        
-        projectsTree.expandPath(new TreePath(prototypesChildren.getPath()));
+        projectsTree.expandPath(new TreePath(actionsChildren.getPath()));
         
         
     }
@@ -116,11 +99,11 @@ public class ProjectTreePanel extends javax.swing.JPanel {
     private void projectsTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsTreeMouseClicked
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) projectsTree.getLastSelectedPathComponent();
         Object userObject = node.getUserObject();
-        if(userObject instanceof FilePrototype){
-            System.out.println("Selected a prototype: " + ((FilePrototype) userObject));
+        if(userObject instanceof Action){
+            System.out.println("Selected an Action: " + ((Action) userObject));
         }
-        if(userObject instanceof RuleCluster){
-            System.out.println("Selected a cleaner: " + ((RuleCluster) userObject));
+        if(userObject instanceof Condition){
+            System.out.println("Selected a condition: " + ((Condition) userObject));
         }
     }//GEN-LAST:event_projectsTreeMouseClicked
 

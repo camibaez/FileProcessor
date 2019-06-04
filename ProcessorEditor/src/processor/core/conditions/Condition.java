@@ -12,5 +12,16 @@ import processor.core.ProcessingNode;
  * @author cbaez
  */
 public abstract class Condition<T> implements ProcessingNode{
+    protected String id;
     public abstract boolean test(T o);
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    
 }

@@ -61,7 +61,7 @@ public class ProfileAdministration {
     
     public static String generateProfileJSON(Profile profile){
         JSONObject jo = new JSONObject();
-        ProfileStructure structure = new ProfileStructure(profile.getGraph());
+        ProfileStructure structure = new ProfileStructure(profile);
         
         jo.put("name", structure.getName());
         jo.put("description", structure.getDescription());
@@ -75,9 +75,9 @@ public class ProfileAdministration {
         
         JSONArray conditions = new JSONArray();
         structure.getConditions().forEach(c -> {
-            conditions.add(ProfileWriter.writeCondition(a));
+            conditions.add(ProfileWriter.writeCondition(c));
         });
-        
+        jo.put("conditions", conditions);
         
         return jo.toJSONString();
     }

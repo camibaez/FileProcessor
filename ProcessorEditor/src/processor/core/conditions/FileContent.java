@@ -67,6 +67,7 @@ public class FileContent extends Condition<File>{
 
     
     
+    @Override
     public String toString(){
         return expressions.toString();
     }
@@ -74,6 +75,7 @@ public class FileContent extends Condition<File>{
     public List<ConditionalPattern> getExpressions() {
         return expressions;
     }
+    
     
     
 }
