@@ -5,16 +5,10 @@
  */
 package processor.profile;
 
-import java.util.LinkedList;
 import java.util.List;
-import javax.sound.sampled.Clip;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import processor.core.DecisionEdge;
-import processor.core.ProcessingNode;
-import processor.core.conditions.Condition;
+import processor.core.graph.conditions.Condition;
 import processor.core.file.Profile;
-import processor.core.rules.Action;
-import processor.core.rules.RuleCluster;
+import processor.core.graph.actions.Action;
 
 /**
  *

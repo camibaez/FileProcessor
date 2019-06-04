@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.conditions;
+package processor.core.graph.conditions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,6 +23,7 @@ public class FileContent extends Condition<File>{
     protected List<ConditionalPattern> expressions;
 
     public FileContent() {
+        expressions = new LinkedList<>();
     }
     
     

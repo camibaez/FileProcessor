@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-import processor.core.rules.RuleCluster;
+
 import processor.core.file.Profile;
 
 public final class ProcessorEditorMainPanel extends JPanel {
@@ -58,7 +58,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         tableModel.setRowCount(0);
         profile.getFileCentral().getMatchedFiles().forEach(p -> {
             //List<Cleaner> assignedCleaners = profile.getFileProcessor().getAssignedCleaners(p);
-            List<RuleCluster> affectingCleaners = profile.getFileProcessor().getAffectingCleaners(p);
+            List<ActionCluster> affectingCleaners = profile.getFileProcessor().getAffectingCleaners(p);
             if(!affectingCleaners.isEmpty()){
                 tableModel.addRow(new Object[]{p, affectingCleaners});
             }

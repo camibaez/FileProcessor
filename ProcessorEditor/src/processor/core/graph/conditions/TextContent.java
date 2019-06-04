@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.conditions;
+package processor.core.graph.conditions;
 
 /**
  *
@@ -13,6 +13,7 @@ public class TextContent extends Condition<String>{
     protected ConditionalPattern pattern;
 
     public TextContent() {
+        this.pattern = ConditionalPattern.compile("", 0, "+");
     }
 
     public TextContent(ConditionalPattern pattern) {

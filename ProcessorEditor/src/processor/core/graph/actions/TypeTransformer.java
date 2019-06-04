@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.rules;
+package processor.core.graph.actions;
+
+import processor.core.graph.actions.TextTransformer;
+import processor.core.graph.actions.Transformer;
 
 
 
@@ -14,8 +17,8 @@ package processor.core.rules;
  */
 public class TypeTransformer {
 
-    public static <T> T transformFor(Rule<T> caller, Object o) {
-        if(caller instanceof TextRule){
+    public static <T> T transformFor(Transformer<T> caller, Object o) {
+        if(caller instanceof TextTransformer){
             return (T) transformForType(String.class, o);
         }
         return null;

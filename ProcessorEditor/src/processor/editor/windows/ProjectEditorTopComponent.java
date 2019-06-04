@@ -49,7 +49,6 @@ public final class ProjectEditorTopComponent extends TopComponent {
             this.setEnabled(false);
         } else {
             project = ProjectCentral.instance().getProfile();
-            project.setGraph(new GraphBuilder().build(project));
             jPanel1.add(new ProjectEditorMainPanel(project), BorderLayout.CENTER);
 
         }

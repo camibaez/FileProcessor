@@ -7,8 +7,8 @@ package processor.genericeditor.windows.conditions;
 
 import java.awt.Color;
 import java.util.regex.Pattern;
-import processor.core.conditions.ConditionalPattern;
-import processor.core.conditions.TextContent;
+import processor.core.graph.conditions.ConditionalPattern;
+import processor.core.graph.conditions.TextContent;
 
 /**
  *

@@ -6,7 +6,7 @@
 package processor.genericeditor.windows.conditions;
 
 import javax.swing.JPanel;
-import processor.core.conditions.Condition;
+import processor.core.graph.conditions.Condition;
 
 /**
  *

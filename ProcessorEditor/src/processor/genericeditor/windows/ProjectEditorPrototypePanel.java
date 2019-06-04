@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import processor.core.conditions.ConditionalPattern;
+import processor.core.graph.conditions.ConditionalPattern;
 import processor.core.conditions.FilePrototype;
 
 /**

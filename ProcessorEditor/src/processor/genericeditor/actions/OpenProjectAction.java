@@ -22,7 +22,7 @@ public abstract class OpenProjectAction implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //Create a file chooser
         final JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new java.io.File("C:\\Users\\cbaez\\Documents\\NetBeansProjects\\HTMLFixer\\conf\\test-files\\BigChangeTest"));
+        fc.setCurrentDirectory(new java.io.File("C:\\Users\\cbaez\\Desktop\\ProcessorWorkspace"));
         fc.setDialogTitle("Open project");
         int returnVal = fc.showOpenDialog(null);
 

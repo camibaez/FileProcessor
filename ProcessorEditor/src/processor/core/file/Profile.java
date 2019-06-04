@@ -6,17 +6,17 @@
 package processor.core.file;
 
 import processor.core.conditions.FilePrototype;
-import processor.core.rules.RuleCluster;
+import processor.core.rules.ActionCluster;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import processor.core.DecisionEdge;
+import processor.core.GraphBuilder;
 import processor.core.ProcessingNode;
-import processor.core.conditions.Condition;
-import processor.core.rules.Action;
+import processor.core.graph.conditions.Condition;
+import processor.core.graph.actions.Action;
 
 /**
  *
@@ -31,17 +31,18 @@ public class Profile {
     protected FilePrototype basePrototype;
     protected Map<String, FilePrototype> prototypesMap;
     
-    protected List<RuleCluster> cleaners;
+    protected List<ActionCluster> cleaners;
     protected FileCentral fileCentral;
     
     protected FileMatcher fileMatcher;
     protected FileProcessor fileProcessor;
     
     protected DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph;
+    protected GraphBuilder graphBuilder;
     protected List<Action> actions;
     protected List<Condition> conditions;
 
-    public Profile(FilePrototype prototype, List<RuleCluster> cleaners) {
+    public Profile(FilePrototype prototype, List<ActionCluster> cleaners) {
         this.basePrototype = prototype;
         this.cleaners = cleaners;
         this.fileCentral = new FileCentral(this);
@@ -49,10 +50,15 @@ public class Profile {
         
         this.actions = new LinkedList<>();
         this.conditions = new LinkedList<>();
+        this.graph = new GraphBuilder().build();
     }
     
     public Profile(){
         this.fileCentral = new FileCentral(this);
+        this.actions = new LinkedList<>();
+        this.conditions = new LinkedList<>();
+        this.graphBuilder =  new GraphBuilder();
+        this.graph = graphBuilder.build();
     }
 
     public FilePrototype getBasePrototype() {
@@ -63,11 +69,11 @@ public class Profile {
         this.basePrototype = prototype;
     }
 
-    public List<RuleCluster> getCleaners() {
+    public List<ActionCluster> getCleaners() {
         return cleaners;
     }
 
-    public void setCleaners(List<RuleCluster> cleaners) {
+    public void setCleaners(List<ActionCluster> cleaners) {
         this.cleaners = cleaners;
     }
 
@@ -143,45 +149,50 @@ public class Profile {
 
     public void setGraph(DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph) {
         this.graph = graph;
-        loadGraphData(graph);
+        
+    }
+
+    public GraphBuilder getGraphBuilder() {
+        return graphBuilder;
     }
     
-    protected void loadGraphData(Graph graph){
-        this.conditions = new LinkedList<>();
-        this.actions = new LinkedList<>();
-        graph.vertexSet().forEach(v -> {
-            if(v instanceof Condition)
-                conditions.add((Condition) v);
-            if(v instanceof Action){
-                if(v instanceof RuleCluster){
-                    ((RuleCluster) v).getRules().forEach(r -> {
-                        actions.add(r);
-                    });
-                }else{
-                   actions.add((Action) v); 
-                }
-            }
-        });
-    }
+   
 
     public List<Action> getActions() {
         return actions;
     }
-
-    public List<Condition> getConditions() {
-        return conditions;
-    }
-
+    
     public void setActions(List<Action> actions) {
         this.actions = actions;
+    }
+    
+    public void addAction(Action a){
+        actions.add(a);
+        graph.addVertex(a);
+    }
+
+    public void removeAction(Action a){
+        actions.remove(a);
+        graph.removeVertex(a);
+    }
+    
+    public List<Condition> getConditions() {
+        return conditions;
     }
 
     public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
     }
     
+    public void addCondition(Condition c){
+        this.conditions.add(c);
+        graph.addVertex(c);
+    }
     
-    
+    public void removeCondition(Condition c){
+        this.conditions.remove(c);
+        this.graph.removeVertex(c);
+    }
     
     public String toString(){
         return getName();

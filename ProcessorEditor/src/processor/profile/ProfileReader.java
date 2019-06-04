@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import processor.core.conditions.Condition;
-import processor.core.conditions.ConditionalPattern;
-import processor.core.conditions.FileContent;
-import processor.core.conditions.FilePattern;
-import processor.core.conditions.TextContent;
+import processor.core.graph.conditions.Condition;
+import processor.core.graph.conditions.ConditionalPattern;
+import processor.core.graph.conditions.FileContent;
+import processor.core.graph.conditions.FilePattern;
+import processor.core.graph.conditions.TextContent;
 import processor.core.file.Profile;
-import processor.core.rules.Action;
-import processor.core.rules.ReplaceText;
+import processor.core.graph.actions.Action;
+import processor.core.graph.actions.ReplaceText;
 
 /**
  *

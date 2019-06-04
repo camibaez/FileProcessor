@@ -5,41 +5,20 @@
  */
 package processor.profile;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import processor.core.conditions.Condition;
-import processor.core.conditions.ConditionalPattern;
-import processor.core.rules.RuleCluster;
-import processor.core.conditions.FilePrototype;
 import processor.core.file.Profile;
-import processor.core.rules.Action;
-import processor.core.rules.TextRule;
 
 /**
  *
@@ -88,23 +67,38 @@ public class ProfileAdministration {
     }
 
     public static Profile loadProject(String path) {
+        Profile project = null;
         JSONParser parser = new JSONParser();
 
         try (Reader reader = new FileReader(path)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
-            Profile project = ProfileReader.readProject(jsonObject);
-            project.setActions(s);
+            project = ProfileReader.readProject(jsonObject);
+            project.setActions(ProfileReader.readActions(jsonObject));
+            project.setConditions(ProfileReader.readConditions(jsonObject));
 
-            return project;
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException ex) {
+            Logger.getLogger(ProfileAdministration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try (Reader reader = new FileReader(path.replace(".json", ".dot"))) {
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
+            project = ProfileReader.readProject(jsonObject);
+            project.setActions(ProfileReader.readActions(jsonObject));
+            project.setConditions(ProfileReader.readConditions(jsonObject));
+
+            
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException ex) {
             Logger.getLogger(ProfileAdministration.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return null;
+        return project;
 
     }
 

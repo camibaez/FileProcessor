@@ -6,8 +6,8 @@
 package processor.genericeditor.windows.conditions;
 
 import java.awt.Color;
-import processor.core.conditions.Condition;
-import processor.core.conditions.FilePattern;
+import processor.core.graph.conditions.Condition;
+import processor.core.graph.conditions.FilePattern;
 
 /**
  *
@@ -21,7 +21,10 @@ public class FilePatternPanel extends ConditionPanel {
     public FilePatternPanel(FilePattern condition) {
         this.condition = condition;
         initComponents();
+        loadConditionData();
     }
+    
+
     
      @Override
     public void loadConditionData() {

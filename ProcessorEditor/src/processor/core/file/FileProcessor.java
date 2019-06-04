@@ -5,8 +5,8 @@
  */
 package processor.core.file;
 
-import processor.core.rules.RuleCluster;
-import processor.core.rules.TypeTransformer;
+import processor.core.rules.ActionCluster;
+import processor.core.graph.actions.TypeTransformer;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,27 +30,27 @@ public class FileProcessor {
 
     protected int processedCount;
     protected Profile project;
-    private List<RuleCluster> cleaners;
+    private List<ActionCluster> cleaners;
 
-    public FileProcessor(Profile project, List<RuleCluster> cleaners) {
+    public FileProcessor(Profile project, List<ActionCluster> cleaners) {
         this.project = project;
         this.cleaners = cleaners;
     }
 
-    public boolean isAssigned(RuleCluster cleaner, Path file) {
+    public boolean isAssigned(ActionCluster cleaner, Path file) {
         return cleaner.getPrototype() == null || project.getFileCentral().belongsTo(cleaner.getPrototype(), file);
     }
 
-    public boolean isAffectig(RuleCluster cleaner, Path file) throws IOException{
+    public boolean isAffectig(ActionCluster cleaner, Path file) throws IOException{
         String original = new String(Files.readAllBytes(file));
         String processed = TypeTransformer.transformForType(String.class, cleaner.process(original));
         
         return !original.equals(processed);
     }
     
-    public List<RuleCluster> getAssignedCleaners(Path file) {
-        List<RuleCluster> list = new LinkedList<>();
-        for (RuleCluster cleaner : cleaners) {
+    public List<ActionCluster> getAssignedCleaners(Path file) {
+        List<ActionCluster> list = new LinkedList<>();
+        for (ActionCluster cleaner : cleaners) {
             if (isAssigned(cleaner, file)) {
                 list.add(cleaner);
             }
@@ -58,9 +58,9 @@ public class FileProcessor {
         return list;
     }
     
-    public List<RuleCluster> getAffectingCleaners(Path file){
-        List<RuleCluster> list = new LinkedList<>();
-        for (RuleCluster cleaner : cleaners) {
+    public List<ActionCluster> getAffectingCleaners(Path file){
+        List<ActionCluster> list = new LinkedList<>();
+        for (ActionCluster cleaner : cleaners) {
             try {
                 if (isAffectig(cleaner, file)) {
                     list.add(cleaner);
@@ -74,7 +74,7 @@ public class FileProcessor {
 
     public String processFile(Path file) throws IOException {
         Object result = null;
-        for (RuleCluster cleaner : cleaners) {
+        for (ActionCluster cleaner : cleaners) {
             if(!isAssigned(cleaner, file))
                 continue;
             if (result == null) {
@@ -111,11 +111,11 @@ public class FileProcessor {
         }
     }
 
-    public List<RuleCluster> getCleaners() {
+    public List<ActionCluster> getCleaners() {
         return cleaners;
     }
 
-    public void setCleaners(List<RuleCluster> cleaners) {
+    public void setCleaners(List<ActionCluster> cleaners) {
         this.cleaners = cleaners;
     }
 

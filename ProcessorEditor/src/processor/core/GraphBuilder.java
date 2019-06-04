@@ -13,10 +13,10 @@ import org.jgrapht.io.ComponentNameProvider;
 import org.jgrapht.io.DOTExporter;
 import org.jgrapht.io.ExportException;
 import org.jgrapht.io.GraphExporter;
-import processor.core.conditions.TextContent;
-import processor.core.conditions.FileContent;
-import processor.core.conditions.FilePattern;
-import processor.core.rules.RuleCluster;
+import processor.core.graph.conditions.TextContent;
+import processor.core.graph.conditions.FileContent;
+import processor.core.graph.conditions.FilePattern;
+
 import processor.core.file.Profile;
 
 /**
@@ -24,13 +24,13 @@ import processor.core.file.Profile;
  * @author cbaez
  */
 public class GraphBuilder {
-
-    public DefaultDirectedGraph<ProcessingNode, DecisionEdge> build(Profile p) {
+    public DefaultDirectedGraph<ProcessingNode, DecisionEdge> build() {
         DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph = new DefaultDirectedGraph<>(DecisionEdge.class);
 
         ProcessingNode end = new EndNode();
         graph.addVertex(end);
 
+        /*
         FilePattern fileTypeNode = new FilePattern(p.getBasePrototype().getExtensions());
         graph.addVertex(fileTypeNode);
         graph.addEdge(fileTypeNode, end, new DecisionEdge(false));
@@ -76,8 +76,9 @@ public class GraphBuilder {
 
         graph.addVertex(addContextMenu);
         graph.addEdge(conditionCss, addContextMenu, new DecisionEdge(true));
-
+        */
         return graph;
+        
     }
     
     public String export(Graph graph){
@@ -85,9 +86,7 @@ public class GraphBuilder {
             @Override
             public String getName(ProcessingNode t) {
                 String res = t.toString();
-                if (t instanceof RuleCluster) {
-                    res = ((RuleCluster) t).getId();
-                }
+               
                 if (t instanceof FilePattern) {
                     res = t.toString().replace("*", "_").replace(".", "_");
                 }

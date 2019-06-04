@@ -6,7 +6,7 @@
 package processor.core.file;
 
 import processor.core.conditions.FilePrototype;
-import processor.core.conditions.ConditionalPattern;
+import processor.core.graph.conditions.ConditionalPattern;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

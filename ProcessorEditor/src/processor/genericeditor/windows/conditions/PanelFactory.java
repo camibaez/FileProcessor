@@ -5,10 +5,10 @@
  */
 package processor.genericeditor.windows.conditions;
 
-import processor.core.conditions.Condition;
-import processor.core.conditions.FileContent;
-import processor.core.conditions.FilePattern;
-import processor.core.conditions.TextContent;
+import processor.core.graph.conditions.Condition;
+import processor.core.graph.conditions.FileContent;
+import processor.core.graph.conditions.FilePattern;
+import processor.core.graph.conditions.TextContent;
 
 /**
  *

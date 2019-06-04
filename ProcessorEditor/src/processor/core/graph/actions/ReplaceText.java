@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.rules;
+package processor.core.graph.actions;
 
 import java.util.regex.Pattern;
 
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author cbaez
  */
-public class ReplaceText extends TextRule {
+public class ReplaceText extends TextTransformer {
 
     protected Pattern pattern;
     protected String replace;

@@ -12,11 +12,11 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import org.openide.actions.ReplaceAction;
-import processor.core.rules.RuleCluster;
+import processor.core.rules.ActionCluster;
 import processor.core.file.Profile;
-import processor.core.rules.Action;
-import processor.core.rules.ReplaceText;
-import processor.core.rules.Rule;
+import processor.core.graph.actions.Action;
+import processor.core.graph.actions.ReplaceText;
+import processor.core.graph.actions.Transformer;
 
 /**
  *

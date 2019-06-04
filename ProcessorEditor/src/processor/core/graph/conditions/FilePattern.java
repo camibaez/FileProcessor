@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.conditions;
+package processor.core.graph.conditions;
 
 import java.nio.file.FileSystems;
 import java.nio.file.Path;

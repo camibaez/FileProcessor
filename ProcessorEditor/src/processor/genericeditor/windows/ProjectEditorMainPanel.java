@@ -10,13 +10,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
+import org.openide.util.Exceptions;
 import processor.core.GraphBuilder;
-import processor.core.conditions.Condition;
-import processor.core.rules.RuleCluster;
+import processor.core.graph.conditions.Condition;
+import processor.core.graph.conditions.FileContent;
+import processor.core.graph.conditions.FilePattern;
+import processor.core.rules.ActionCluster;
 import processor.core.conditions.FilePrototype;
+import processor.core.graph.conditions.TextContent;
 import processor.core.file.Profile;
-import processor.core.rules.Action;
+import processor.core.graph.actions.Action;
+import processor.core.graph.actions.ReplaceText;
 import processor.genericeditor.windows.conditions.PanelFactory;
 
 /**
@@ -25,27 +32,27 @@ import processor.genericeditor.windows.conditions.PanelFactory;
  */
 public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
-    Profile project = null;
-    ProjectsTree projectsTree;
+    Profile profile = null;
+    ProjectsTree profileTree;
 
     /**
      * Creates new form ProjectEditorMainPanel
      */
     public ProjectEditorMainPanel(Profile profile) {
-        this.project = profile;
-        initComponents();
-        
+        this.profile = profile;
+        initComponents(); 
         createTree();
         createGraph();
 
+        jToolBar2.setVisible(false);
     }
 
     protected void createTree() {
-        projectsTree = new ProjectsTree(project);
-        projectsTree.addMouseListener(new MouseAdapter() {
+        profileTree = new ProjectsTree(profile);
+        profileTree.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) projectsTree.getLastSelectedPathComponent();
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
                 if(node == null)
                     return;
                 Object userObject = node.getUserObject();
@@ -58,17 +65,18 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 if (userObject instanceof Action) {
                     Action action = (Action) userObject;
                     jPanel8.removeAll();
-                    jPanel8.add(new ProjectEditorActionPanel(project, action), BorderLayout.CENTER);
+                    jPanel8.add(new ProjectEditorActionPanel(profile, action), BorderLayout.CENTER);
                     jPanel8.validate();
                 }
             }
         });
         
-        jPanel4.add(projectsTree, BorderLayout.CENTER);
+        jPanel4.add(profileTree, BorderLayout.CENTER);
     }
 
     protected void createGraph(){
-        jTextArea1.setText(new GraphBuilder().export(this.project.getGraph()));
+        jTextArea1.setText(profile.getGraphBuilder().export(profile.getGraph()));
+        
     }
    
 
@@ -86,6 +94,8 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jToolBar2 = new javax.swing.JToolBar();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton6 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -96,6 +106,9 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jToolBar3 = new javax.swing.JToolBar();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jButton10 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
@@ -119,6 +132,30 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             }
         });
         jToolBar2.add(jButton6);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton8, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton8.text")); // NOI18N
+        jButton8.setToolTipText(org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton8.toolTipText")); // NOI18N
+        jButton8.setFocusable(false);
+        jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton8);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton9, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton9.text")); // NOI18N
+        jButton9.setToolTipText(org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton9.toolTipText")); // NOI18N
+        jButton9.setFocusable(false);
+        jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton9);
 
         org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton1.text")); // NOI18N
         jButton1.setToolTipText(org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton1.toolTipText")); // NOI18N
@@ -175,6 +212,22 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
         jPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jToolBar3.setRollover(true);
+        jToolBar3.add(filler3);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jButton10, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton10.text")); // NOI18N
+        jButton10.setFocusable(false);
+        jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton10.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(jButton10);
+
+        jPanel7.add(jToolBar3, java.awt.BorderLayout.PAGE_END);
+
         jSplitPane3.setLeftComponent(jPanel7);
 
         jPanel8.setLayout(new java.awt.BorderLayout());
@@ -207,10 +260,9 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        FilePrototype p = new FilePrototype("", new LinkedList<>());
-        p.setId("newProto");
-        project.getPrototypesMap().put(p.getId(), p);
-        projectsTree.reloadData(project);
+        FilePattern c = new FilePattern("*");
+        profile.addCondition(c);
+        profileTree.reloadData(profile);
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -218,46 +270,65 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this prototype?");
         if (showConfirmDialog == JOptionPane.YES_OPTION) {
            
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) projectsTree.getLastSelectedPathComponent();
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
             Object obj = node.getUserObject();
-            if(obj instanceof FilePrototype){
-                FilePrototype selectedValue = (FilePrototype) obj;
-                project.getPrototypesMap().remove(selectedValue.getId());
+            if(obj instanceof Condition){
+                Condition selectedValue =  (Condition) obj;
+                profile.getPrototypesMap().remove(selectedValue.getId());
                  jSplitPane3.remove(2);
             }
-            if(obj instanceof RuleCluster){
-                RuleCluster selectedValue = (RuleCluster) obj;
-                project.getCleaners().remove(selectedValue);
+            if(obj instanceof Action){
+                ActionCluster selectedValue = (ActionCluster) obj;
+                profile.getCleaners().remove(selectedValue);
                  jSplitPane3.remove(1);
             }
             
-            projectsTree.reloadData(project);
+            profileTree.reloadData(profile);
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        RuleCluster c = new RuleCluster(new LinkedList<>());
-        c.setId("newClaner");
-        project.getCleaners().add(c);
-        projectsTree.reloadData(project);
+        ReplaceText a = new ReplaceText("", "", 0);
+        profile.addAction(a);
+        profileTree.reloadData(profile);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       projectsTree.reloadData(project);
+       profileTree.reloadData(profile);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        FileContent c = new FileContent();
+        profile.addCondition(c);
+        profileTree.reloadData(profile);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        TextContent c = new TextContent();
+        profile.addCondition(c);
+        profileTree.reloadData(profile);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+       createGraph();
+    }//GEN-LAST:event_jButton10ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -268,5 +339,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JToolBar jToolBar3;
     // End of variables declaration//GEN-END:variables
 }

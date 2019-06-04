@@ -5,7 +5,7 @@
  */
 package processor.core.file;
 
-import processor.core.rules.RuleCluster;
+import processor.core.rules.ActionCluster;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,27 +22,27 @@ public class LogCentral {
     int matchedFiles;
     int processedFiles;
     
-    protected Map<Path, Set<RuleCluster>> fileProcessorRecords;
+    protected Map<Path, Set<ActionCluster>> fileProcessorRecords;
 
     public LogCentral(){
         fileProcessorRecords = new TreeMap<>();
     }
     
-    public void addRecord(Path p, RuleCluster c){
+    public void addRecord(Path p, ActionCluster c){
         if(fileProcessorRecords.containsKey(p)){
             fileProcessorRecords.get(p).add(c);
         }else{
-            Set<RuleCluster> set = new HashSet<>();
+            Set<ActionCluster> set = new HashSet<>();
             set.add(c);
             fileProcessorRecords.put(p, set);
         }
     }
 
-    public Map<Path, Set<RuleCluster>> getFileProcessorRecords() {
+    public Map<Path, Set<ActionCluster>> getFileProcessorRecords() {
         return fileProcessorRecords;
     }
 
-    public void setFileProcessorRecords(Map<Path, Set<RuleCluster>> fileProcessorRecords) {
+    public void setFileProcessorRecords(Map<Path, Set<ActionCluster>> fileProcessorRecords) {
         this.fileProcessorRecords = fileProcessorRecords;
     } 
     

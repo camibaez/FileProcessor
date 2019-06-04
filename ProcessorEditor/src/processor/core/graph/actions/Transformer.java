@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.rules;
+package processor.core.graph.actions;
 
+import processor.core.graph.actions.Action;
 import processor.core.ProcessingNode;
 
 /**
@@ -12,7 +13,7 @@ import processor.core.ProcessingNode;
  * @author cbaez
  * @param <T>
  */
-public abstract class Rule<T> extends Action{
+public abstract class Transformer<T> extends Action{
     protected String id ="";
     protected String description="";
     

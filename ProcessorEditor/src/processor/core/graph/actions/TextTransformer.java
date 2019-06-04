@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.rules;
+package processor.core.graph.actions;
 
 /**
  *
  * @author cbaez
  */
-public abstract class TextRule extends Rule<String>{
+public abstract class TextTransformer extends Transformer<String>{
     
 }
