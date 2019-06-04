@@ -6,19 +6,13 @@
 package processor.editor.windows;
 
 import java.awt.BorderLayout;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
-import processor.core.file.Profile;
 import processor.genericeditor.ProjectCentral;
-import processor.genericeditor.windows.ProjectTreePanel;
+import processor.genericeditor.windows.ProjectsTree;
 
 /**
  * Top component which displays something.
@@ -55,7 +49,7 @@ public final class ProjectExplorerTopComponent extends TopComponent {
         putClientProperty(TopComponent.PROP_MAXIMIZATION_DISABLED, Boolean.TRUE);
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         
-        jPanel1.add(new ProjectTreePanel(ProjectCentral.instance().getProfile()), BorderLayout.CENTER);
+        jPanel1.add(new ProjectsTree(ProjectCentral.instance().getProfile()), BorderLayout.CENTER);
         
         
     }

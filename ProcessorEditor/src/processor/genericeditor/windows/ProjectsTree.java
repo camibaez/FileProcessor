@@ -17,12 +17,12 @@ import processor.core.file.Profile;
  * @author cbaez
  */
 public class ProjectsTree extends JTree {
-    public static String PROTOTYPES_TEXT = "Prototypes";
-    public static String CLEANERS_TEXT = "Cleaners";
+    public static String CONDITIONS_TEXT = "Condtitions";
+    public static String ACTIONS_TEXT = "Actions";
     
     
-    DefaultMutableTreeNode prototypesChildren;
-    DefaultMutableTreeNode cleanersChildren;
+    DefaultMutableTreeNode conditionsChildren;
+    DefaultMutableTreeNode actionsChildren;
 
     public ProjectsTree(Profile p) {
 
@@ -38,39 +38,24 @@ public class ProjectsTree extends JTree {
         DefaultMutableTreeNode profileChild = new DefaultMutableTreeNode(p);
         model.insertNodeInto(profileChild, root, 0);
 
-        //Filling prototypes
-        prototypesChildren = new DefaultMutableTreeNode(PROTOTYPES_TEXT);
-
-        p.getPrototypes().forEach(proto -> {
-            DefaultMutableTreeNode protoNode = new DefaultMutableTreeNode(proto);
-            proto.getExpressions().forEach(e -> {
-                protoNode.add(new DefaultMutableTreeNode(e));
-            });
-            prototypesChildren.add(new DefaultMutableTreeNode(proto));
-            //model.insertNodeInto(new DefaultMutableTreeNode(proto), prototypesChildren, prototypesChildren.getChildCount());
+        //Filling conditions
+        conditionsChildren = new DefaultMutableTreeNode(CONDITIONS_TEXT);
+        p.getConditions().forEach(c -> {
+            DefaultMutableTreeNode protoNode = new DefaultMutableTreeNode(c);
+            conditionsChildren.add(protoNode);
         });
-        model.insertNodeInto(prototypesChildren, profileChild, 0);
+        model.insertNodeInto(conditionsChildren, profileChild, 0);
 
-        //Filling Cleaners
-        cleanersChildren = new DefaultMutableTreeNode(CLEANERS_TEXT);
-        p.getCleaners().forEach(c -> {
+        //Filling actions
+        actionsChildren = new DefaultMutableTreeNode(ACTIONS_TEXT);
+        p.getActions().forEach(c -> {
             DefaultMutableTreeNode cleanerNode = new DefaultMutableTreeNode(c);
-            if (c.getPrototype() != null) {
-                DefaultMutableTreeNode prototypeNodeParent = new DefaultMutableTreeNode("Prototype");
-                prototypeNodeParent.add(new DefaultMutableTreeNode(c.getPrototype()));
-                cleanerNode.add(prototypeNodeParent);
-            }
-
-            c.getRules().forEach(r -> {
-                DefaultMutableTreeNode ruleNode = new DefaultMutableTreeNode(r);
-                cleanerNode.add(ruleNode);
-            });
-
-            cleanersChildren.add(cleanerNode);
+            actionsChildren.add(cleanerNode);
         });
-        model.insertNodeInto(cleanersChildren, profileChild, 1);
+        model.insertNodeInto(actionsChildren, profileChild, 1);
+        
         model.reload();
-        expandPath(new TreePath(prototypesChildren.getPath()));
+        expandPath(new TreePath(conditionsChildren.getPath()));
     }
 
     public void reloadData(Profile p) {
@@ -78,11 +63,11 @@ public class ProjectsTree extends JTree {
     }
     
     public boolean isPrototypeRootSelected(){
-        return rootSelected() != null && rootSelected().equals(PROTOTYPES_TEXT);
+        return rootSelected() != null && rootSelected().equals(CONDITIONS_TEXT);
     }
     
     public boolean isCleanerRootSelected(){
-        return rootSelected() != null && rootSelected().equals(CLEANERS_TEXT);
+        return rootSelected() != null && rootSelected().equals(ACTIONS_TEXT);
     }
     
     public String rootSelected(){
