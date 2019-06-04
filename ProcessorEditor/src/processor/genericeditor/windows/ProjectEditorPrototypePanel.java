@@ -51,7 +51,6 @@ public class ProjectEditorPrototypePanel extends javax.swing.JPanel {
     }
 
     public void loadExpressionData(ConditionalPattern p) {
-        
         jTextArea1.setEnabled(p != null);
         jButton1.setEnabled(p != null);
         if (p == null) {
@@ -64,6 +63,10 @@ public class ProjectEditorPrototypePanel extends javax.swing.JPanel {
         jCheckBox1.setSelected(!ignoreCase);
     }
 
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -338,24 +341,6 @@ public class ProjectEditorPrototypePanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ConditionalPattern p = ConditionalPattern.compile("", 2, "+");
-        prototype.getExpressions().add(p);
-        jComboBox1.addItem(p);
-        jComboBox1.setSelectedItem(p);
-        loadExpressionData(p);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this expression?");
-        if (showConfirmDialog == JOptionPane.YES_OPTION) {
-            ConditionalPattern p = (ConditionalPattern) jComboBox1.getModel().getSelectedItem();
-            prototype.getExpressions().remove(p);
-            jComboBox1.removeItem(p);
-            loadData();
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void idChanged(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idChanged
 
     }//GEN-LAST:event_idChanged
@@ -375,6 +360,24 @@ public class ProjectEditorPrototypePanel extends javax.swing.JPanel {
     private void descChanged(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descChanged
         //
     }//GEN-LAST:event_descChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this expression?");
+        if (showConfirmDialog == JOptionPane.YES_OPTION) {
+            ConditionalPattern p = (ConditionalPattern) jComboBox1.getModel().getSelectedItem();
+            prototype.getExpressions().remove(p);
+            jComboBox1.removeItem(p);
+            loadData();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ConditionalPattern p = ConditionalPattern.compile("", 2, "+");
+        prototype.getExpressions().add(p);
+        jComboBox1.addItem(p);
+        jComboBox1.setSelectedItem(p);
+        loadExpressionData(p);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         ConditionalPattern p = (ConditionalPattern) jComboBox1.getSelectedItem();

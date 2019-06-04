@@ -7,18 +7,13 @@ package processor.profile;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import processor.core.conditions.Condition;
 import processor.core.conditions.FileContent;
-import processor.core.rules.RuleCluster;
-import processor.core.conditions.FilePrototype;
-import processor.core.conditions.FileType;
-import processor.core.conditions.GenericContent;
+import processor.core.conditions.FilePattern;
+import processor.core.conditions.TextContent;
 import processor.core.rules.Action;
 import processor.core.rules.ReplaceText;
-import processor.core.rules.Rule;
 
 /**
  *
@@ -46,14 +41,14 @@ public class ProfileWriter {
 
     public static Map writeCondition(Condition c) {
         Map conditionData = new LinkedHashMap();
-        if (c instanceof FileType) {
-            fileTypeCondition(conditionData, (FileType) c);
+        if (c instanceof FilePattern) {
+            fileTypeCondition(conditionData, (FilePattern) c);
         }
         if (c instanceof FileContent) {
             fileContentCondition(conditionData, (FileContent) c);
         }
-        if(c instanceof GenericContent){
-            genericContentCondition(conditionData, (GenericContent) c);
+        if(c instanceof TextContent){
+            genericContentCondition(conditionData, (TextContent) c);
         }
         if (conditionData != null) {
             conditionData.put("class", c.getClass().getSimpleName());
@@ -61,7 +56,7 @@ public class ProfileWriter {
         return conditionData;
     }
 
-    public static void fileTypeCondition(Map map, FileType c) {
+    public static void fileTypeCondition(Map map, FilePattern c) {
         map.put("pattern", c.getPattern());
     }
 
@@ -77,7 +72,7 @@ public class ProfileWriter {
         map.put("expressions", expressionsData);
     }
 
-    private static void genericContentCondition(Map map, GenericContent genContent){
+    private static void genericContentCondition(Map map, TextContent genContent){
         map.put("pattern", genContent.getPattern().getPattern().pattern());
         map.put("flags", genContent.getPattern().getPattern().flags());
         map.put("condition", genContent.getPattern().getCondition());

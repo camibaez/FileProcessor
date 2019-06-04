@@ -46,10 +46,6 @@ import processor.core.rules.TextRule;
  * @author cbaez
  */
 public class ProfileAdministration {
-
-    
-    
-    
     public static void createEmptyProject(String path) throws FileNotFoundException, IOException{
         String data = new String(Files.readAllBytes(Paths.get("C:\\Users\\cbaez\\Documents\\baseproject.json")));
         try (PrintWriter pw = new PrintWriter(path)) {
@@ -57,7 +53,6 @@ public class ProfileAdministration {
             pw.flush();
         }
     }
-    
     
     public static String generateProfileJSON(Profile profile){
         JSONObject jo = new JSONObject();
@@ -82,33 +77,6 @@ public class ProfileAdministration {
         return jo.toJSONString();
     }
     
-    
-   
-    
-    
-    /*
-    public static String generateProfileJSON(Profile profile) {
-        JSONObject jo = new JSONObject();
-
-        jo.put("name", profile.getName());
-        jo.put("description", profile.getDescription());
-        jo.put("lastWorkingDirectory", profile.getWorkingDirectory());
-        jo.put("prototypes", ProfileWriter.writePrototypes(profile.getPrototypesMap()));
-
-        JSONArray cleanersArray = new JSONArray();
-        for (Cleaner cleaner : profile.getCleaners()) {
-            JSONArray rules = new JSONArray();
-            cleaner.getRules().forEach(rule -> {
-                rules.add(ProfileWriter.writeRule(rule));
-            });
-
-            cleanersArray.add(ProfileWriter.writeCleaner(cleaner, rules));
-        }
-        jo.put("cleaners", cleanersArray);
-        return jo.toJSONString();
-    }
-    */
-
     public static void saveProject(Profile project, String path) throws FileNotFoundException {
 
         try (PrintWriter pw = new PrintWriter(path)) {
@@ -126,10 +94,7 @@ public class ProfileAdministration {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
             Profile project = ProfileReader.readProject(jsonObject);
-            project.setPrototypesMap(ProfileReader.readPrototypes(jsonObject));
-
-            List<RuleCluster> cleaners = ProfileReader.readCleaners(jsonObject);
-            project.setCleaners(cleaners);
+            project.setActions(s);
 
             return project;
 

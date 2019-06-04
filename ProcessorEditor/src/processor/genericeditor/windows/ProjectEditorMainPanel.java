@@ -11,13 +11,13 @@ import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
+import processor.core.GraphBuilder;
 import processor.core.conditions.Condition;
 import processor.core.rules.RuleCluster;
 import processor.core.conditions.FilePrototype;
 import processor.core.file.Profile;
 import processor.core.rules.Action;
+import processor.genericeditor.windows.conditions.PanelFactory;
 
 /**
  *
@@ -36,6 +36,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         initComponents();
         
         createTree();
+        createGraph();
 
     }
 
@@ -49,13 +50,16 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                     return;
                 Object userObject = node.getUserObject();
                 if (userObject instanceof Condition) {
-                    Condition proto = (Condition) userObject;
-                    //jSplitPane3.setLeftComponent(new ProjectEditorPrototypePanel(proto));
+                    Condition condition = (Condition) userObject;
+                    jPanel8.removeAll();
+                    jPanel8.add(PanelFactory.generatePanel(condition), BorderLayout.CENTER);
+                    jPanel8.validate();
                 }
                 if (userObject instanceof Action) {
-                    Action cleaner = (Action) userObject;
-                    jSplitPane3.setLeftComponent(new ProjectEditorActionPanel(project, cleaner));
-
+                    Action action = (Action) userObject;
+                    jPanel8.removeAll();
+                    jPanel8.add(new ProjectEditorActionPanel(project, action), BorderLayout.CENTER);
+                    jPanel8.validate();
                 }
             }
         });
@@ -63,6 +67,9 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel4.add(projectsTree, BorderLayout.CENTER);
     }
 
+    protected void createGraph(){
+        jTextArea1.setText(new GraphBuilder().export(this.project.getGraph()));
+    }
    
 
     /**
@@ -87,6 +94,8 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jPanel8 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
@@ -159,6 +168,13 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane3.setDividerLocation(300);
 
         jPanel7.setLayout(new java.awt.BorderLayout());
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
         jSplitPane3.setLeftComponent(jPanel7);
 
         jPanel8.setLayout(new java.awt.BorderLayout());
@@ -245,9 +261,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables

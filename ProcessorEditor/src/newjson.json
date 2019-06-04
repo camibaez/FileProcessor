@@ -2,45 +2,6 @@
     "lastWorkingDirectory": null,
     "name": null,
     "description": null,
-    "conditions": [{
-            "pattern": "*.jsp",
-            "class": "FileType"
-        }, {
-            "expressions": [{
-                    "pattern": ".*oncontextmenu=\"showPopUp\\(.*",
-                    "flags": 2,
-                    "condition": "+"
-                }],
-            "class": "FileContent"
-        }, {
-            "class": "GenericContent"
-        }, {
-            "class": "GenericContent"
-        }],
-    "actions": [{
-            "pattern": "(oncontextmenu=\"showPopUp\\()",
-            "replace": "class=\"context-menu-help\" onmousedown=\"showPopUp(",
-            "flags": 2,
-            "class": "ReplaceText"
-        }, {
-            "pattern": ".*builtHPopUp\\(\\);",
-            "replace": "\/\/builtHPopUp();",
-            "flags": 0,
-            "class": "ReplaceText"
-        }, {
-            "pattern": ".*showPopUpHelp\\(\\).*",
-            "replace": "\/\/showPopUpHelp()",
-            "flags": 0,
-            "class": "ReplaceText"
-        }, {
-            "pattern": "(<script.*\/pages\/e\/javascripts\/eIBS\\.jsp\".*>.*<\/script>)",
-            "replace": "$1\n<script src=\"<%=request.getContextPath()%>\/pages\/e\/javascripts\/optMenu.jsp\"><\/script>",
-            "flags": 2,
-            "class": "ReplaceText"
-        }, {
-            "pattern": "(<link.*href=\".*\/pages\/style.css\".*rel=\"stylesheet\".*>)",
-            "replace": "<link href=\"<%=request.getContextPath()%>\/jquery\/plugins\/contextMenu\/css\/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text\/css\" \/>\n$1",
-            "flags": 2,
-            "class": "ReplaceText"
-        }]
+    "conditions": [],
+    "actions": []
 }

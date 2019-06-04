@@ -9,13 +9,13 @@ package processor.core.conditions;
  *
  * @author cbaez
  */
-public class GenericContent extends Condition<String>{
+public class TextContent extends Condition<String>{
     protected ConditionalPattern pattern;
 
-    public GenericContent() {
+    public TextContent() {
     }
 
-    public GenericContent(ConditionalPattern pattern) {
+    public TextContent(ConditionalPattern pattern) {
         this.pattern = pattern;
     }
     

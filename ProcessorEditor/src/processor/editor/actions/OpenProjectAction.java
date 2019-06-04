@@ -11,7 +11,6 @@ import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
 import processor.editor.windows.ProjectEditorTopComponent;
-import processor.editor.windows.ProjectExplorerTopComponent;
 
 @ActionID(
         category = "File",

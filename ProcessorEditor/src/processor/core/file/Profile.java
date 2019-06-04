@@ -46,6 +46,9 @@ public class Profile {
         this.cleaners = cleaners;
         this.fileCentral = new FileCentral(this);
         this.prototypesMap = new HashMap<>();
+        
+        this.actions = new LinkedList<>();
+        this.conditions = new LinkedList<>();
     }
     
     public Profile(){
@@ -140,9 +143,12 @@ public class Profile {
 
     public void setGraph(DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph) {
         this.graph = graph;
+        loadGraphData(graph);
     }
     
     protected void loadGraphData(Graph graph){
+        this.conditions = new LinkedList<>();
+        this.actions = new LinkedList<>();
         graph.vertexSet().forEach(v -> {
             if(v instanceof Condition)
                 conditions.add((Condition) v);
@@ -154,9 +160,7 @@ public class Profile {
                 }else{
                    actions.add((Action) v); 
                 }
-                
             }
-                
         });
     }
 
@@ -166,6 +170,14 @@ public class Profile {
 
     public List<Condition> getConditions() {
         return conditions;
+    }
+
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
+    }
+
+    public void setConditions(List<Condition> conditions) {
+        this.conditions = conditions;
     }
     
     

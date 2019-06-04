@@ -5,102 +5,109 @@
  */
 package processor.profile;
 
-
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import processor.core.rules.RuleCluster;
+import processor.core.conditions.Condition;
 import processor.core.conditions.ConditionalPattern;
-import processor.core.conditions.FilePrototype;
+import processor.core.conditions.FileContent;
+import processor.core.conditions.FilePattern;
+import processor.core.conditions.TextContent;
 import processor.core.file.Profile;
+import processor.core.rules.Action;
 import processor.core.rules.ReplaceText;
-import processor.core.rules.Rule;
 
 /**
  *
  * @author cbaez
  */
 public class ProfileReader {
-    public static HashMap<String, FilePrototype> prototypesMap = new HashMap<>();
-    public static Profile readProject(JSONObject jsonObject) {
-            Profile project = new Profile();
-            project.setName((String) jsonObject.get("name"));
-            project.setDescription((String) jsonObject.get("description"));
-            project.setLastWorkingDirectory((String) jsonObject.get("lastWorkingDirectory"));
-            
-            return project;
-        }
-
-        public static ReplaceText readReplaceTextRule(Map ruleData) {
-            String pattern = (String) ruleData.get("pattern");
-            String replace = (String) ruleData.get("replace");
-            int flags = ((Long) ruleData.get("flags")).intValue();
-            return new ReplaceText(pattern, replace, flags);
-           
-        }
-
-        public static List<Rule> readRules(JSONArray rulesData) {
-            List<Rule> rules = new LinkedList<>();
-            rulesData.forEach((Object rule) -> {
-                String ruleClass = (String) ((Map) rule).get("ruleClass");
-                if (ruleClass.equals(ReplaceText.class.getSimpleName())) {
-                    rules.add(readReplaceTextRule((Map) rule));
-                }
-            });
-            return rules;
-        }
-
-        public static HashMap<String, FilePrototype> readPrototypes(JSONObject o){
-            JSONArray prototypesData = (JSONArray) o.get("prototypes");
-            List<FilePrototype> prototypes = new LinkedList<>();
-            prototypesData.forEach(e -> {
-                FilePrototype prototype = readPrototype((Map) e);
-                prototypesMap.put(prototype.getId(), prototype);
-            });
-            
-            return prototypesMap;
-        }
+     public static Profile readProject(JSONObject jsonObject) {
+        Profile project = new Profile();
+        project.setName((String) jsonObject.get("name"));
+        project.setDescription((String) jsonObject.get("description"));
+        project.setLastWorkingDirectory((String) jsonObject.get("lastWorkingDirectory"));
+        return project;
+    }
+    
+    public static List<Condition> readConditions(JSONObject data){
+        List<Condition> conditionsList = new LinkedList<>();
+        JSONArray conditionsData = (JSONArray) data.get("conditions");
+        conditionsData.forEach(c -> {
+            conditionsList.add(readCondition((Map) c));
+        });
         
+        return conditionsList;
+    }
+    
+    public static Condition readCondition(Map data){
+        String clazz = (String) data.get("class");
+        if(clazz.equals(FilePattern.class.getSimpleName())){
+            return readFilePatterCondition(data);
+        }
+        if(clazz.equals(FileContent.class.getSimpleName())){
+            return readFileContentCondition(data);
+        }
+        if(clazz.equals(TextContent.class.getSimpleName())){
+            return readTextContentCondition(data);
+        }
+        return null;
+    }
+    
+     public static FilePattern readFilePatterCondition(Map data){
+        String pattern = (String) data.get("pattern");
+        return new FilePattern(pattern);
+    }
+    
+    public static FileContent readFileContentCondition(Map data){
+        JSONArray expressions = (JSONArray) data.get("expressions");
+        List<ConditionalPattern> expressionsList = new LinkedList<>();
+        expressions.forEach(e -> {
+            String pattern = (String) ((Map)e).get("pattern");
+            String condition = (String) ((Map)e).get("condition");
+            int flags = (int) ((Map)e).get("flags");
+            
+            expressionsList.add(ConditionalPattern.compile(pattern, flags, condition));
+        });
         
-        public static FilePrototype readPrototype(Map prototypeData) {
-            String extensions = (String) prototypeData.get("extensions");
-            List<ConditionalPattern> expressions = new LinkedList<>();
-            JSONArray expressionsData = (JSONArray) prototypeData.get("expressions");
-            expressionsData.forEach((Object e) -> {
-                Map map = (Map) e;
-                String condition = (String) map.get("condition");
-                String pattern = (String) map.get("pattern");
-                int flags = ((Long) map.get("flags")).intValue();
-                expressions.add(ConditionalPattern.compile(pattern, flags, condition));
-                       
-            });
-            FilePrototype prototype = new FilePrototype(extensions, expressions);
-            prototype.setId((String) prototypeData.get("id"));
-            return prototype;
+        return new FileContent(expressionsList);
+    }
+    
+    private static Condition readTextContentCondition(Map data) {
+        String pattern = (String) data.get("pattern");
+        String condition = (String) data.get("condition");
+        int flags = (int) data.get("flags");
+        
+        return new TextContent(ConditionalPattern.compile(pattern, flags, condition));
+    }
+    
+    public static List<Action> readActions(JSONObject data){
+        List<Action> actionsList = new LinkedList<>();
+        JSONArray actionsData = (JSONArray) data.get("actions");
+        actionsData.forEach(a -> {
+            actionsList.add(readAction((Map) a));
+        });
+        
+        return actionsList;
+    }
+    
+    public static Action readAction(Map data){
+        String clazz = (String) data.get("class");
+        if(clazz.equals(ReplaceText.class.getSimpleName())){
+            return readReplaceText(data);
         }
-
-        public static List<RuleCluster> readCleaners(JSONObject json) {
-            List<RuleCluster> cleaners = new LinkedList<>();
-            JSONArray cleanersData = (JSONArray) json.get("cleaners");
-            cleanersData.forEach((Object c) -> {
-                String id = (String) ((Map) c).get("id");
-                String desc = (String) ((Map) c).get("description");
-                JSONArray rulesData = (JSONArray) ((Map) c).get("rules");
-                List<Rule> rules = readRules(rulesData);
-                
-                RuleCluster cleaner = new RuleCluster(rules);
-                cleaner.setId(id);
-                cleaner.setDescription(desc);
-                String prototypeId = (String) ((Map)c).get("prototype");
-                if(prototypeId != null)
-                    cleaner.setPrototype(prototypesMap.get(prototypeId));
-                cleaners.add(cleaner);
-                
-                
-            });
-            return cleaners;
-        }
+        return null;
+    }
+    
+    public static ReplaceText readReplaceText(Map data){
+        String pattern = (String) data.get("pattern");
+        String replace = (String) data.get("replace");
+        int flags = (int) data.get("flags");
+        return new ReplaceText(pattern, replace, flags);
+    }
+    
+   
+    
 }

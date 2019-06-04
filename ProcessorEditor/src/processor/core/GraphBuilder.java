@@ -13,9 +13,9 @@ import org.jgrapht.io.ComponentNameProvider;
 import org.jgrapht.io.DOTExporter;
 import org.jgrapht.io.ExportException;
 import org.jgrapht.io.GraphExporter;
-import processor.core.conditions.GenericContent;
+import processor.core.conditions.TextContent;
 import processor.core.conditions.FileContent;
-import processor.core.conditions.FileType;
+import processor.core.conditions.FilePattern;
 import processor.core.rules.RuleCluster;
 import processor.core.file.Profile;
 
@@ -31,7 +31,7 @@ public class GraphBuilder {
         ProcessingNode end = new EndNode();
         graph.addVertex(end);
 
-        FileType fileTypeNode = new FileType(p.getBasePrototype().getExtensions());
+        FilePattern fileTypeNode = new FilePattern(p.getBasePrototype().getExtensions());
         graph.addVertex(fileTypeNode);
         graph.addEdge(fileTypeNode, end, new DecisionEdge(false));
 
@@ -60,14 +60,14 @@ public class GraphBuilder {
         graph.addVertex(eventChanger);
         graph.addEdge(fileContentNode, eventChanger, new DecisionEdge(true));
 
-        GenericContent coditionOptMenu = new GenericContent(appendOptMenu.getPrototype().getExpressions().get(0));
+        TextContent coditionOptMenu = new TextContent(appendOptMenu.getPrototype().getExpressions().get(0));
         graph.addVertex(coditionOptMenu);
         graph.addEdge(eventChanger, coditionOptMenu, new DecisionEdge(true));
 
         graph.addVertex(appendOptMenu);
         graph.addEdge(coditionOptMenu, appendOptMenu, new DecisionEdge(true));
 
-        GenericContent conditionCss = new GenericContent(addContextMenu.getPrototype().getExpressions().get(0));
+        TextContent conditionCss = new TextContent(addContextMenu.getPrototype().getExpressions().get(0));
         graph.addVertex(conditionCss);
         graph.addEdge(coditionOptMenu, conditionCss, new DecisionEdge(false));
         graph.addEdge(appendOptMenu, conditionCss, new DecisionEdge(true));
@@ -88,13 +88,13 @@ public class GraphBuilder {
                 if (t instanceof RuleCluster) {
                     res = ((RuleCluster) t).getId();
                 }
-                if (t instanceof FileType) {
+                if (t instanceof FilePattern) {
                     res = t.toString().replace("*", "_").replace(".", "_");
                 }
                 if (t instanceof FileContent) {
                     res = FileContent.class.getSimpleName().replace("*", "_").replace(".", "_");
                 }
-                if (t instanceof GenericContent) {
+                if (t instanceof TextContent) {
                     res = "condition_" + t.hashCode();
                 }
 
