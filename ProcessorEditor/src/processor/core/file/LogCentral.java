@@ -5,7 +5,6 @@
  */
 package processor.core.file;
 
-import processor.core.rules.ActionCluster;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,7 +16,7 @@ import java.util.TreeMap;
  *
  * @author cbaez
  */
-public class LogCentral {  
+public class LogCentral {  /*
     int visitedFiles;
     int matchedFiles;
     int processedFiles;
@@ -50,4 +49,5 @@ public class LogCentral {
     public int getProcessedFiles(){
         return getFileProcessorRecords().keySet().size();
     }
+*/
 }

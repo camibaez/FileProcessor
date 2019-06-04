@@ -1,7 +1,16 @@
 {
-    "lastWorkingDirectory": null,
-    "name": null,
-    "description": null,
-    "conditions": [],
-    "actions": []
+    "nodes": [{
+            "pattern": "*jsp",
+            "class": "FilePattern",
+            "id": "n1",
+            "type": 0
+        }, {
+            "expressions": [],
+            "class": "FileContent",
+            "id": "n2",
+            "type": 0
+        }],
+    "lastWorkingDirectory": "C:\\Users\\cbaez\\Desktop\\ProcessorWorkspace\\files",
+    "name": "Project test",
+    "description": "Project test description"
 }

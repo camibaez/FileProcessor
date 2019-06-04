@@ -21,14 +21,16 @@ import processor.core.graph.actions.ReplaceText;
  */
 public class ProfileWriter {
     public static Map writeAction(Action action) {
-        Map ruleData = null;
+        Map actionData = null;
         if (action instanceof ReplaceText) {
-            ruleData = replaceTextAction((ReplaceText) action);
+            actionData = replaceTextAction((ReplaceText) action);
         }
-        if (ruleData != null) {
-            ruleData.put("class", action.getClass().getSimpleName());
+        if (actionData != null) {
+            actionData.put("class", action.getClass().getSimpleName());
+            actionData.put("id", action.getId());
+            actionData.put("type", action.getType());
         }
-        return ruleData;
+        return actionData;
     }
 
     public static Map replaceTextAction(ReplaceText rule) {
@@ -39,19 +41,21 @@ public class ProfileWriter {
         return ruleData;
     }
 
-    public static Map writeCondition(Condition c) {
+    public static Map writeCondition(Condition condition) {
         Map conditionData = new LinkedHashMap();
-        if (c instanceof FilePattern) {
-            fileTypeCondition(conditionData, (FilePattern) c);
+        if (condition instanceof FilePattern) {
+            fileTypeCondition(conditionData, (FilePattern) condition);
         }
-        if (c instanceof FileContent) {
-            fileContentCondition(conditionData, (FileContent) c);
+        if (condition instanceof FileContent) {
+            fileContentCondition(conditionData, (FileContent) condition);
         }
-        if(c instanceof TextContent){
-            genericContentCondition(conditionData, (TextContent) c);
+        if(condition instanceof TextContent){
+            genericContentCondition(conditionData, (TextContent) condition);
         }
         if (conditionData != null) {
-            conditionData.put("class", c.getClass().getSimpleName());
+            conditionData.put("class", condition.getClass().getSimpleName());
+            conditionData.put("id", condition.getId());
+            conditionData.put("type", condition.getType());
         }
         return conditionData;
     }

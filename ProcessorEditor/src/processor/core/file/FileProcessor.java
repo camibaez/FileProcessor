@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package processor.core.file;
-
-import processor.core.rules.ActionCluster;
 import processor.core.graph.actions.TypeTransformer;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -30,13 +28,14 @@ public class FileProcessor {
 
     protected int processedCount;
     protected Profile project;
-    private List<ActionCluster> cleaners;
 
-    public FileProcessor(Profile project, List<ActionCluster> cleaners) {
+
+    public FileProcessor(Profile project) {
         this.project = project;
-        this.cleaners = cleaners;
+
     }
 
+    /*
     public boolean isAssigned(ActionCluster cleaner, Path file) {
         return cleaner.getPrototype() == null || project.getFileCentral().belongsTo(cleaner.getPrototype(), file);
     }
@@ -122,5 +121,5 @@ public class FileProcessor {
     public int getProcessed() {
         return processedCount;
     }
-
+    */
 }

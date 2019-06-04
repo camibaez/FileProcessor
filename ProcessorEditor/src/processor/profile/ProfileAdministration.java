@@ -5,6 +5,7 @@
  */
 package processor.profile;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,6 +20,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import processor.core.file.Profile;
+import processor.core.graph.actions.Action;
+import processor.core.graph.conditions.Condition;
 
 /**
  *
@@ -35,23 +38,21 @@ public class ProfileAdministration {
     
     public static String generateProfileJSON(Profile profile){
         JSONObject jo = new JSONObject();
-        ProfileStructure structure = new ProfileStructure(profile);
         
-        jo.put("name", structure.getName());
-        jo.put("description", structure.getDescription());
-        jo.put("lastWorkingDirectory", structure.getLastWorkingDirectory());
+        jo.put("name", profile.getName());
+        jo.put("description", profile.getDescription());
+        jo.put("lastWorkingDirectory", profile.getLastWorkingDirectory());
         
-        JSONArray actions = new JSONArray();
-        structure.getActions().forEach(a -> {
-            actions.add(ProfileWriter.writeAction(a));
+        JSONArray nodes = new JSONArray();
+        profile.getNodes().forEach(n -> {
+            if(n instanceof Action){
+                nodes.add(ProfileWriter.writeAction((Action) n));
+            }
+            if(n instanceof Condition){
+                nodes.add(ProfileWriter.writeCondition((Condition) n));
+            }
         });
-        jo.put("actions", actions);
-        
-        JSONArray conditions = new JSONArray();
-        structure.getConditions().forEach(c -> {
-            conditions.add(ProfileWriter.writeCondition(c));
-        });
-        jo.put("conditions", conditions);
+        jo.put("nodes", nodes);
         
         return jo.toJSONString();
     }
@@ -66,7 +67,7 @@ public class ProfileAdministration {
 
     }
 
-    public static Profile loadProject(String path) {
+    public static Profile loadProject(File path) {
         Profile project = null;
         JSONParser parser = new JSONParser();
 
@@ -74,22 +75,7 @@ public class ProfileAdministration {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
             project = ProfileReader.readProject(jsonObject);
-            project.setActions(ProfileReader.readActions(jsonObject));
-            project.setConditions(ProfileReader.readConditions(jsonObject));
-
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException ex) {
-            Logger.getLogger(ProfileAdministration.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try (Reader reader = new FileReader(path.replace(".json", ".dot"))) {
-            JSONObject jsonObject = (JSONObject) parser.parse(reader);
-
-            project = ProfileReader.readProject(jsonObject);
-            project.setActions(ProfileReader.readActions(jsonObject));
-            project.setConditions(ProfileReader.readConditions(jsonObject));
+            project.setNodes(ProfileReader.readNodes(jsonObject));
 
             
         } catch (IOException e) {

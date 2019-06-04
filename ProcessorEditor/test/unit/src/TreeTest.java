@@ -12,6 +12,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import processor.core.GraphBuilder;
 import processor.core.file.Profile;
+import processor.core.graph.conditions.FileContent;
+import processor.core.graph.conditions.FilePattern;
 import processor.profile.ProfileAdministration;
 
 /**
@@ -27,30 +29,27 @@ public class TreeTest {
     
     @Before
     public void setUp() {
-        String projPath = "C:\\Users\\cbaez\\Documents\\NetBeansProjects\\HTMLFixer\\conf\\test-files\\BigChangeTest\\proj1.json";
-        String filesPath = "C:\\Users\\cbaez\\Documents\\NetBeansProjects\\HTMLFixer\\conf\\test-files\\BigChangeTest\\files";
-
-        profile = ProfileAdministration.loadProject(projPath);
-        profile.setWorkingDirectory(filesPath);
-
+        profile = new Profile();
+        profile.setName("Project test");
+        profile.setLastWorkingDirectory("C:\\Users\\cbaez\\Desktop\\ProcessorWorkspace\\files");
+        profile.setDescription("Project test description");
+        
+        FilePattern filePattern = new FilePattern("*jsp");
+        filePattern.setId("n1");
+        FileContent fileContent = new FileContent();
+        fileContent.setId("n2");
+        
+        profile.addNode(filePattern);
+        profile.addNode(fileContent);
+        
     }
     
     @After
     public void tearDown() {
-        
-        
     }
 
-   @Test
-   public void graphTree(){
-       GraphBuilder gb = new GraphBuilder();
-       //profile.setGraph(gb.build(profile));
-       System.out.println(gb.export(profile.getGraph()));
-   }
-    
     @Test
     public void saveGraph(){
-        //profile.setGraph(new GraphBuilder().build(profile));
         System.out.println(ProfileAdministration.generateProfileJSON(profile));
     }
 

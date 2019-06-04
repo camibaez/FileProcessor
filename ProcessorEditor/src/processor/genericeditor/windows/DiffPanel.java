@@ -37,7 +37,7 @@ public class DiffPanel extends javax.swing.JPanel {
 
     }
 
-    public void loadDiffComponent(Path p) {
+    public void loadDiffComponent(Path p) {/*
         try {
             StreamSource original = StreamSource.createSource("Original", "Original", "text/html", p.toFile());
             String processResult = profile.getFileProcessor().processFile(p);
@@ -70,7 +70,7 @@ public class DiffPanel extends javax.swing.JPanel {
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
-
+*/
     }
 
     /**

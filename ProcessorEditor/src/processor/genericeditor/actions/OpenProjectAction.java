@@ -28,11 +28,9 @@ public abstract class OpenProjectAction implements ActionListener {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            ProjectCentral.instance().setProfile(ProfileAdministration.loadProject(file.getAbsolutePath()));
+            ProjectCentral.instance().setProfile(ProfileAdministration.loadProject(file));
             ProjectCentral.instance().setProfileFile(file);
             openProjectWindow();
-            
-            
             
         } else {
             Logger.getLogger(OpenProjectAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");

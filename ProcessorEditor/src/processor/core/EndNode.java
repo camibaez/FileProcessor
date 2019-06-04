@@ -9,7 +9,7 @@ package processor.core;
  *
  * @author cbaez
  */
-public class EndNode implements ProcessingNode{
+public class EndNode extends ProcessingNode{
     public String toString(){
         return "END_NODE";
     }

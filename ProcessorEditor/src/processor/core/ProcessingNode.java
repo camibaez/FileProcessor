@@ -9,6 +9,5 @@ package processor.core;
  *
  * @author cbaez
  */
-public interface ProcessingNode {
-    
+public abstract class ProcessingNode { 
 }

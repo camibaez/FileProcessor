@@ -28,7 +28,7 @@ public class ProjectCentral {
 
     
     public void reloadProject(){
-        profile = ProfileAdministration.loadProject(profileFile.getAbsolutePath());
+        profile = ProfileAdministration.loadProject(profileFile);
     }
     
     

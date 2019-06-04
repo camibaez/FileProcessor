@@ -11,7 +11,7 @@ import processor.core.ProcessingNode;
  *
  * @author cbaez
  */
-public abstract class Condition<T> implements ProcessingNode{
+public abstract class Condition<T> extends ProcessingNode{
     protected String id;
     public abstract boolean test(T o);
 

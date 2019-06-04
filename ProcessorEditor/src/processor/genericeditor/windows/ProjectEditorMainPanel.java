@@ -8,18 +8,12 @@ package processor.genericeditor.windows;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.LinkedList;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
-import org.openide.util.Exceptions;
-import processor.core.GraphBuilder;
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
-import processor.core.rules.ActionCluster;
-import processor.core.conditions.FilePrototype;
+
 import processor.core.graph.conditions.TextContent;
 import processor.core.file.Profile;
 import processor.core.graph.actions.Action;
@@ -274,12 +268,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             Object obj = node.getUserObject();
             if(obj instanceof Condition){
                 Condition selectedValue =  (Condition) obj;
-                profile.getPrototypesMap().remove(selectedValue.getId());
+               
                  jSplitPane3.remove(2);
             }
             if(obj instanceof Action){
-                ActionCluster selectedValue = (ActionCluster) obj;
-                profile.getCleaners().remove(selectedValue);
+                
                  jSplitPane3.remove(1);
             }
             

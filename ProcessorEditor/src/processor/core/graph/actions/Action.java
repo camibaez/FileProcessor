@@ -11,6 +11,8 @@ import processor.core.ProcessingNode;
  *
  * @author cbaez
  */
-public abstract class Action implements ProcessingNode{
+public abstract class Action extends ProcessingNode{
+    public abstract String getId();
+    public abstract void setId(String id);
     public abstract Object process(Object o);
 }

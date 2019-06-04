@@ -5,7 +5,6 @@
  */
 package processor.core.file;
 
-import processor.core.conditions.FilePrototype;
 import processor.core.graph.conditions.ConditionalPattern;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,69 +29,27 @@ import java.util.logging.Logger;
 public class FileMatcher extends SimpleFileVisitor<Path> {
     protected boolean done;
     protected Profile profile;
-    private final PathMatcher matcher;
+   
     
 
     public FileMatcher(Profile profile) {
         this.profile = profile;
-        matcher = FileSystems.getDefault().getPathMatcher("glob:" + profile.getBasePrototype().getExtensions());
-        profile.getFileCentral().addFilePrototype(profile.getBasePrototype());
+        
     }
 
     protected boolean checkFileName(Path file) {
-        Path name = file.getFileName();
-        return name != null && matcher.matches(name);
+       return true;
     }
 
-    protected boolean checkContent(FilePrototype prototype, Path file) throws IOException {
-        if (prototype.getExpressions() == null || prototype.getExpressions().isEmpty()) {
-            return true;
-        }
-        List<ConditionalPattern> expressions = new LinkedList<>(prototype.getExpressions());
+   
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file.toFile()))) {
-            String line = reader.readLine();
-            while (line != null && expressions.size() > 0) {
-                Iterator<ConditionalPattern> iterator = expressions.iterator();
-                while (iterator.hasNext()) {
-                    ConditionalPattern p = iterator.next();
-                    int res = p.matches(line);
-                    if (res == -1) {
-                        iterator.remove();
-                    }
-                    if (res == 1) {
-                        iterator.remove();
-                    }
-                }
-                // read next line
-                line = reader.readLine();
-            }
-        }
-
-        boolean failed = false;
-        for (ConditionalPattern p : prototype.getExpressions()) {
-            failed |= (p.finalState() == -1);
-            p.restart();
-        }
-
-        return !failed;
-    }
-
-    public boolean checkPrototype(FilePrototype prototype, Path file) throws IOException {
-        if (!prototype.getExtensions().isEmpty() && !checkFileName(file)) {
-            return false;
-        }
-        if (!prototype.getExpressions().isEmpty() && !checkContent(prototype, file)) {
-            return false;
-        }
-
-        return true;
-    }
+    
 
     // Invoke the pattern matching
     // method on each file.
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+        /*
         try {
             FilePrototype basicPrototype = profile.getBasePrototype();
             if(!checkPrototype(basicPrototype, file))
@@ -113,6 +70,7 @@ public class FileMatcher extends SimpleFileVisitor<Path> {
         } catch (IOException ex) {
             Logger.getLogger(FileMatcher.class.getName()).log(Level.SEVERE, null, ex);
         }
+    */
         return CONTINUE;
     }
 

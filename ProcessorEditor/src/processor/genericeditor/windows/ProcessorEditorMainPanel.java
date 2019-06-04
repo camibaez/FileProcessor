@@ -54,6 +54,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
     }
 
     public void fillFilesTable() {
+        /*
         DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
         tableModel.setRowCount(0);
         profile.getFileCentral().getMatchedFiles().forEach(p -> {
@@ -64,6 +65,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
             }
         });
         jLabel1.setText(tableModel.getRowCount() + " files matched");
+        */
     }
 
     private void refreshProcessorView() {
@@ -184,7 +186,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        /*DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int row = jTable1.getSelectedRow();
 
         if (row > -1 && evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -206,7 +208,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
             } catch (IOException ex) {
                 Logger.getLogger(ProcessorEditorMainPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }*/
     }//GEN-LAST:event_jTable1KeyReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
