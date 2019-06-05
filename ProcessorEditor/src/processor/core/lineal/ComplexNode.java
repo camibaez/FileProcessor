@@ -13,7 +13,7 @@ import processor.core.graph.conditions.Condition;
  *
  * @author cbaez
  */
-public class ComplexNode {
+public class ComplexNode{
     public static int OMISSBLE = 0, UNOMISSIBLE = 1;
     protected int type;
     

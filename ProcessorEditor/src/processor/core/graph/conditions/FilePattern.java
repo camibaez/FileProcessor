@@ -5,6 +5,7 @@
  */
 package processor.core.graph.conditions;
 
+import java.io.File;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
@@ -13,7 +14,7 @@ import java.nio.file.PathMatcher;
  *
  * @author cbaez
  */
-public class FilePattern extends Condition<Path>{
+public class FilePattern extends Condition<File>{
     protected String pattern;
     private transient PathMatcher matcher;
     
@@ -23,8 +24,8 @@ public class FilePattern extends Condition<Path>{
     }
     
     @Override
-    public boolean test(Path file) {
-        Path name = file.getFileName();
+    public boolean test(File file) {
+        Path name = file.toPath().getFileName();
         return name != null && matcher.matches(name);
     }
     

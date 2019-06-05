@@ -100,6 +100,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -213,6 +214,8 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane3.setDividerLocation(300);
 
         jPanel7.setLayout(new java.awt.BorderLayout());
+        jPanel7.add(jPanel3, java.awt.BorderLayout.LINE_START);
+
         jSplitPane3.setLeftComponent(jPanel7);
 
         jPanel8.setLayout(new java.awt.BorderLayout());
@@ -382,6 +385,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;

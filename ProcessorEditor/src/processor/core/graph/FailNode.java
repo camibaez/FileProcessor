@@ -5,9 +5,14 @@
  */
 package processor.core.graph;
 
+import processor.core.lineal.ComplexNode;
+
 /**
  *
  * @author cbaez
  */
-public abstract class GraphNode{ 
+public class FailNode extends ComplexNode{
+    public String toString(){
+        return "FAIL_NODE";
+    }
 }

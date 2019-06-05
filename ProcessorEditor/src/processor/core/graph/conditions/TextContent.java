@@ -22,7 +22,7 @@ public class TextContent extends Condition<String>{
     
     @Override
     public boolean test(String o) {
-        pattern.matches(o);
+        pattern.matches((String)o);
         int finalState = pattern.finalState();
         pattern.restart();
         return finalState == 1;

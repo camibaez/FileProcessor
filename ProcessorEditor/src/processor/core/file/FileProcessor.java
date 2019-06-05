@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package processor.core.file;
-import processor.core.graph.actions.TypeTransformer;
+
+import processor.core.graph.actions.TypeTranslator;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +23,9 @@ import java.util.logging.Logger;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.openide.util.Exceptions;
 import processor.core.graph.DecisionEdge;
+import processor.core.graph.EndNode;
 import processor.core.graph.StartNode;
+import processor.core.graph.conditions.Condition;
 import processor.core.lineal.ComplexNode;
 
 /**
@@ -34,30 +37,42 @@ public class FileProcessor {
     protected int processedCount;
     protected Profile project;
 
-
     public FileProcessor(Profile project) {
         this.project = project;
 
     }
 
-    public void processFile(File f){
+    public void processFile(File f) {
+        ProcessingResult processingResult = new ProcessingResult();
         DefaultDirectedGraph<ComplexNode, DecisionEdge> graph = project.getGraph();
         ComplexNode start = graph.vertexSet().stream().filter(n -> n instanceof StartNode).findFirst().get();
         Optional<DecisionEdge> findFirst = graph.outgoingEdgesOf(start).stream().filter(e -> e.getSign()).findFirst();
-        if(!findFirst.isPresent())
+        if (!findFirst.isPresent()) {
             return;
+        }
         DecisionEdge trueEdge = findFirst.get();
         ComplexNode node = graph.getEdgeTarget(trueEdge);
-        
-        while(true){
-            if(node.getCondition() != null){
-                boolean res = node.getCondition().test(f);
+
+        while (!(node instanceof EndNode)){
+            if (node.getCondition() != null) {
+                Condition condition = node.getCondition();
+                try {
+                    Object translation = TypeTranslator.translateFor(condition, f);
+                    boolean res = condition.test(translation);
+                    DecisionEdge nodeLink = graph.outgoingEdgesOf(node).stream().filter(e -> e.getSign() ==  res).findFirst().get();
+                    node = graph.getEdgeTarget(nodeLink);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    continue;
+                }
+                
+
             }
         }
-        
+
     }
-    
-    
+
     /*
     public boolean isAssigned(ActionCluster cleaner, Path file) {
         return cleaner.getPrototype() == null || project.getFileCentral().belongsTo(cleaner.getPrototype(), file);
@@ -144,5 +159,5 @@ public class FileProcessor {
     public int getProcessed() {
         return processedCount;
     }
-    */
+     */
 }

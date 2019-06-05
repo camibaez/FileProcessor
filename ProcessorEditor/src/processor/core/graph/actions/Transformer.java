@@ -20,7 +20,7 @@ public abstract class Transformer<T> extends Action{
     protected boolean active;
 
     public Object process(Object target) {
-        T result = TypeTransformer.transformFor(this, target);
+        T result = TypeTranslator.transalteFor(this, target);
         return transform(result);
     }
 

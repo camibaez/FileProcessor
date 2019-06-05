@@ -14,6 +14,7 @@ import processor.core.graph.GraphNode;
 public abstract class Condition<T> extends GraphNode{
     protected String id;
     public abstract boolean test(T o);
+    
 
     public String getId() {
         return id;

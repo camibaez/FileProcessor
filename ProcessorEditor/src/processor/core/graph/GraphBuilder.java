@@ -25,12 +25,13 @@ import processor.core.lineal.ComplexNode;
  */
 public class GraphBuilder {
 
-    public static ComplexNode START_NODE = new StartNode(), END_NODE = new EndNode();
+    public static ComplexNode START_NODE = new StartNode(), END_NODE = new EndNode(), FAIL_NODE = new FailNode();
 
     public DefaultDirectedGraph<ComplexNode, DecisionEdge> buildEmpty() {
         DefaultDirectedGraph<ComplexNode, DecisionEdge> graph = new DefaultDirectedGraph<>(DecisionEdge.class);
         graph.addVertex(START_NODE);
         graph.addVertex(END_NODE);
+        graph.addVertex(FAIL_NODE);
         return graph;
 
     }
@@ -47,7 +48,7 @@ public class GraphBuilder {
                 g.addEdge(START_NODE, node, new DecisionEdge(true));
             }
             if(node.getType() == ComplexNode.UNOMISSIBLE)
-                g.addEdge(node, END_NODE, new DecisionEdge(false));
+                g.addEdge(node, FAIL_NODE, new DecisionEdge(false));
             if (last != null) {
                 g.addEdge(last, node, new DecisionEdge(true));
                 if(last.getType() == ComplexNode.OMISSBLE)
@@ -79,7 +80,10 @@ public class GraphBuilder {
                     label = ((StartNode) t).toString();
                 } else if (t instanceof EndNode) {
                     label = ((EndNode) t).toString();
-                } else {
+                }else if (t instanceof FailNode){
+                    label = ((FailNode) t).toString();
+                } 
+                else {
                     label = "" + t.getCondition() + " / " + t.getAction();
                 }
                 return label;
