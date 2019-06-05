@@ -6,6 +6,7 @@
 package processor.core.graph.actions;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import org.openide.filesystems.FileUtil;
 import processor.core.graph.GraphNode;
@@ -39,6 +40,17 @@ public class TypeTranslator {
             }
         }
         
+        throw new Exception();
+    }
+    
+    public static Object translateFor(Action action, Object o) throws Exception{
+        if(action instanceof TextTransformer){
+            if(o instanceof String)
+                return (String)o;
+            if(o instanceof File){
+                Files.readAllBytes(((File)o).toPath());
+            }
+        }
         throw new Exception();
     }
     

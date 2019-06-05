@@ -24,7 +24,9 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import org.openide.util.Exceptions;
 import processor.core.graph.DecisionEdge;
 import processor.core.graph.EndNode;
+import processor.core.graph.FailNode;
 import processor.core.graph.StartNode;
+import processor.core.graph.actions.Action;
 import processor.core.graph.conditions.Condition;
 import processor.core.lineal.ComplexNode;
 
@@ -42,35 +44,65 @@ public class FileProcessor {
 
     }
 
-    public void processFile(File f) {
+    public ProcessingResult processFile(File f) {
         ProcessingResult processingResult = new ProcessingResult();
         DefaultDirectedGraph<ComplexNode, DecisionEdge> graph = project.getGraph();
         ComplexNode start = graph.vertexSet().stream().filter(n -> n instanceof StartNode).findFirst().get();
         Optional<DecisionEdge> findFirst = graph.outgoingEdgesOf(start).stream().filter(e -> e.getSign()).findFirst();
         if (!findFirst.isPresent()) {
-            return;
+            return processingResult;
         }
         DecisionEdge trueEdge = findFirst.get();
         ComplexNode node = graph.getEdgeTarget(trueEdge);
-
-        while (!(node instanceof EndNode)){
+        
+        Object content = f;
+        while (!((node instanceof EndNode) || (node instanceof FailNode))){            
+            boolean condRes = true;
+            boolean actionRes = true;
             if (node.getCondition() != null) {
                 Condition condition = node.getCondition();
                 try {
-                    Object translation = TypeTranslator.translateFor(condition, f);
-                    boolean res = condition.test(translation);
-                    DecisionEdge nodeLink = graph.outgoingEdgesOf(node).stream().filter(e -> e.getSign() ==  res).findFirst().get();
-                    node = graph.getEdgeTarget(nodeLink);
+                    Object translation = TypeTranslator.translateFor(condition, content);
+                    condRes = condition.test(translation);
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    continue;
+                    condRes = false;
                 }
-                
-
             }
+            if(node.getAction() != null && condRes){
+                Action action  = node.getAction();
+                try {
+                    Object original = TypeTranslator.translateFor(action, content);
+                    content = action.process(original);
+                    if(!original.equals(content)){
+                        processingResult.actions.add(action);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    actionRes = false;
+                }
+            }
+            
+            boolean finalRes = condRes && actionRes;
+            DecisionEdge directionEdge = null;
+            if(graph.outgoingEdgesOf(node).size() > 1){
+                directionEdge = graph.outgoingEdgesOf(node).stream().filter(e -> e.getSign() == finalRes).findFirst().get();
+            }else{
+                directionEdge = (DecisionEdge) graph.outgoingEdgesOf(node).toArray()[0];
+            }
+            node = graph.getEdgeTarget(directionEdge);
+            
         }
 
+        if(node instanceof FailNode){
+             processingResult.setPassed(false);
+        }else{
+            processingResult.setPassed(true);
+        }
+           
+        return processingResult;
+        
     }
 
     /*

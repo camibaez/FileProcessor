@@ -5,14 +5,25 @@
  */
 package processor.core.file;
 
+import java.util.LinkedList;
+import java.util.List;
+import processor.core.graph.actions.Action;
+
 /**
  *
  * @author cbaez
  */
 public class ProcessingResult {
     protected boolean passed;
+    protected List<Action> actions;
     protected Object result;
 
+    public ProcessingResult(){
+        actions = new LinkedList<>();
+        passed = false;
+    }
+    
+    
     public boolean isPassed() {
         return passed;
     }
@@ -27,6 +38,10 @@ public class ProcessingResult {
 
     public void setResult(Object result) {
         this.result = result;
+    }
+
+    public List<Action> getActions() {
+        return actions;
     }
     
     

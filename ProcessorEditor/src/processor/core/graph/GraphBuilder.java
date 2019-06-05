@@ -59,6 +59,7 @@ public class GraphBuilder {
         }
         if (last != null) {
             g.addEdge(last, END_NODE, new DecisionEdge(true));
+           
         }
 
         return g;

@@ -54,18 +54,17 @@ public final class ProcessorEditorMainPanel extends JPanel {
     }
 
     public void fillFilesTable() {
-        /*
+        
         DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
         tableModel.setRowCount(0);
-        profile.getFileCentral().getMatchedFiles().forEach(p -> {
-            //List<Cleaner> assignedCleaners = profile.getFileProcessor().getAssignedCleaners(p);
-            List<ActionCluster> affectingCleaners = profile.getFileProcessor().getAffectingCleaners(p);
-            if(!affectingCleaners.isEmpty()){
-                tableModel.addRow(new Object[]{p, affectingCleaners});
-            }
+        
+        profile.getFileCentral().getResultMap().forEach((k, v) -> {
+            if(v.getActions().size() > 0)
+                tableModel.addRow(new Object[]{k, v});
         });
+       
         jLabel1.setText(tableModel.getRowCount() + " files matched");
-        */
+        
     }
 
     private void refreshProcessorView() {

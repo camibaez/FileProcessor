@@ -25,19 +25,18 @@ public class FileWalker extends SimpleFileVisitor<Path> {
         this.profile = profile;
         
     }
-
-    protected boolean checkFileName(Path file) {
-       return true;
-    }
-
-   
-
     
 
     // Invoke the pattern matching
     // method on each file.
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+        ProcessingResult processingResult = profile.getFileProcessor().processFile(file.toFile());
+        if(processingResult.isPassed()){
+            profile.getFileCentral().getMatchedFiles().add(file);
+            profile.getFileCentral().registerProcessResult(file, processingResult);
+        }
+        
         /*
         try {
             FilePrototype basicPrototype = profile.getBasePrototype();

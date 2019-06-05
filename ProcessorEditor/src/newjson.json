@@ -6,7 +6,7 @@
                 "class": "FilePattern",
                 "id": null
             },
-            "type": 0
+            "type": 1
         }, {
             "action": {
                 "pattern": "\\.style\\.pixelTop",
