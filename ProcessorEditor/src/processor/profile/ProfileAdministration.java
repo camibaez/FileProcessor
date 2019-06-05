@@ -13,12 +13,14 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import processor.core.graph.GraphNode;
 import processor.core.file.Profile;
 import processor.core.graph.actions.Action;
 import processor.core.graph.conditions.Condition;
@@ -43,15 +45,7 @@ public class ProfileAdministration {
         jo.put("description", profile.getDescription());
         jo.put("lastWorkingDirectory", profile.getLastWorkingDirectory());
         
-        JSONArray nodes = new JSONArray();
-        profile.getNodes().forEach(n -> {
-            if(n instanceof Action){
-                nodes.add(ProfileWriter.writeAction((Action) n));
-            }
-            if(n instanceof Condition){
-                nodes.add(ProfileWriter.writeCondition((Condition) n));
-            }
-        });
+        JSONArray nodes = ProfileWriter.writeNodes(profile.getNodes());
         jo.put("nodes", nodes);
         
         return jo.toJSONString();

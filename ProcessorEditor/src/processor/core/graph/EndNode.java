@@ -3,11 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core;
+package processor.core.graph;
+
+import processor.core.graph.GraphNode;
+import processor.core.lineal.ComplexNode;
 
 /**
  *
  * @author cbaez
  */
-public abstract class ProcessingNode { 
+public class EndNode extends ComplexNode{
+    public String toString(){
+        return "END_NODE";
+    }
 }

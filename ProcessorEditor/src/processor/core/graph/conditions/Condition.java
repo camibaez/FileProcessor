@@ -5,13 +5,13 @@
  */
 package processor.core.graph.conditions;
 
-import processor.core.ProcessingNode;
+import processor.core.graph.GraphNode;
 
 /**
  *
  * @author cbaez
  */
-public abstract class Condition<T> extends ProcessingNode{
+public abstract class Condition<T> extends GraphNode{
     protected String id;
     public abstract boolean test(T o);
 

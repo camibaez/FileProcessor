@@ -6,7 +6,7 @@
 package processor.profile;
 
 import java.util.List;
-import processor.core.ProcessingNode;
+import processor.core.graph.GraphNode;
 import processor.core.graph.conditions.Condition;
 import processor.core.file.Profile;
 import processor.core.graph.actions.Action;
@@ -21,7 +21,7 @@ public class ProfileStructure {
     protected String lastWorkingDirectory;
     protected String treeLocation;
     
-    protected List<ProcessingNode> nodes;
+    protected List<GraphNode> nodes;
     protected List<Condition> conditions;
     protected List<Action> actions;
 

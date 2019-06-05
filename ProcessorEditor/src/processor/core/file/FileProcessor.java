@@ -16,9 +16,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jgrapht.graph.DefaultDirectedGraph;
 import org.openide.util.Exceptions;
+import processor.core.graph.DecisionEdge;
+import processor.core.graph.StartNode;
+import processor.core.lineal.ComplexNode;
 
 /**
  *
@@ -35,6 +40,24 @@ public class FileProcessor {
 
     }
 
+    public void processFile(File f){
+        DefaultDirectedGraph<ComplexNode, DecisionEdge> graph = project.getGraph();
+        ComplexNode start = graph.vertexSet().stream().filter(n -> n instanceof StartNode).findFirst().get();
+        Optional<DecisionEdge> findFirst = graph.outgoingEdgesOf(start).stream().filter(e -> e.getSign()).findFirst();
+        if(!findFirst.isPresent())
+            return;
+        DecisionEdge trueEdge = findFirst.get();
+        ComplexNode node = graph.getEdgeTarget(trueEdge);
+        
+        while(true){
+            if(node.getCondition() != null){
+                boolean res = node.getCondition().test(f);
+            }
+        }
+        
+    }
+    
+    
     /*
     public boolean isAssigned(ActionCluster cleaner, Path file) {
         return cleaner.getPrototype() == null || project.getFileCentral().belongsTo(cleaner.getPrototype(), file);

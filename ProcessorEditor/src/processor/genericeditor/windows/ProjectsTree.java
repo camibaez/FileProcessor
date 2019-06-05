@@ -18,13 +18,13 @@ import processor.core.file.Profile;
 public class ProjectsTree extends JTree {
     public static String CONDITIONS_TEXT = "Condtitions";
     public static String ACTIONS_TEXT = "Actions";
-    
+    public static String NODES_TEXT = "Nodes";
     
     DefaultMutableTreeNode conditionsChildren;
     DefaultMutableTreeNode actionsChildren;
+    DefaultMutableTreeNode nodesChildren;
 
     public ProjectsTree(Profile p) {
-
         loadData(p);
     }
 
@@ -37,6 +37,14 @@ public class ProjectsTree extends JTree {
         DefaultMutableTreeNode profileChild = new DefaultMutableTreeNode(p);
         model.insertNodeInto(profileChild, root, 0);
 
+        
+        //nodesChildren = new DefaultMutableTreeNode(NODES_TEXT);
+        p.getNodes().forEach(c -> {
+            DefaultMutableTreeNode complexNode = new DefaultMutableTreeNode(c);
+            profileChild.add(complexNode);
+        });
+        
+        /*
         //Filling conditions
         conditionsChildren = new DefaultMutableTreeNode(CONDITIONS_TEXT);
         p.getConditions().forEach(c -> {
@@ -52,9 +60,11 @@ public class ProjectsTree extends JTree {
             actionsChildren.add(cleanerNode);
         });
         model.insertNodeInto(actionsChildren, profileChild, 1);
+        */
         
+        //model.insertNodeInto(nodesChildren, profileChild, 0);
         model.reload();
-        expandPath(new TreePath(conditionsChildren.getPath()));
+        expandPath(new TreePath(profileChild.getPath()));
     }
 
     public void reloadData(Profile p) {

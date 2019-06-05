@@ -10,7 +10,7 @@ import java.awt.BorderLayout;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
-import processor.core.GraphBuilder;
+import processor.core.graph.GraphBuilder;
 import processor.core.file.Profile;
 import processor.genericeditor.ProjectCentral;
 

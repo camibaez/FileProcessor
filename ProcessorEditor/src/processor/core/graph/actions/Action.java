@@ -5,13 +5,13 @@
  */
 package processor.core.graph.actions;
 
-import processor.core.ProcessingNode;
+import processor.core.graph.GraphNode;
 
 /**
  *
  * @author cbaez
  */
-public abstract class Action extends ProcessingNode{
+public abstract class Action extends GraphNode{
     public abstract String getId();
     public abstract void setId(String id);
     public abstract Object process(Object o);

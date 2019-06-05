@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import processor.core.GraphBuilder;
+import processor.core.graph.GraphBuilder;
 import processor.core.file.Profile;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
@@ -39,8 +39,8 @@ public class TreeTest {
         FileContent fileContent = new FileContent();
         fileContent.setId("n2");
         
-        profile.addNode(filePattern);
-        profile.addNode(fileContent);
+        //profile.addNode(filePattern);
+        //profile.addNode(fileContent);
         
     }
     

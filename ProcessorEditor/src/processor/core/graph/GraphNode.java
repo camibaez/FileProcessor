@@ -3,14 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core;
+package processor.core.graph;
 
 /**
  *
  * @author cbaez
  */
-public class EndNode extends ProcessingNode{
-    public String toString(){
-        return "END_NODE";
-    }
+public abstract class GraphNode { 
 }

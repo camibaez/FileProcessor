@@ -6,21 +6,44 @@
 package processor.profile;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONArray;
+import processor.core.graph.GraphNode;
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ReplaceText;
+import processor.core.lineal.ComplexNode;
 
 /**
  *
  * @author cbaez
  */
 public class ProfileWriter {
+    
+    public static JSONArray writeNodes(List<ComplexNode> nodes){
+        JSONArray nodesData = new JSONArray();
+        nodes.forEach(n -> {
+            Map map = writeNode(n);
+            nodesData.add(map);
+        });
+        return nodesData;
+    }
+    
+    public static Map writeNode(ComplexNode node){
+        Map data  = new LinkedHashMap();
+        data.put("action", writeAction(node.getAction()));
+        data.put("condition", writeCondition(node.getCondition()));
+        data.put("type", node.getType());
+        return data;
+    }
+    
     public static Map writeAction(Action action) {
+        if(action == null)
+            return null;
         Map actionData = null;
         if (action instanceof ReplaceText) {
             actionData = replaceTextAction((ReplaceText) action);
@@ -28,7 +51,6 @@ public class ProfileWriter {
         if (actionData != null) {
             actionData.put("class", action.getClass().getSimpleName());
             actionData.put("id", action.getId());
-            actionData.put("type", action.getType());
         }
         return actionData;
     }
@@ -42,6 +64,8 @@ public class ProfileWriter {
     }
 
     public static Map writeCondition(Condition condition) {
+        if(condition == null)
+            return null;
         Map conditionData = new LinkedHashMap();
         if (condition instanceof FilePattern) {
             fileTypeCondition(conditionData, (FilePattern) condition);
@@ -55,7 +79,6 @@ public class ProfileWriter {
         if (conditionData != null) {
             conditionData.put("class", condition.getClass().getSimpleName());
             conditionData.put("id", condition.getId());
-            conditionData.put("type", condition.getType());
         }
         return conditionData;
     }

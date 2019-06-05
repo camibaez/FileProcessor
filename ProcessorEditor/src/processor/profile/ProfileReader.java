@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import processor.core.ProcessingNode;
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.conditions.ConditionalPattern;
 import processor.core.graph.conditions.FileContent;
@@ -19,6 +18,7 @@ import processor.core.graph.conditions.TextContent;
 import processor.core.file.Profile;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ReplaceText;
+import processor.core.lineal.ComplexNode;
 
 /**
  *
@@ -34,28 +34,26 @@ public class ProfileReader {
         return project;
     }
 
-    public static List<ProcessingNode> readNodes(JSONObject data){
-        List<ProcessingNode> nodesList = new LinkedList<>();
+    public static List<ComplexNode> readNodes(JSONObject data) {
+        List<ComplexNode> nodesList = new LinkedList<>();
         JSONArray nodesData = (JSONArray) data.get("nodes");
-        
+
         nodesData.forEach(n -> {
-            ProcessingNode node = null;
-            node = readCondition((Map) n);
-            if(node != null){
-                nodesList.add(node);
-                return;
-            }
-            node = readAction((Map) n);
-            if(node != null){
-                nodesList.add(node);
-            }
-                
+            nodesList.add(readNode((Map) n));
         });
-        
+
         return nodesList;
     }
-    
-    
+
+    public static ComplexNode readNode(Map map) {
+        Action action = readAction((Map) map.get("action"));
+        Condition condition = readCondition((Map) map.get("condition"));
+        int type = ((Long)map.get("type")).intValue();
+
+        ComplexNode node = new ComplexNode(condition, action, type);
+        return node;
+    }
+
     public static List<Condition> readConditions(JSONObject data) {
         List<Condition> conditionsList = new LinkedList<>();
         JSONArray conditionsData = (JSONArray) data.get("conditions");
@@ -67,6 +65,8 @@ public class ProfileReader {
     }
 
     public static Condition readCondition(Map data) {
+        if(data == null)
+            return null;
         String clazz = (String) data.get("class");
         Condition condition = null;
         if (clazz.equals(FilePattern.class.getSimpleName())) {
@@ -80,7 +80,6 @@ public class ProfileReader {
         }
         if (condition != null) {
             condition.setId((String) data.get("id"));
-            condition.setType((int) data.get("type"));
         }
 
         return condition;
@@ -97,7 +96,7 @@ public class ProfileReader {
         expressions.forEach(e -> {
             String pattern = (String) ((Map) e).get("pattern");
             String condition = (String) ((Map) e).get("condition");
-            int flags = (int) ((Map) e).get("flags");
+            int flags = ((Long)data.get("flags")).intValue();
 
             expressionsList.add(ConditionalPattern.compile(pattern, flags, condition));
         });
@@ -108,7 +107,7 @@ public class ProfileReader {
     private static Condition readTextContentCondition(Map data) {
         String pattern = (String) data.get("pattern");
         String condition = (String) data.get("condition");
-        int flags = (int) data.get("flags");
+        int flags = ((Long)data.get("flags")).intValue();
 
         return new TextContent(ConditionalPattern.compile(pattern, flags, condition));
     }
@@ -124,6 +123,8 @@ public class ProfileReader {
     }
 
     public static Action readAction(Map data) {
+        if(data == null)
+            return null;
         String clazz = (String) data.get("class");
         Action action = null;
         if (clazz.equals(ReplaceText.class.getSimpleName())) {
@@ -131,16 +132,15 @@ public class ProfileReader {
         }
         if (action != null) {
             action.setId((String) data.get("id"));
-            action.setType((int) data.get("type"));
         }
-        
+
         return action;
     }
 
     public static ReplaceText readReplaceText(Map data) {
         String pattern = (String) data.get("pattern");
         String replace = (String) data.get("replace");
-        int flags = (int) data.get("flags");
+        int flags = ((Long)data.get("flags")).intValue();
         return new ReplaceText(pattern, replace, flags);
     }
 

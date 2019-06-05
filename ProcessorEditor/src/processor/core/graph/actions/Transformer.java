@@ -6,7 +6,7 @@
 package processor.core.graph.actions;
 
 import processor.core.graph.actions.Action;
-import processor.core.ProcessingNode;
+import processor.core.graph.GraphNode;
 
 /**
  *

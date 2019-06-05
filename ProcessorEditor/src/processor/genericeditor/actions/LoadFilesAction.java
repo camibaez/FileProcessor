@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
-import processor.core.file.FileMatcher;
+import processor.core.file.FileWalker;
 import processor.core.file.FileProcessor;
 import processor.core.file.Profile;
 
@@ -44,7 +44,7 @@ public abstract class LoadFilesAction implements ActionListener {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getCurrentDirectory();
             profile.setWorkingDirectory(file.getAbsolutePath());
-            FileMatcher fileMatcher = new FileMatcher(profile);
+            FileWalker fileMatcher = new FileWalker(profile);
             profile.setFileMatcher(fileMatcher);
             
             new Thread(new Runnable() {

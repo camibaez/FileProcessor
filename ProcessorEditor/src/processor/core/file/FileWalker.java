@@ -5,34 +5,23 @@
  */
 package processor.core.file;
 
-import processor.core.graph.conditions.ConditionalPattern;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import static java.nio.file.FileVisitResult.CONTINUE;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A {@code FileVisitor} that finds all files that match the specified pattern.
  */
-public class FileMatcher extends SimpleFileVisitor<Path> {
+public class FileWalker extends SimpleFileVisitor<Path> {
     protected boolean done;
     protected Profile profile;
    
     
 
-    public FileMatcher(Profile profile) {
+    public FileWalker(Profile profile) {
         this.profile = profile;
         
     }

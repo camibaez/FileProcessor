@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import processor.genericeditor.ProjectCentral;
 import processor.profile.ProfileAdministration;
+import static processor.profile.ProfileAdministration.generateProfileJSON;
 
 public class SaveProjectAction implements ActionListener {
 
@@ -22,6 +23,7 @@ public class SaveProjectAction implements ActionListener {
             if (ProjectCentral.instance().getProfile() == null) {
                 throw new Exception("No project loaded");
             }
+            //System.out.println(generateProfileJSON(ProjectCentral.instance().getProfile()));
             ProfileAdministration.saveProject(ProjectCentral.instance().getProfile(), ProjectCentral.instance().getProfileFile().getAbsolutePath());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);

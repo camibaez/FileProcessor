@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core;
+package processor.core.graph;
 
 /**
  *
@@ -19,7 +19,7 @@ public class DecisionEdge {
         this.sign = sign;
     }
     
-    public boolean isSign() {
+    public boolean getSign() {
         return sign;
     }
     

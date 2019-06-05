@@ -10,18 +10,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.jgrapht.graph.DefaultDirectedGraph;
-import processor.core.DecisionEdge;
-import processor.core.GraphBuilder;
+import processor.core.graph.DecisionEdge;
+import processor.core.graph.GraphBuilder;
 
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.actions.Action;
-import processor.core.lineal.ProcessingNode;
+import processor.core.lineal.ComplexNode;
 
 /**
  *
  * @author cbaez
  */
 public class Profile {
+
     protected String name;
     protected String description;
     protected String lastWorkingDirectory;
@@ -29,12 +30,12 @@ public class Profile {
 
     protected FileCentral fileCentral;
 
-    protected FileMatcher fileMatcher;
+    protected FileWalker fileMatcher;
     protected FileProcessor fileProcessor;
 
-    protected DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph;
+    protected DefaultDirectedGraph<ComplexNode, DecisionEdge> graph;
     protected GraphBuilder graphBuilder;
-    protected List<ProcessingNode> nodes;
+    protected List<ComplexNode> nodes;
     protected List<Action> actions;
     protected List<Condition> conditions;
 
@@ -47,6 +48,75 @@ public class Profile {
         this.graph = graphBuilder.buildEmpty();
     }
 
+    public void reloadGraph() {
+        this.graph = graphBuilder.buildNodes(nodes);
+    }
+    
+    public List<ComplexNode> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<ComplexNode> nodes) {
+        this.nodes = nodes;
+        this.reloadGraph();
+    }
+
+    public void addNode(ComplexNode node) {
+        this.nodes.add(node);
+        this.reloadGraph();
+    }
+
+    public void removeNode(ComplexNode node) {
+        this.nodes.remove(node);
+        reloadGraph();
+    }
+
+    public DefaultDirectedGraph<ComplexNode, DecisionEdge> getGraph() {
+        return graph;
+    }
+
+    public void setGraph(DefaultDirectedGraph<ComplexNode, DecisionEdge> graph) {
+        this.graph = graph;
+
+    }
+
+    public GraphBuilder getGraphBuilder() {
+        return graphBuilder;
+    }
+
+    public List<Action> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
+    }
+
+    public void addAction(Action a) {
+        actions.add(a);
+    }
+
+    public void removeAction(Action a) {
+        actions.remove(a);
+    }
+
+    public List<Condition> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(List<Condition> conditions) {
+        this.conditions = conditions;
+    }
+
+    public void addCondition(Condition c) {
+        this.conditions.add(c);
+    }
+
+    public void removeCondition(Condition c) {
+        this.conditions.remove(c);
+    }
+
+    
     public String getName() {
         return name;
     }
@@ -83,11 +153,11 @@ public class Profile {
         return fileCentral;
     }
 
-    public FileMatcher getFileMatcher() {
+    public FileWalker getFileMatcher() {
         return fileMatcher;
     }
 
-    public void setFileMatcher(FileMatcher fileMatcher) {
+    public void setFileMatcher(FileWalker fileMatcher) {
         this.fileMatcher = fileMatcher;
     }
 
@@ -99,76 +169,6 @@ public class Profile {
         this.fileProcessor = fileProcessor;
     }
 
-    public DefaultDirectedGraph<ProcessingNode, DecisionEdge> getGraph() {
-        return graph;
-    }
-
-    public void setGraph(DefaultDirectedGraph<ProcessingNode, DecisionEdge> graph) {
-        this.graph = graph;
-
-    }
-
-    public GraphBuilder getGraphBuilder() {
-        return graphBuilder;
-    }
-
-    public List<Action> getActions() {
-        return actions;
-    }
-
-    public void setActions(List<Action> actions) {
-        this.actions = actions;
-    }
-
-    public void addAction(Action a) {
-        actions.add(a);
-        graph.addVertex(a);
-    }
-
-    public void removeAction(Action a) {
-        actions.remove(a);
-        graph.removeVertex(a);
-    }
-
-    public List<Condition> getConditions() {
-        return conditions;
-    }
-
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
-    }
-
-    public void addCondition(Condition c) {
-        this.conditions.add(c);
-        graph.addVertex(c);
-    }
-
-    public void removeCondition(Condition c) {
-        this.conditions.remove(c);
-        this.graph.removeVertex(c);
-    }
-
-    public List<ProcessingNode> getNodes() {
-        return nodes;
-    }
-
-    public void setNodes(List<ProcessingNode> nodes) {
-        this.nodes = nodes;
-        this.reloadGraph();
-    }
-
-    public void addNode(ProcessingNode node){
-        this.nodes.add(node);
-    }
-    
-    public void removeNode(ProcessingNode node){
-        this.nodes.remove(node);
-    }
-    
-    public void reloadGraph(){
-        
-    }
-    
     public String toString() {
         return getName();
     }

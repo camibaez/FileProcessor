@@ -1,16 +1,34 @@
 {
     "nodes": [{
-            "pattern": "*jsp",
-            "class": "FilePattern",
-            "id": "n1",
+            "action": null,
+            "condition": {
+                "pattern": "*.jsp",
+                "class": "FilePattern",
+                "id": null
+            },
             "type": 0
         }, {
-            "expressions": [],
-            "class": "FileContent",
-            "id": "n2",
+            "action": {
+                "pattern": "\\.style\\.pixelTop",
+                "replace": ".style.top",
+                "flags": 0,
+                "class": "ReplaceText",
+                "id": ""
+            },
+            "condition": null,
+            "type": 0
+        }, {
+            "action": {
+                "pattern": "eval\\('(.+?)'\\s+?[+\\-*]+\\s+([a-z]+).+;",
+                "replace": "$1$2;",
+                "flags": 0,
+                "class": "ReplaceText",
+                "id": ""
+            },
+            "condition": null,
             "type": 0
         }],
-    "lastWorkingDirectory": "C:\\Users\\cbaez\\Desktop\\ProcessorWorkspace\\files",
-    "name": "Project test",
-    "description": "Project test description"
+    "lastWorkingDirectory": "C:\\Users\\cbaez\\Desktop\\ProcessorWorkspace\files",
+    "name": "Proj Tets",
+    "description": "Project test desc"
 }
