@@ -54,13 +54,12 @@ public final class ProcessorEditorMainPanel extends JPanel {
     }
 
     public void fillFilesTable() {
-        
         DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
         tableModel.setRowCount(0);
         
         profile.getFileCentral().getResultMap().forEach((k, v) -> {
             if(v.getActions().size() > 0)
-                tableModel.addRow(new Object[]{k, v});
+                tableModel.addRow(new Object[]{k, v.getActions()});
         });
        
         jLabel1.setText(tableModel.getRowCount() + " files matched");
@@ -185,13 +184,13 @@ public final class ProcessorEditorMainPanel extends JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
-        /*DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int row = jTable1.getSelectedRow();
 
-        if (row > -1 && evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (row > -1 && evt.getKeyCode() == KeyEvent.VK_R) {
             Path p = (Path) model.getValueAt(row, 0);
             try {
-                String result = profile.getFileProcessor().processFile(p);
+                String result = (String) profile.getFileProcessor().processFile(p.toFile()).getResult();
                 profile.getFileProcessor().saveFile(result, p);
                 model.removeRow(row);
                 if (model.getRowCount() == 0) {
@@ -207,7 +206,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
             } catch (IOException ex) {
                 Logger.getLogger(ProcessorEditorMainPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }*/
+        }
     }//GEN-LAST:event_jTable1KeyReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

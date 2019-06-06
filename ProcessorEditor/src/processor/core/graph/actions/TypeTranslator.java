@@ -36,7 +36,7 @@ public class TypeTranslator {
             if(o instanceof String)
                 return (String)o;
             if(o instanceof File){
-                Files.readAllBytes(((File)o).toPath());
+                return new String(Files.readAllBytes(((File)o).toPath()));
             }
         }
         
@@ -48,7 +48,7 @@ public class TypeTranslator {
             if(o instanceof String)
                 return (String)o;
             if(o instanceof File){
-                Files.readAllBytes(((File)o).toPath());
+                return new String(Files.readAllBytes(((File)o).toPath()));
             }
         }
         throw new Exception();

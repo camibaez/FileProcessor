@@ -94,17 +94,36 @@ public class FileProcessor {
             node = graph.getEdgeTarget(directionEdge);
             
         }
-
-        if(node instanceof FailNode){
-             processingResult.setPassed(false);
-        }else{
-            processingResult.setPassed(true);
-        }
+        processingResult.setPassed(!(node instanceof FailNode));
            
+        processingResult.setResult(content);
         return processingResult;
         
     }
 
+    public void processAll() {
+        for (Path f : project.getFileCentral().getMatchedFiles()) {
+            try {
+                String result = (String) processFile(f.toFile()).getResult();
+
+                saveFile(result, f);
+
+            } catch (IOException ex) {
+                Logger.getLogger(FileProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+     public void saveFile(String result, Path p) throws FileNotFoundException, IOException {
+        File f = p.toFile();
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8)
+        )) {
+            writer.write(result);
+            project.getFileCentral().getProcessedFiles().add(p);
+        }
+    }
+    
     /*
     public boolean isAssigned(ActionCluster cleaner, Path file) {
         return cleaner.getPrototype() == null || project.getFileCentral().belongsTo(cleaner.getPrototype(), file);
@@ -157,29 +176,9 @@ public class FileProcessor {
         return TypeTransformer.transformForType(String.class, result);
     }
 
-    public void saveFile(String result, Path p) throws FileNotFoundException, IOException {
-        File f = p.toFile();
-        try (BufferedWriter writer = new BufferedWriter(
-                new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8)
-        )) {
-            writer.write(result);
-            project.getFileCentral().getProcessedFiles().add(p);
-        }
-    }
+   
 
-    public void processAll() {
-        for (Path f : project.getFileCentral().getMatchedFiles()) {
-            try {
-                String result = processFile(f);
-
-                saveFile(result, f);
-
-            } catch (IOException ex) {
-                Logger.getLogger(FileProcessor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
+    
     public List<ActionCluster> getCleaners() {
         return cleaners;
     }

@@ -5,6 +5,8 @@
  */
 package processor.core.file;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,6 +48,7 @@ public class Profile {
         this.nodes = new LinkedList<>();
         this.graphBuilder = new GraphBuilder();
         this.graph = graphBuilder.buildEmpty();
+        this.fileProcessor = new FileProcessor(this);
     }
 
     public void reloadGraph() {
@@ -69,6 +72,16 @@ public class Profile {
     public void removeNode(ComplexNode node) {
         this.nodes.remove(node);
         reloadGraph();
+    }
+    
+    public void moveNode(ComplexNode node, int pos){
+        int i = this.nodes.indexOf(node);
+        if((pos < 0 && i > 0) || 
+           (pos > 0 && i > -1 && i < this.nodes.size() - 1)){
+            Collections.swap(nodes, i, i + pos);
+            this.reloadGraph();
+        }
+        
     }
 
     public DefaultDirectedGraph<ComplexNode, DecisionEdge> getGraph() {

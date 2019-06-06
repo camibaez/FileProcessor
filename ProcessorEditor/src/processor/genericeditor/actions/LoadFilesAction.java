@@ -62,7 +62,7 @@ public abstract class LoadFilesAction implements ActionListener {
 
             //FileProcessor fileProcessor = new FileProcessor(profile, profile.getCleaners());
             //profile.setFileProcessor(fileProcessor);
-            //openProcessorWindow();
+            openProcessorWindow();
 
         } else {
             Logger.getLogger(LoadFilesAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");

@@ -29,6 +29,13 @@ public class FileCentral {
         this.project = project;
         matchedFiles = new LinkedList<>();
         processedFiles = new HashSet<>();
+        resultMap = new HashMap<>();
+    }
+    
+    public void cleanData(){
+        matchedFiles = new LinkedList<>();
+        processedFiles = new HashSet<>();
+        resultMap = new HashMap<>();
     }
 
     public Set<Path> getProcessedFiles() {
