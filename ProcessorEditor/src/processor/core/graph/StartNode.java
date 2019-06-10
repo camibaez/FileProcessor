@@ -5,13 +5,11 @@
  */
 package processor.core.graph;
 
-import processor.core.lineal.ComplexNode;
-
 /**
  *
  * @author cbaez
  */
-public class StartNode extends ComplexNode{
+public class StartNode extends GraphNode{
     public String toString(){
         return "START_NODE";
     }

@@ -5,15 +5,12 @@
  */
 package processor.core.graph;
 
-import processor.core.graph.GraphNode;
-import processor.core.lineal.ComplexNode;
-
 /**
  *
  * @author cbaez
  */
-public class EndNode extends ComplexNode{
-    public String toString(){
+public class EndNode extends GraphNode {
+    public String toString() {
         return "END_NODE";
     }
 }

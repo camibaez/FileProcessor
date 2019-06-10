@@ -5,6 +5,9 @@
  */
 package processor.core.graph;
 
+import processor.core.lineal.FailNode;
+import processor.core.lineal.EndNode;
+import processor.core.lineal.StartNode;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
@@ -26,6 +29,7 @@ import processor.core.lineal.ComplexNode;
 public class GraphBuilder {
 
     public static ComplexNode START_NODE = new StartNode(), END_NODE = new EndNode(), FAIL_NODE = new FailNode();
+    
 
     public DefaultDirectedGraph<ComplexNode, DecisionEdge> buildEmpty() {
         DefaultDirectedGraph<ComplexNode, DecisionEdge> graph = new DefaultDirectedGraph<>(DecisionEdge.class);

@@ -142,7 +142,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
 
         matchedFilesPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, "Files processed:"); // NOI18N
+        jLabel1.setText("Files processed:"); // NOI18N
         matchedFilesPanel.add(jLabel1, java.awt.BorderLayout.SOUTH);
 
         jSplitPane1.setBottomComponent(matchedFilesPanel);
@@ -153,7 +153,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jToolBar1.setRollover(true);
         jToolBar1.add(filler1);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(ProcessorEditorMainPanel.class, "ProcessorEditorMainPanel.jButton2.text")); // NOI18N
+        jButton2.setText("Refresh"); // NOI18N
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -163,6 +163,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
             }
         });
         jToolBar1.add(jButton2);
+        jButton2.getAccessibleContext().setAccessibleDescription("Refresh");
 
         jPanel1.add(jToolBar1, java.awt.BorderLayout.SOUTH);
 

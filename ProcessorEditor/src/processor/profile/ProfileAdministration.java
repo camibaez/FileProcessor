@@ -47,6 +47,7 @@ public class ProfileAdministration {
         
         JSONArray nodes = ProfileWriter.writeNodes(profile.getNodes());
         jo.put("nodes", nodes);
+        //jo.put("graph", GraphSerialization.writeGraph(profile.getGraph()));
         
         return jo.toJSONString();
     }

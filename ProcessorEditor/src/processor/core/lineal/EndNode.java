@@ -3,22 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.graph;
+package processor.core.lineal;
+
+import processor.core.graph.GraphNode;
+import processor.core.lineal.ComplexNode;
 
 /**
  *
  * @author cbaez
  */
-public abstract class GraphNode{ 
-    protected String id;
-
-    public String getId() {
-        return id;
+public class EndNode extends ComplexNode{
+    public String toString(){
+        return "END_NODE";
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    
-    
 }

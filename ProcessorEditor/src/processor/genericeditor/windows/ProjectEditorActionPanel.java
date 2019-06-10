@@ -7,15 +7,10 @@ package processor.genericeditor.windows;
 
 import java.awt.Color;
 import java.awt.event.KeyListener;
-import java.util.Collections;
 import java.util.regex.Pattern;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import org.openide.actions.ReplaceAction;
 import processor.core.file.Profile;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ReplaceText;
-import processor.core.graph.actions.Transformer;
 
 /**
  *

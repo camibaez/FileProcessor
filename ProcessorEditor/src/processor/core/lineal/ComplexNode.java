@@ -32,7 +32,6 @@ public class ComplexNode{
     
     
     
-    
     public int getType() {
         return type;
     }

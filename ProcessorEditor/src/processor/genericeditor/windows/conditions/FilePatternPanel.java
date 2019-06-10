@@ -6,6 +6,7 @@
 package processor.genericeditor.windows.conditions;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.conditions.FilePattern;
 
@@ -44,11 +45,8 @@ public class FilePatternPanel extends ConditionPanel {
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(FilePatternPanel.class, "FilePatternPanel.border.title"))); // NOI18N
+        jLabel1.setText("File pattern:"); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, "File pattern:");
-
-        jTextField1.setText(org.openide.util.NbBundle.getMessage(FilePatternPanel.class, "FilePatternPanel.jTextField1.text")); // NOI18N
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField1KeyReleased(evt);
@@ -63,7 +61,7 @@ public class FilePatternPanel extends ConditionPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -75,9 +73,11 @@ public class FilePatternPanel extends ConditionPanel {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jTextField1.getAccessibleContext().setAccessibleDescription(""); // NOI18N
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+    private void jTextField1KeyReleased(KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         try{
             condition.setPattern(jTextField1.getText());
             jTextField1.setForeground(Color.BLACK);

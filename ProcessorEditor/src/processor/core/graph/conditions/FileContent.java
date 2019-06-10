@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import org.openide.util.Exceptions;
+
 
 /**
  *
@@ -54,7 +54,7 @@ public class FileContent extends Condition<File>{
                 line = reader.readLine();
             }
         } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
+            ex.printStackTrace();
         }
 
         boolean failed = false;

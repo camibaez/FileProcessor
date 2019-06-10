@@ -6,12 +6,7 @@
 package processor.core.graph.actions;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
-import org.openide.filesystems.FileUtil;
-import processor.core.graph.GraphNode;
-import processor.core.graph.actions.TextTransformer;
-import processor.core.graph.actions.Transformer;
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;

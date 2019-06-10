@@ -54,9 +54,7 @@ public class TextContentPanel extends ConditionPanel {
         jLabel5 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(TextContentPanel.class, "TextContentPanel.border.title"))); // NOI18N
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(TextContentPanel.class, "TextContentPanel.jLabel6.text")); // NOI18N
+        jLabel6.setText("Pattern:"); // NOI18N
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
@@ -80,9 +78,10 @@ public class TextContentPanel extends ConditionPanel {
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(TextContentPanel.class, "TextContentPanel.jLabel5.text")); // NOI18N
+        jLabel5.setText("Conditions:");
+        jLabel5.setToolTipText("Conditions:"); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jCheckBox1, org.openide.util.NbBundle.getMessage(TextContentPanel.class, "TextContentPanel.jCheckBox1.text")); // NOI18N
+        jCheckBox1.setText("Ignore case"); // NOI18N
         jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jCheckBox1ItemStateChanged(evt);
@@ -110,7 +109,7 @@ public class TextContentPanel extends ConditionPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jCheckBox1)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

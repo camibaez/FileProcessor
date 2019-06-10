@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
-import org.openide.actions.ReplaceAction;
 import processor.core.graph.conditions.Condition;
 import processor.core.file.Profile;
 import processor.core.graph.actions.Action;
@@ -20,6 +19,7 @@ import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
 import processor.core.lineal.ComplexNode;
+import processor.editor.windows.CodeEditorOpener;
 import processor.genericeditor.ProjectCentral;
 import processor.genericeditor.windows.conditions.PanelFactory;
 
@@ -85,7 +85,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton1 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
@@ -108,18 +107,23 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jButton5 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
 
+        setName("Form"); // NOI18N
         setLayout(new java.awt.BorderLayout());
 
+        jSplitPane1.setName("jSplitPane1"); // NOI18N
+
         jPanel4.setMinimumSize(new java.awt.Dimension(300, 0));
+        jPanel4.setName("jPanel4"); // NOI18N
         jPanel4.setLayout(new java.awt.BorderLayout());
 
         jToolBar2.setFloatable(false);
         jToolBar2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar2.setRollover(true);
-        jToolBar2.add(filler2);
+        jToolBar2.setName("jToolBar2"); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton1.text")); // NOI18N
-        jButton1.setToolTipText(org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton1.toolTipText")); // NOI18N
+        jButton1.setText("+"); // NOI18N
+        jButton1.setToolTipText("+"); // NOI18N
+        jButton1.setName("jButton1"); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -127,9 +131,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jToolBar2.add(jButton1);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton6, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton6.text")); // NOI18N
+        jButton6.setText("+FPT"); // NOI18N
+        jButton6.setToolTipText("+FPT"); // NOI18N
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton6.setName("jButton6"); // NOI18N
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,9 +144,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jToolBar2.add(jButton6);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton9, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton9.text")); // NOI18N
+        jButton9.setText("+FCT"); // NOI18N
+        jButton9.setToolTipText("+FCT"); // NOI18N
         jButton9.setFocusable(false);
         jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton9.setName("jButton9"); // NOI18N
         jButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,9 +157,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jToolBar2.add(jButton9);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton10, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton10.text")); // NOI18N
+        jButton10.setText("+TCC"); // NOI18N
+        jButton10.setToolTipText("+TCC"); // NOI18N
         jButton10.setFocusable(false);
         jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton10.setName("jButton10"); // NOI18N
         jButton10.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,9 +170,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jToolBar2.add(jButton10);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton8, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton8.text")); // NOI18N
+        jButton8.setText("+A"); // NOI18N
+        jButton8.setToolTipText("+A"); // NOI18N
         jButton8.setFocusable(false);
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton8.setName("jButton8"); // NOI18N
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,8 +183,9 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jToolBar2.add(jButton8);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton7, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton7.text")); // NOI18N
-        jButton7.setToolTipText(org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton7.toolTipText")); // NOI18N
+        jButton7.setText("-"); // NOI18N
+        jButton7.setToolTipText("-"); // NOI18N
+        jButton7.setName("jButton7"); // NOI18N
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -180,9 +193,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jToolBar2.add(jButton7);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton3, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton3.text")); // NOI18N
+        jButton3.setText("Up"); // NOI18N
+        jButton3.setToolTipText("Up"); // NOI18N
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setName("jButton3"); // NOI18N
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,10 +206,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jToolBar2.add(jButton3);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton4, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton4.text")); // NOI18N
-        jButton4.setToolTipText(org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton4.toolTipText")); // NOI18N
+        jButton4.setText("Down"); // NOI18N
+        jButton4.setToolTipText("Down"); // NOI18N
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setName("jButton4"); // NOI18N
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,10 +218,13 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             }
         });
         jToolBar2.add(jButton4);
+
+        jSeparator1.setName("jSeparator1"); // NOI18N
         jToolBar2.add(jSeparator1);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton2.text")); // NOI18N
-        jButton2.setToolTipText(org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton2.toolTipText")); // NOI18N
+        jButton2.setText("R"); // NOI18N
+        jButton2.setToolTipText("R"); // NOI18N
+        jButton2.setName("jButton2"); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -217,23 +236,31 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
         jSplitPane1.setLeftComponent(jPanel4);
 
+        jPanel1.setName("jPanel1"); // NOI18N
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jSplitPane3.setDividerLocation(300);
         jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        jSplitPane3.setName("jSplitPane3"); // NOI18N
 
+        jPanel7.setName("jPanel7"); // NOI18N
         jPanel7.setLayout(new java.awt.BorderLayout());
         jSplitPane3.setLeftComponent(jPanel7);
 
+        jPanel8.setName("jPanel8"); // NOI18N
         jPanel8.setLayout(new java.awt.BorderLayout());
         jSplitPane3.setRightComponent(jPanel8);
 
         jPanel1.add(jSplitPane3, java.awt.BorderLayout.CENTER);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jLabel1.text")); // NOI18N
+        jPanel2.setName("jPanel2"); // NOI18N
+
+        jLabel1.setText("Type"); // NOI18N
+        jLabel1.setName("jLabel1"); // NOI18N
         jPanel2.add(jLabel1);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0 - Omissible", "1 - Not Omissible" }));
+        jComboBox1.setName("jComboBox1"); // NOI18N
         jComboBox1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox1ItemStateChanged(evt);
@@ -254,12 +281,16 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
+        jToolBar1.setName("jToolBar1"); // NOI18N
+
+        filler1.setName("filler1"); // NOI18N
         jToolBar1.add(filler1);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton5, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton5.text")); // NOI18N
+        jButton5.setText("View Code"); // NOI18N
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setName("jButton5"); // NOI18N
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,9 +299,10 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jToolBar1.add(jButton5);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton11, org.openide.util.NbBundle.getMessage(ProjectEditorMainPanel.class, "ProjectEditorMainPanel.jButton11.text")); // NOI18N
+        jButton11.setText("View Graph"); // NOI18N
         jButton11.setFocusable(false);
         jButton11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton11.setName("jButton11"); // NOI18N
         jButton11.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -392,7 +424,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;

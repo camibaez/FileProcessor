@@ -80,7 +80,7 @@ public class FileContentPanel extends ConditionPanel{
         jLabel5 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(FileContentPanel.class, "FileContentPanel.jPanel1.border.title"))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Content Condition")); // NOI18N
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addItemListener(new java.awt.event.ItemListener() {
@@ -89,23 +89,23 @@ public class FileContentPanel extends ConditionPanel{
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(FileContentPanel.class, "FileContentPanel.jLabel4.text")); // NOI18N
+        jLabel4.setText("Expression:"); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton1, org.openide.util.NbBundle.getMessage(FileContentPanel.class, "FileContentPanel.jButton1.text")); // NOI18N
+        jButton1.setText("Delete"); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(FileContentPanel.class, "FileContentPanel.jButton2.text")); // NOI18N
+        jButton2.setText("Add"); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel6, org.openide.util.NbBundle.getMessage(FileContentPanel.class, "FileContentPanel.jLabel6.text")); // NOI18N
+        jLabel6.setText("Pattern:");
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
@@ -129,9 +129,9 @@ public class FileContentPanel extends ConditionPanel{
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel5, org.openide.util.NbBundle.getMessage(FileContentPanel.class, "FileContentPanel.jLabel5.text")); // NOI18N
+        jLabel5.setText("Conditions:");
 
-        org.openide.awt.Mnemonics.setLocalizedText(jCheckBox1, org.openide.util.NbBundle.getMessage(FileContentPanel.class, "FileContentPanel.jCheckBox1.text")); // NOI18N
+        jCheckBox1.setText("Match case"); // NOI18N
         jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jCheckBox1ItemStateChanged(evt);
@@ -153,7 +153,7 @@ public class FileContentPanel extends ConditionPanel{
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(26, 26, 26)
-                        .addComponent(jComboBox1, 0, 294, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, 0, 504, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
@@ -205,6 +205,8 @@ public class FileContentPanel extends ConditionPanel{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        jPanel1.getAccessibleContext().setAccessibleName("COntent"); // NOI18N
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged

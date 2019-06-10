@@ -10,7 +10,7 @@ package processor.core.graph;
  * @author cbaez
  */
 public class DecisionEdge {
-    protected boolean sign;
+    protected boolean sign = true;
 
     public DecisionEdge() {
     }
