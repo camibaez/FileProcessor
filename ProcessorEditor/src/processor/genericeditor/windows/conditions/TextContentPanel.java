@@ -5,6 +5,7 @@
  */
 package processor.genericeditor.windows.conditions;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.regex.Pattern;
 import processor.core.graph.conditions.ConditionalPattern;
@@ -15,28 +16,28 @@ import processor.core.graph.conditions.TextContent;
  * @author cbaez
  */
 public class TextContentPanel extends ConditionPanel {
+
     TextContent condition;
+
     /**
      * Creates new form GenericContentPanel
      */
     public TextContentPanel(TextContent c) {
+        super(c);
         condition = c;
         initComponents();
+        addPorts();
         loadConditionData();
     }
-    
-    
+
     @Override
     public void loadConditionData() {
         ConditionalPattern p = condition.getPattern();
-        jComboBox2.setSelectedIndex(p.getCondition().equals(ConditionalPattern.EXCLUDE)? 0 : 1);
+        jComboBox2.setSelectedIndex(p.getCondition().equals(ConditionalPattern.EXCLUDE) ? 0 : 1);
         jTextArea1.setText(p.getPattern().pattern());
         boolean ignoreCase = (p.getPattern().flags() & Pattern.CASE_INSENSITIVE) == Pattern.CASE_INSENSITIVE;
         jCheckBox1.setSelected(!ignoreCase);
     }
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,12 +48,15 @@ public class TextContentPanel extends ConditionPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jComboBox2 = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox();
         jCheckBox1 = new javax.swing.JCheckBox();
+
+        setLayout(new java.awt.BorderLayout());
 
         jLabel6.setText("Pattern:"); // NOI18N
 
@@ -66,6 +70,9 @@ public class TextContentPanel extends ConditionPanel {
         });
         jScrollPane1.setViewportView(jTextArea1);
 
+        jLabel5.setText("Conditions:");
+        jLabel5.setToolTipText("Conditions:"); // NOI18N
+
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Exclude", "Include" }));
         jComboBox2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -77,9 +84,6 @@ public class TextContentPanel extends ConditionPanel {
                 jComboBox2ActionPerformed(evt);
             }
         });
-
-        jLabel5.setText("Conditions:");
-        jLabel5.setToolTipText("Conditions:"); // NOI18N
 
         jCheckBox1.setText("Ignore case"); // NOI18N
         jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
@@ -93,39 +97,42 @@ public class TextContentPanel extends ConditionPanel {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox1)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jCheckBox1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
+
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
@@ -165,14 +172,13 @@ public class TextContentPanel extends ConditionPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
-    
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables

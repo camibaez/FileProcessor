@@ -22,9 +22,10 @@ public class FileContentPanel extends ConditionPanel{
      * Creates new form FileContentPanel
      */
     public FileContentPanel(FileContent c) {
+        super(c);
         condition = c;
         initComponents();
-        
+        addPorts();
         loadConditionData();
     }
     
@@ -80,7 +81,9 @@ public class FileContentPanel extends ConditionPanel{
         jLabel5 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Content Condition")); // NOI18N
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Content Condition"));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addItemListener(new java.awt.event.ItemListener() {
@@ -105,7 +108,7 @@ public class FileContentPanel extends ConditionPanel{
             }
         });
 
-        jLabel6.setText("Pattern:");
+        jLabel6.setText("Pattern:"); // NOI18N
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
@@ -129,7 +132,7 @@ public class FileContentPanel extends ConditionPanel{
             }
         });
 
-        jLabel5.setText("Conditions:");
+        jLabel5.setText("Conditions:"); // NOI18N
 
         jCheckBox1.setText("Match case"); // NOI18N
         jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
@@ -195,17 +198,7 @@ public class FileContentPanel extends ConditionPanel{
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
+        add(jPanel1, java.awt.BorderLayout.CENTER);
         jPanel1.getAccessibleContext().setAccessibleName("COntent"); // NOI18N
     }// </editor-fold>//GEN-END:initComponents
 
