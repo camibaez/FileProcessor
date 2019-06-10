@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.editor.windows;
+package processor.genericeditor.windows;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +21,7 @@ import org.openide.util.Exceptions;
  * @author cbaez
  */
 public class CodeEditorOpener {
+    
     public void openEditor(File f) {
         try {
             FileObject fo =  FileUtil.toFileObject(f);
