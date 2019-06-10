@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-
 import processor.core.file.Profile;
 
 public final class ProcessorEditorMainPanel extends JPanel {
@@ -38,11 +37,11 @@ public final class ProcessorEditorMainPanel extends JPanel {
             public void run() {
                 while (true) {
                     try {
-                        if(profile.getFileMatcher().isDone()){
+                        if (profile.getFileMatcher().isDone()) {
                             fillFilesTable();
                             break;
-                        }else{
-                           Thread.sleep(1000); 
+                        } else {
+                            Thread.sleep(1000);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -56,14 +55,15 @@ public final class ProcessorEditorMainPanel extends JPanel {
     public void fillFilesTable() {
         DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
         tableModel.setRowCount(0);
-        
+
         profile.getFileCentral().getResultMap().forEach((k, v) -> {
-            if(v.getActions().size() > 0)
+            if (v.getActions().size() > 0) {
                 tableModel.addRow(new Object[]{k, v.getActions()});
+            }
         });
-       
+
         jLabel1.setText(tableModel.getRowCount() + " files matched");
-        
+
     }
 
     private void refreshProcessorView() {
@@ -186,31 +186,33 @@ public final class ProcessorEditorMainPanel extends JPanel {
     private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int row = jTable1.getSelectedRow();
+        if (row > -1) {
+            if (evt.getKeyCode() == KeyEvent.VK_R) {
+                Path p = (Path) model.getValueAt(row, 0);
+                try {
+                    String result = (String) profile.getFileProcessor().processFile(p.toFile()).getResult();
+                    profile.getFileProcessor().saveFile(result, p);
+                    model.removeRow(row);
+                    if (model.getRowCount() == 0) {
+                        return;
+                    }
+                    if (row <= model.getRowCount() - 1) {
+                        jTable1.getSelectionModel().setSelectionInterval(0, row);
 
-        if (row > -1 && evt.getKeyCode() == KeyEvent.VK_R) {
-            Path p = (Path) model.getValueAt(row, 0);
-            try {
-                String result = (String) profile.getFileProcessor().processFile(p.toFile()).getResult();
-                profile.getFileProcessor().saveFile(result, p);
-                model.removeRow(row);
-                if (model.getRowCount() == 0) {
-                    return;
+                    } else {
+                        jTable1.getSelectionModel().setSelectionInterval(0, model.getRowCount() - 1);
+                    }
+                    refreshProcessorView();
+                } catch (IOException ex) {
+                    Logger.getLogger(ProcessorEditorMainPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                if (row <= model.getRowCount() - 1) {
-                    jTable1.getSelectionModel().setSelectionInterval(0, row);
-
-                } else {
-                    jTable1.getSelectionModel().setSelectionInterval(0, model.getRowCount() - 1);
-                }
-                refreshProcessorView();
-            } catch (IOException ex) {
-                Logger.getLogger(ProcessorEditorMainPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
     }//GEN-LAST:event_jTable1KeyReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         fillFilesTable();
+        fillFilesTable();
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

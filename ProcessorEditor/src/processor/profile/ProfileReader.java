@@ -96,7 +96,7 @@ public class ProfileReader {
         expressions.forEach(e -> {
             String pattern = (String) ((Map) e).get("pattern");
             String condition = (String) ((Map) e).get("condition");
-            int flags = ((Long)data.get("flags")).intValue();
+            int flags = ((Long)((Map)e).get("flags")).intValue();
 
             expressionsList.add(ConditionalPattern.compile(pattern, flags, condition));
         });
