@@ -22,6 +22,7 @@ import processor.core.graph.conditions.TextContent;
 import processor.core.lineal.ComplexNode;
 import processor.editor.windows.CodeEditorOpener;
 import processor.core.file.ProjectCentral;
+import processor.core.graph.GraphNode;
 import processor.genericeditor.windows.conditions.PanelFactory;
 
 /**
@@ -86,7 +87,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
@@ -121,16 +121,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jToolBar2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar2.setRollover(true);
         jToolBar2.setName("jToolBar2"); // NOI18N
-
-        jButton1.setText("+"); // NOI18N
-        jButton1.setToolTipText("+"); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jToolBar2.add(jButton1);
 
         jButton6.setText("+FPT"); // NOI18N
         jButton6.setToolTipText("+FPT"); // NOI18N
@@ -324,7 +314,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         if (showConfirmDialog == JOptionPane.YES_OPTION) {
 
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-            ComplexNode obj = (ComplexNode) node.getUserObject();
+            GraphNode obj = (GraphNode) node.getUserObject();
             jSplitPane3.setLeftComponent(new JPanel());
             jSplitPane3.setRightComponent(new JPanel());
 
@@ -332,13 +322,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             profileTree.reloadData(profile);
         }
     }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        profile.addNode(new ComplexNode());
-        profileTree.reloadData(profile);
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         profileTree.reloadData(profile);
@@ -407,19 +390,19 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         //DecisionGraph dummyGraph = profile.getGraphBuilder().buildDummyGraph();
         //profile.getGraphBuilder().export(dummyGraph);
         
-        System.out.println(profile.getGraphBuilder().export(profile.getGraph()));
+        //System.out.println(profile.getGraphBuilder().export(profile.getGraph()));
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-        ComplexNode obj = (ComplexNode) node.getUserObject();
+        GraphNode obj = (GraphNode) node.getUserObject();
         profile.moveNode(obj, -1);
         profileTree.reloadData(profile);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
        DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-        ComplexNode obj = (ComplexNode) node.getUserObject();
+        GraphNode obj = (GraphNode) node.getUserObject();
         profile.moveNode(obj, 1);
         profileTree.reloadData(profile);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -427,7 +410,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;

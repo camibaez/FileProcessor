@@ -23,6 +23,18 @@ public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge>
         addVertex(F_NODE);
     }
     
+    public void reload(){
+        
+    }
+    
+    public GraphNode getInitialNode() {
+        Set<DecisionEdge> outgoingEdgesOf = this.outgoingEdgesOf(S_NODE);
+        if(outgoingEdgesOf.size() < 1)
+            return null;
+        DecisionEdge edge = outgoingEdgesOf.stream().findFirst().get();
+        return this.getEdgeTarget(edge);
+    }
+    
     public boolean isFailNode(GraphNode node){
         return node == F_NODE;
     }
@@ -35,11 +47,5 @@ public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge>
         return node == S_NODE;
     }
       
-    public GraphNode getInitialNode() {
-        Set<DecisionEdge> outgoingEdgesOf = this.outgoingEdgesOf(S_NODE);
-        if(outgoingEdgesOf.size() < 1)
-            return null;
-        DecisionEdge edge = outgoingEdgesOf.stream().findFirst().get();
-        return this.getEdgeTarget(edge);
-    }
+    
 }

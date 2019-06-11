@@ -5,6 +5,8 @@
  */
 package processor.core.graph.serialization;
 
+import java.io.Reader;
+import java.io.StringReader;
 import processor.core.lineal.FailNode;
 import processor.core.lineal.EndNode;
 import processor.core.lineal.StartNode;
@@ -15,8 +17,12 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.io.ComponentNameProvider;
 import org.jgrapht.io.DOTExporter;
+import org.jgrapht.io.DOTImporter;
 import org.jgrapht.io.ExportException;
 import org.jgrapht.io.GraphExporter;
+import org.jgrapht.io.ImportException;
+import org.jgrapht.io.VertexProvider;
+import org.openide.util.Exceptions;
 import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
@@ -35,7 +41,52 @@ public class GraphBuilder {
 
     public static ComplexNode START_NODE = new StartNode(), END_NODE = new EndNode(), FAIL_NODE = new FailNode();
     
-
+    public DecisionGraph buildDummyGraph(){
+        DecisionGraph graph = new DecisionGraph();
+        FilePattern filePattern = new FilePattern("*.jsp");
+        filePattern.setId("c1");
+        graph.addVertex(filePattern);
+        final ReplaceText replaceText = new ReplaceText("a", "b");
+        replaceText.setId("a1");
+        graph.addVertex(replaceText);
+        
+        graph.addEdge(DecisionGraph.S_NODE, filePattern, new DecisionEdge());
+        graph.addEdge(filePattern, DecisionGraph.F_NODE, new DecisionEdge(false));
+        graph.addEdge(filePattern, replaceText, new DecisionEdge());
+        graph.addEdge(replaceText, DecisionGraph.E_NODE);
+        
+        return graph;
+    }
+    
+    
+    public void importGraph(DecisionGraph graph, List<GraphNode> nodes, String dotData){
+        NodeProvider nodeProvider = new NodeProvider(nodes);
+        DecisionEdgeProvider decisionEdgeProvider = new DecisionEdgeProvider();
+        
+        DOTImporter<GraphNode, DecisionEdge> dotImporter  = new DOTImporter<>(nodeProvider, decisionEdgeProvider);
+        try {
+            dotImporter.importGraph(graph, new StringReader(dotData));
+        } catch (ImportException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    
+    public void exportGraph(DecisionGraph graph){
+        
+        NodeIdProvider idProvider = new NodeIdProvider();
+        NodeLabelProvider nodeLabelProvider = new NodeLabelProvider();
+        EdgeIdProvider edgeIdProvider = new EdgeIdProvider();
+        
+        DOTExporter<GraphNode, DecisionEdge> dotExporter = new DOTExporter<>(idProvider, nodeLabelProvider, edgeIdProvider);
+        try {
+            dotExporter.exportGraph(graph, System.out);
+        } catch (ExportException ex) {
+           ex.printStackTrace();
+        }
+    }
+    
+    
     public DefaultDirectedGraph<ComplexNode, DecisionEdge> buildEmpty() {
         DefaultDirectedGraph<ComplexNode, DecisionEdge> graph = new DefaultDirectedGraph<>(DecisionEdge.class);
         graph.addVertex(START_NODE);
@@ -44,7 +95,8 @@ public class GraphBuilder {
         return graph;
 
     }
-
+    
+    
     public DefaultDirectedGraph<ComplexNode, DecisionEdge> buildNodes(List<ComplexNode> nodes) {
         DefaultDirectedGraph<ComplexNode, DecisionEdge> g = buildEmpty();
         ComplexNode first = null;
@@ -74,6 +126,13 @@ public class GraphBuilder {
         return g;
     }
 
+    
+    
+    
+    
+    
+    
+    
     public String export(Graph graph) {
         ComponentNameProvider<ComplexNode> idProvider = new ComponentNameProvider<ComplexNode>() {
             @Override
@@ -116,34 +175,4 @@ public class GraphBuilder {
         return writer.toString();
     }
    
-    
-    public DecisionGraph buildDummyGraph(){
-        DecisionGraph graph = new DecisionGraph();
-        FilePattern filePattern = new FilePattern("*.jsp");
-        filePattern.setId("c1");
-        graph.addVertex(filePattern);
-        final ReplaceText replaceText = new ReplaceText("a", "b");
-        replaceText.setId("a1");
-        graph.addVertex(replaceText);
-        
-        graph.addEdge(DecisionGraph.S_NODE, filePattern, new DecisionEdge());
-        graph.addEdge(filePattern, DecisionGraph.F_NODE, new DecisionEdge(false));
-        graph.addEdge(filePattern, replaceText, new DecisionEdge());
-        graph.addEdge(replaceText, DecisionGraph.E_NODE);
-        
-        return graph;
-    }
-    public void export(DecisionGraph graph){
-        
-        NodeIdProvider idProvider = new NodeIdProvider();
-        NodeLabelProvider nodeLabelProvider = new NodeLabelProvider();
-        EdgeIdProvider edgeIdProvider = new EdgeIdProvider();
-        
-        DOTExporter<GraphNode, DecisionEdge> dotExporter = new DOTExporter<>(idProvider, nodeLabelProvider, edgeIdProvider);
-        try {
-            dotExporter.exportGraph(graph, System.out);
-        } catch (ExportException ex) {
-           ex.printStackTrace();
-        }
-    }
 }

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import java.io.File;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -29,18 +30,7 @@ public class TreeTest {
     
     @Before
     public void setUp() {
-        profile = new Profile();
-        profile.setName("Project test");
-        profile.setLastWorkingDirectory("C:\\Users\\cbaez\\Desktop\\ProcessorWorkspace\\files");
-        profile.setDescription("Project test description");
-        
-        FilePattern filePattern = new FilePattern("*jsp");
-        filePattern.setId("n1");
-        FileContent fileContent = new FileContent();
-        fileContent.setId("n2");
-        
-        //profile.addNode(filePattern);
-        //profile.addNode(fileContent);
+
         
     }
     

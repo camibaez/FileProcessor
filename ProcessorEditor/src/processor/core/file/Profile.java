@@ -5,14 +5,14 @@
  */
 package processor.core.file;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import processor.core.graph.DecisionEdge;
+import processor.core.graph.DecisionGraph;
+import processor.core.graph.GraphNode;
 import processor.core.graph.serialization.GraphBuilder;
 
 import processor.core.graph.conditions.Condition;
@@ -35,46 +35,42 @@ public class Profile {
     protected FileWalker fileMatcher;
     protected FileProcessor fileProcessor;
 
-    protected DefaultDirectedGraph<ComplexNode, DecisionEdge> graph;
+    protected DecisionGraph graph;
     protected GraphBuilder graphBuilder;
-    protected List<ComplexNode> nodes;
-    protected List<Action> actions;
-    protected List<Condition> conditions;
+    protected List<GraphNode> nodes;
+   
 
     public Profile() {
         this.fileCentral = new FileCentral(this);
-        this.actions = new LinkedList<>();
-        this.conditions = new LinkedList<>();
         this.nodes = new LinkedList<>();
         this.graphBuilder = new GraphBuilder();
-        this.graph = graphBuilder.buildEmpty();
+        this.graph = new DecisionGraph();
         this.fileProcessor = new FileProcessor(this);
     }
 
     public void reloadGraph() {
-        this.graph = graphBuilder.buildNodes(nodes);
+        this.graph.reload();
     }
     
-    public List<ComplexNode> getNodes() {
+    public List<GraphNode> getNodes() {
         return nodes;
     }
 
-    public void setNodes(List<ComplexNode> nodes) {
+    public void setNodes(List<GraphNode> nodes) {
         this.nodes = nodes;
-        this.reloadGraph();
     }
 
-    public void addNode(ComplexNode node) {
+    public void addNode(GraphNode node) {
         this.nodes.add(node);
         this.reloadGraph();
     }
 
-    public void removeNode(ComplexNode node) {
+    public void removeNode(GraphNode node) {
         this.nodes.remove(node);
         reloadGraph();
     }
     
-    public void moveNode(ComplexNode node, int pos){
+    public void moveNode(GraphNode node, int pos){
         int i = this.nodes.indexOf(node);
         if((pos < 0 && i > 0) || 
            (pos > 0 && i > -1 && i < this.nodes.size() - 1)){
@@ -84,11 +80,11 @@ public class Profile {
         
     }
 
-    public DefaultDirectedGraph<ComplexNode, DecisionEdge> getGraph() {
+    public DecisionGraph getGraph() {
         return graph;
     }
 
-    public void setGraph(DefaultDirectedGraph<ComplexNode, DecisionEdge> graph) {
+    public void setGraph(DecisionGraph graph) {
         this.graph = graph;
 
     }
@@ -98,37 +94,23 @@ public class Profile {
     }
 
     public List<Action> getActions() {
-        return actions;
-    }
-
-    public void setActions(List<Action> actions) {
-        this.actions = actions;
-    }
-
-    public void addAction(Action a) {
-        actions.add(a);
-    }
-
-    public void removeAction(Action a) {
-        actions.remove(a);
+        List<Action> l = new LinkedList<>();
+        nodes.forEach(n -> {
+            if(n instanceof Action)
+                l.add((Action) n);
+        });
+        
+        return l;  
     }
 
     public List<Condition> getConditions() {
-        return conditions;
+        List<Condition> l = new LinkedList<>();
+        nodes.forEach(n -> {
+            if(n instanceof Condition)
+                l.add((Condition) n);
+        });
+        return l;  
     }
-
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
-    }
-
-    public void addCondition(Condition c) {
-        this.conditions.add(c);
-    }
-
-    public void removeCondition(Condition c) {
-        this.conditions.remove(c);
-    }
-
     
     public String getName() {
         return name;

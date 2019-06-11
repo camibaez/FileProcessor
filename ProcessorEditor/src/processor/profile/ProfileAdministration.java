@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,8 +23,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import processor.core.graph.GraphNode;
 import processor.core.file.Profile;
-import processor.core.graph.actions.Action;
-import processor.core.graph.conditions.Condition;
+import processor.core.graph.DecisionGraph;
+import processor.core.graph.serialization.GraphBuilder;
 
 /**
  *
@@ -45,9 +46,9 @@ public class ProfileAdministration {
         jo.put("description", profile.getDescription());
         jo.put("lastWorkingDirectory", profile.getLastWorkingDirectory());
         
-        JSONArray nodes = ProfileWriter.writeNodes(profile.getNodes());
+        //JSONArray nodes = ProfileWriter.writeNodes(profile.getNodes());
+        JSONArray nodes = null;
         jo.put("nodes", nodes);
-        //jo.put("graph", GraphSerialization.writeGraph(profile.getGraph()));
         
         return jo.toJSONString();
     }
@@ -68,9 +69,16 @@ public class ProfileAdministration {
 
         try (Reader reader = new FileReader(path)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-
             project = ProfileReader.readProject(jsonObject);
-            project.setNodes(ProfileReader.readNodes(jsonObject));
+            
+            List<GraphNode> nodes = ProfileReader.readNodes(jsonObject);
+            project.setNodes(nodes);
+            List<GraphNode> fullNodesList = new LinkedList<>(nodes);
+            
+            DecisionGraph graph = new DecisionGraph();
+            fullNodesList.addAll(graph.vertexSet());
+            new GraphBuilder().exportGraph(graph);
+            project.setGraph(graph);
 
             
         } catch (IOException e) {

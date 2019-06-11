@@ -16,6 +16,7 @@ import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
 import processor.core.file.Profile;
+import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ReplaceText;
 import processor.core.lineal.ComplexNode;
@@ -33,35 +34,36 @@ public class ProfileReader {
         project.setLastWorkingDirectory((String) jsonObject.get("lastWorkingDirectory"));
         return project;
     }
-
-    public static List<ComplexNode> readNodes(JSONObject data) {
-        List<ComplexNode> nodesList = new LinkedList<>();
+    
+    public static String readGraphData(JSONObject o){
+        return (String) o.get("graph");
+    }
+    
+    
+    public static List<GraphNode> readNodes(JSONObject data) {
+        List<GraphNode> nodesList = new LinkedList<>();
         JSONArray nodesData = (JSONArray) data.get("nodes");
 
         nodesData.forEach(n -> {
-            nodesList.add(readNode((Map) n));
+            GraphNode node = readNode((Map) n);
+            if(node != null)
+                nodesList.add(node);
         });
 
         return nodesList;
     }
 
-    public static ComplexNode readNode(Map map) {
-        Action action = readAction((Map) map.get("action"));
-        Condition condition = readCondition((Map) map.get("condition"));
-        int type = ((Long)map.get("type")).intValue();
-
-        ComplexNode node = new ComplexNode(condition, action, type);
+    public static GraphNode readNode(Map map) {
+        String type = (String) map.get("type");
+        GraphNode node = null;
+        if(type.equals(Condition.class.getSimpleName())){
+            node = readCondition( map);
+        }
+        if(type.equals(Action.class.getSimpleName())){
+            node = readAction(map);
+        }
+        
         return node;
-    }
-
-    public static List<Condition> readConditions(JSONObject data) {
-        List<Condition> conditionsList = new LinkedList<>();
-        JSONArray conditionsData = (JSONArray) data.get("conditions");
-        conditionsData.forEach(c -> {
-            conditionsList.add(readCondition((Map) c));
-        });
-
-        return conditionsList;
     }
 
     public static Condition readCondition(Map data) {

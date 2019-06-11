@@ -45,6 +45,7 @@ public class FileProcessor {
 
     public ProcessingResult processFile(File f) {
         ProcessingResult processingResult = new ProcessingResult();
+        /*
         DefaultDirectedGraph<ComplexNode, DecisionEdge> graph = project.getGraph();
         ComplexNode start = graph.vertexSet().stream().filter(n -> n instanceof StartNode).findFirst().get();
         Optional<DecisionEdge> findFirst = graph.outgoingEdgesOf(start).stream().filter(e -> e.getSign()).findFirst();
@@ -96,6 +97,7 @@ public class FileProcessor {
         processingResult.setPassed(!(node instanceof FailNode));
            
         processingResult.setResult(content);
+        */
         return processingResult;
         
     }
