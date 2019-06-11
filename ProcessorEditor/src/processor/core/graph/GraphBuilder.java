@@ -117,8 +117,10 @@ public class GraphBuilder {
     public DecisionGraph buildDummyGraph(){
         DecisionGraph graph = new DecisionGraph();
         FilePattern filePattern = new FilePattern("*.jsp");
+        filePattern.setId("c1");
         graph.addVertex(filePattern);
         final ReplaceText replaceText = new ReplaceText("a", "b");
+        replaceText.setId("a1");
         graph.addVertex(replaceText);
         
         graph.addEdge(DecisionGraph.S_NODE, filePattern, new DecisionEdge());

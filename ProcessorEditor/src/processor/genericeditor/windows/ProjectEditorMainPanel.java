@@ -404,10 +404,10 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        DecisionGraph dummyGraph = profile.getGraphBuilder().buildDummyGraph();
-        profile.getGraphBuilder().export(dummyGraph);
+        //DecisionGraph dummyGraph = profile.getGraphBuilder().buildDummyGraph();
+        //profile.getGraphBuilder().export(dummyGraph);
         
-        //System.out.println(profile.getGraphBuilder().export(profile.getGraph()));
+        System.out.println(profile.getGraphBuilder().export(profile.getGraph()));
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
