@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import processor.core.graph.conditions.Condition;
 import processor.core.file.Profile;
+import processor.core.graph.DecisionGraph;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ReplaceText;
 import processor.core.graph.conditions.FileContent;
@@ -403,8 +404,10 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-
-        System.out.println(profile.getGraphBuilder().export(profile.getGraph()));
+        DecisionGraph dummyGraph = profile.getGraphBuilder().buildDummyGraph();
+        profile.getGraphBuilder().export(dummyGraph);
+        
+        //System.out.println(profile.getGraphBuilder().export(profile.getGraph()));
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

@@ -13,4 +13,8 @@ public class FailNode extends GraphNode{
     public String toString() {
         return "END_NODE";
     }
+    
+    public String getId(){
+        return toString();
+    }
 }

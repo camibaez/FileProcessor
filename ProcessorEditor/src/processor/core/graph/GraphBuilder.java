@@ -17,6 +17,8 @@ import org.jgrapht.io.ComponentNameProvider;
 import org.jgrapht.io.DOTExporter;
 import org.jgrapht.io.ExportException;
 import org.jgrapht.io.GraphExporter;
+import processor.core.graph.actions.ReplaceText;
+import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.providers.EdgeIdProvider;
 import processor.core.graph.providers.NodeIdProvider;
 import processor.core.graph.providers.NodeLabelProvider;
@@ -109,5 +111,34 @@ public class GraphBuilder {
             ex.printStackTrace();
         }
         return writer.toString();
+    }
+   
+    
+    public DecisionGraph buildDummyGraph(){
+        DecisionGraph graph = new DecisionGraph();
+        FilePattern filePattern = new FilePattern("*.jsp");
+        graph.addVertex(filePattern);
+        final ReplaceText replaceText = new ReplaceText("a", "b");
+        graph.addVertex(replaceText);
+        
+        graph.addEdge(DecisionGraph.S_NODE, filePattern, new DecisionEdge());
+        graph.addEdge(filePattern, DecisionGraph.F_NODE, new DecisionEdge(false));
+        graph.addEdge(filePattern, replaceText, new DecisionEdge());
+        graph.addEdge(replaceText, DecisionGraph.E_NODE);
+        
+        return graph;
+    }
+    public void export(DecisionGraph graph){
+        
+        NodeIdProvider idProvider = new NodeIdProvider();
+        NodeLabelProvider nodeLabelProvider = new NodeLabelProvider();
+        EdgeIdProvider edgeIdProvider = new EdgeIdProvider();
+        
+        DOTExporter<GraphNode, DecisionEdge> dotExporter = new DOTExporter<>(idProvider, nodeLabelProvider, edgeIdProvider);
+        try {
+            dotExporter.exportGraph(graph, System.out);
+        } catch (ExportException ex) {
+           ex.printStackTrace();
+        }
     }
 }

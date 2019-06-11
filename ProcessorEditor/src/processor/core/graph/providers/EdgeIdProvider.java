@@ -16,6 +16,6 @@ public class EdgeIdProvider implements ComponentNameProvider<DecisionEdge> {
 
     @Override
     public String getName(DecisionEdge t) {
-        return "e" + t.hashCode();
+        return "e"+ (t.getSign()? "t" : "f")  + t.hashCode();
     }
 }

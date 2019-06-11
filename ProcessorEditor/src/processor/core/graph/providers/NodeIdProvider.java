@@ -18,18 +18,6 @@ import processor.core.graph.conditions.TextContent;
 public class NodeIdProvider implements ComponentNameProvider<GraphNode>{
     @Override
         public String getName(GraphNode t) {
-            String res = t.toString();
-
-            if (t instanceof FilePattern) {
-                res = t.toString().replace("*", "_").replace(".", "_");
-            }
-            if (t instanceof FileContent) {
-                res = FileContent.class.getSimpleName().replace("*", "_").replace(".", "_");
-            }
-            if (t instanceof TextContent) {
-                res = "condition_" + t.hashCode();
-            }
-
-            return res;
+            return t.getId();
         }
 }

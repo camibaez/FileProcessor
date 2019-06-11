@@ -15,7 +15,6 @@ import processor.core.graph.GraphNode;
 public class NodeLabelProvider implements ComponentNameProvider<GraphNode>{
      @Override
         public String getName(GraphNode t) {
-            String res = t.getClass().getSimpleName() + " : " + t.toString();
-            return res;
+            return t.toString();
         }
 }

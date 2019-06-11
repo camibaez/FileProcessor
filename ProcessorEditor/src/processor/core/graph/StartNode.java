@@ -13,4 +13,9 @@ public class StartNode extends GraphNode{
     public String toString(){
         return "START_NODE";
     }
+    
+    
+    public String getId(){
+        return toString();
+    }
 }

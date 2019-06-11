@@ -64,26 +64,9 @@ public class GraphSerialization {
     
     
     
-    
-    
+
     
     
 
-    public static Map writeGraph(DefaultDirectedGraph<ComplexNode, DecisionEdge> graph) {
-        Set<ComplexNode> vertexSet = graph.vertexSet();
-        Map map = new LinkedHashMap();
-        for (ComplexNode node : vertexSet) {
-            Map edgesMap = new LinkedHashMap();
-            Set<DecisionEdge> edges = graph.outgoingEdgesOf(node);
-            edges.forEach(e -> {
-                if (!e.getSign()) {
-
-                }
-            });
-
-            //map.put(node.getId(), edgesMap);
-        }
-
-        return map;
-    }
+    
 }
