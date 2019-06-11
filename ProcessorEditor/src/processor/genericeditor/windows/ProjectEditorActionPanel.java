@@ -50,7 +50,14 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
 
     protected void loadPorts(){
         GraphNode trueTarget = profile.getGraph().getDecisionTargetOf(node, true);
-        DefaultComboBoxModel model = new DefaultComboBoxModel(profile.getGraph().vertexSet().toArray());
+        Set<GraphNode> vertexSet = profile.getGraph().vertexSet();
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        vertexSet.forEach(v -> {
+            if(v.equals(node) || v.equals(DecisionGraph.S_NODE))
+                return;
+            model.addElement(v);
+        });
+        
         jComboBox1.setModel(model);
         jComboBox1.setSelectedItem(trueTarget);
         

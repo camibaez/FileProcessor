@@ -1,34 +1,26 @@
 {
     "nodes": [{
-            "action": null,
-            "condition": {
-                "pattern": "*.jsp",
-                "class": "FilePattern",
-                "id": null
-            },
-            "type": 1
+            "pattern": "*.jsp",
+            "class": "FilePattern",
+            "id": "c1007623779",
+            "type": "Condition"
         }, {
-            "action": {
-                "pattern": "\\.style\\.pixelTop",
-                "replace": ".style.top",
-                "flags": 0,
-                "class": "ReplaceText",
-                "id": ""
-            },
-            "condition": null,
-            "type": 0
+            "pattern": "\\.style\\.pixelTop",
+            "replace": ".style.top",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "a756004392",
+            "type": "Action"
         }, {
-            "action": {
-                "pattern": "eval\\('(.+?)'\\s+?[+\\-*]+\\s+([a-z]+).+;",
-                "replace": "$1$2;",
-                "flags": 0,
-                "class": "ReplaceText",
-                "id": ""
-            },
-            "condition": null,
-            "type": 0
+            "pattern": "eval\\('(.+?)'\\s+?[+\\-*]+\\s+([a-z]+).+;",
+            "replace": "$1$2;",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "a457435906",
+            "type": "Action"
         }],
-    "lastWorkingDirectory": "C:\\Users\\cbaez\\Desktop\\ProcessorWorkspace\files",
-    "name": "Proj Tets",
-    "description": "Project test desc"
+    "lastWorkingDirectory": null,
+    "name": null,
+    "description": null,
+    "graph": "strict digraph G {\r\n  END_NODE [ label=\"END_NODE\" ];\r\n  FAIL_NODE [ label=\"FAIL_NODE\" ];\r\n  c1007623779 [ label=\"c1007623779\" ];\r\n  START_NODE [ label=\"START_NODE\" ];\r\n  a756004392 [ label=\"a756004392\" ];\r\n  a457435906 [ label=\"a457435906\" ];\r\n  START_NODE -> c1007623779 [ label=\"et1599990102\" ];\r\n  a457435906 -> END_NODE [ label=\"et1277026320\" ];\r\n  a756004392 -> a457435906 [ label=\"et817262552\" ];\r\n  c1007623779 -> a756004392 [ label=\"et2040129771\" ];\r\n  c1007623779 -> FAIL_NODE [ label=\"ef450414101\" ];\r\n}\r\n"
 }

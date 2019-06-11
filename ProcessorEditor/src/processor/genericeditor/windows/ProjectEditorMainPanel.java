@@ -64,9 +64,10 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 }
 
                 if (node instanceof Action) {
-                    jSplitPane3.setRightComponent(new ProjectEditorActionPanel(profile, (Action) node));
+                    jSplitPane3.setLeftComponent(new ProjectEditorActionPanel(profile, (Action) node));
                 }
-
+                
+                jTextArea1.setText(new GraphBuilder().exportGraph(profile.getGraph()));
                 profileTree.repaint();
             }
         });
@@ -100,6 +101,8 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton5 = new javax.swing.JButton();
@@ -249,6 +252,16 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
         jPanel8.setName("jPanel8"); // NOI18N
         jPanel8.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setName("jTextArea1"); // NOI18N
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jPanel8.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
         jSplitPane3.setRightComponent(jPanel8);
 
         jPanel1.add(jSplitPane3, java.awt.BorderLayout.CENTER);
@@ -387,9 +400,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables
