@@ -13,7 +13,7 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import org.json.simple.JSONArray;
 import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
-import processor.core.graph.GraphBuilder;
+import processor.core.graph.serialization.GraphBuilder;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.conditions.Condition;

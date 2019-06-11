@@ -19,7 +19,7 @@ import processor.core.file.FileWalker;
 import processor.core.file.FileProcessor;
 import processor.core.file.Profile;
 
-import processor.genericeditor.ProjectCentral;
+import processor.core.file.ProjectCentral;
 
 
 public abstract class LoadFilesAction implements ActionListener {

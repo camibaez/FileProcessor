@@ -11,7 +11,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
-import processor.genericeditor.ProjectCentral;
+import processor.core.file.ProjectCentral;
 import processor.genericeditor.windows.ProjectsTree;
 
 /**

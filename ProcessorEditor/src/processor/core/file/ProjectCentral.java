@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.genericeditor;
+package processor.core.file;
 
 import java.io.File;
 import processor.core.file.Profile;

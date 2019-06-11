@@ -13,7 +13,7 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
-import processor.genericeditor.ProjectCentral;
+import processor.core.file.ProjectCentral;
 
 @ActionID(
         category = "File",

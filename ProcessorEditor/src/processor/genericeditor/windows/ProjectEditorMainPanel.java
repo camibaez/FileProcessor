@@ -21,7 +21,7 @@ import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
 import processor.core.lineal.ComplexNode;
 import processor.editor.windows.CodeEditorOpener;
-import processor.genericeditor.ProjectCentral;
+import processor.core.file.ProjectCentral;
 import processor.genericeditor.windows.conditions.PanelFactory;
 
 /**

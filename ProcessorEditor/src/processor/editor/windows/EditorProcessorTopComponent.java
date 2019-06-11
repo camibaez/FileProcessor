@@ -14,7 +14,7 @@ import org.openide.awt.ActionReference;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import processor.core.file.Profile;
-import processor.genericeditor.ProjectCentral;
+import processor.core.file.ProjectCentral;
 
 /**
  * Top component which displays something.

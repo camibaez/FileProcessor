@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.graph;
+package processor.core.graph.serialization;
 
 import processor.core.lineal.FailNode;
 import processor.core.lineal.EndNode;
@@ -17,11 +17,14 @@ import org.jgrapht.io.ComponentNameProvider;
 import org.jgrapht.io.DOTExporter;
 import org.jgrapht.io.ExportException;
 import org.jgrapht.io.GraphExporter;
+import processor.core.graph.DecisionEdge;
+import processor.core.graph.DecisionGraph;
+import processor.core.graph.GraphNode;
 import processor.core.graph.actions.ReplaceText;
 import processor.core.graph.conditions.FilePattern;
-import processor.core.graph.providers.EdgeIdProvider;
-import processor.core.graph.providers.NodeIdProvider;
-import processor.core.graph.providers.NodeLabelProvider;
+import processor.core.graph.serialization.EdgeIdProvider;
+import processor.core.graph.serialization.NodeIdProvider;
+import processor.core.graph.serialization.NodeLabelProvider;
 import processor.core.lineal.ComplexNode;
 
 /**
@@ -100,7 +103,7 @@ public class GraphBuilder {
         ComponentNameProvider<DecisionEdge> edgeLabel = new ComponentNameProvider<DecisionEdge>() {
             @Override
             public String getName(DecisionEdge t) {
-                return t.sign + "";
+                return t.getSign() + "";
             }
         };
         GraphExporter<ComplexNode, DecisionEdge> exporter = new DOTExporter<>(idProvider, labelProvider, edgeLabel);

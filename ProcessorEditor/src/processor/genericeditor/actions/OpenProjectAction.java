@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import processor.genericeditor.ProjectCentral;
+import processor.core.file.ProjectCentral;
 
 
 import processor.profile.ProfileAdministration;

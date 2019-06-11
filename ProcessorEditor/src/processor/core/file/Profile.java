@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import processor.core.graph.DecisionEdge;
-import processor.core.graph.GraphBuilder;
+import processor.core.graph.serialization.GraphBuilder;
 
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.actions.Action;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.graph.providers;
+package processor.core.graph.serialization;
 
 import org.jgrapht.io.ComponentNameProvider;
 import processor.core.graph.DecisionEdge;

@@ -16,7 +16,7 @@ import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
-import processor.genericeditor.ProjectCentral;
+import processor.core.file.ProjectCentral;
 import processor.profile.ProfileAdministration;
 
 @ActionID(
