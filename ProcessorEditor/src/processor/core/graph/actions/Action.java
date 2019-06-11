@@ -12,7 +12,10 @@ import processor.core.graph.GraphNode;
  * @author cbaez
  */
 public abstract class Action extends GraphNode{
-    public abstract String getId();
-    public abstract void setId(String id);
+    
     public abstract Object process(Object o);
+    @Override
+    public String generateRandomId(){
+        return "a" + this.hashCode();
+    }
 }

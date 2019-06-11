@@ -69,21 +69,24 @@ public class GraphBuilder {
         } catch (ImportException ex) {
             ex.printStackTrace();
         }
+        
+        
     }
     
     
-    public void exportGraph(DecisionGraph graph){
-        
+    public String exportGraph(DecisionGraph graph){
         NodeIdProvider idProvider = new NodeIdProvider();
         NodeLabelProvider nodeLabelProvider = new NodeLabelProvider();
         EdgeIdProvider edgeIdProvider = new EdgeIdProvider();
         
         DOTExporter<GraphNode, DecisionEdge> dotExporter = new DOTExporter<>(idProvider, nodeLabelProvider, edgeIdProvider);
+        Writer writer = new StringWriter();
         try {
             dotExporter.exportGraph(graph, System.out);
         } catch (ExportException ex) {
-           ex.printStackTrace();
+            ex.printStackTrace();
         }
+        return writer.toString();
     }
     
     

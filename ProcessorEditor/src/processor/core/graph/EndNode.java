@@ -17,4 +17,9 @@ public class EndNode extends GraphNode {
     public String getId(){
         return toString();
     }
+
+    @Override
+    public String generateRandomId() {
+        return "END_NODE";
+    }
 }

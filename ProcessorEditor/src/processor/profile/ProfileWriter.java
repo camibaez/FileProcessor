@@ -24,7 +24,7 @@ import processor.core.lineal.ComplexNode;
  */
 public class ProfileWriter {
     
-    public static JSONArray writeNodes(List<ComplexNode> nodes){
+    public static JSONArray writeNodes(List<GraphNode> nodes){
         JSONArray nodesData = new JSONArray();
         nodes.forEach(n -> {
             Map map = writeNode(n);
@@ -33,11 +33,14 @@ public class ProfileWriter {
         return nodesData;
     }
     
-    public static Map writeNode(ComplexNode node){
-        Map data  = new LinkedHashMap();
-        data.put("action", writeAction(node.getAction()));
-        data.put("condition", writeCondition(node.getCondition()));
-        data.put("type", node.getType());
+    public static Map writeNode(GraphNode node){
+        Map data  = null;
+        if(node instanceof Condition)
+            data = writeCondition((Condition) node);
+        if(node instanceof Action)
+            data = writeAction((Action) node);
+        if(data != null)
+            data.put("type", node.getClass().getSimpleName());
         return data;
     }
     

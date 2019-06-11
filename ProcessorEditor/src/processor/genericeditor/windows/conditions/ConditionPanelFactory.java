@@ -14,7 +14,7 @@ import processor.core.graph.conditions.TextContent;
  *
  * @author cbaez
  */
-public class PanelFactory {
+public class ConditionPanelFactory {
     public static  ConditionPanel generatePanel(Condition c){
         ConditionPanel panel = null;
         if(c instanceof FilePattern)

@@ -11,18 +11,12 @@ import processor.core.graph.GraphNode;
  *
  * @author cbaez
  */
-public abstract class Condition<T> extends GraphNode{
-    protected String id;
+public abstract class Condition<T> extends GraphNode {
+
     public abstract boolean test(T o);
-    
 
-    public String getId() {
-        return id;
+    @Override
+    public String generateRandomId() {
+        return "c" + this.hashCode();
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    
-    
 }

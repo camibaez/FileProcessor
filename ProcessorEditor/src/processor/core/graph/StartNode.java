@@ -18,4 +18,9 @@ public class StartNode extends GraphNode{
     public String getId(){
         return toString();
     }
+
+    @Override
+    public String generateRandomId() {
+        return "START_NODE";
+    }
 }

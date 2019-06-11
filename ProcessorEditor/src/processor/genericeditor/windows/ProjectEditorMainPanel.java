@@ -23,7 +23,8 @@ import processor.core.lineal.ComplexNode;
 import processor.editor.windows.CodeEditorOpener;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.GraphNode;
-import processor.genericeditor.windows.conditions.PanelFactory;
+import processor.core.graph.serialization.GraphBuilder;
+import processor.genericeditor.windows.conditions.ConditionPanelFactory;
 
 /**
  *
@@ -53,22 +54,20 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 if (treeNode == null) {
                     return;
                 }
-                if (!(treeNode.getUserObject() instanceof ComplexNode)) {
+                if (!(treeNode.getUserObject() instanceof GraphNode)) {
                     return;
                 }
-                ComplexNode node = (ComplexNode) treeNode.getUserObject();
-                jSplitPane3.setLeftComponent(new JPanel());
-                jSplitPane3.setRightComponent(new JPanel());
-
-                if (node.getCondition() != null) {
-                    jSplitPane3.setLeftComponent(PanelFactory.generatePanel(node.getCondition()));
+                GraphNode node = (GraphNode) treeNode.getUserObject();
+                
+                if (node instanceof Condition) {
+                    jSplitPane3.setLeftComponent(ConditionPanelFactory.generatePanel((Condition) node));
                 }
 
-                if (node.getAction() != null) {
-                    jSplitPane3.setRightComponent(new ProjectEditorActionPanel(profile, node.getAction()));
+                if (node instanceof Action) {
+                    jSplitPane3.setRightComponent(new ProjectEditorActionPanel(profile, (Action) node));
                 }
 
-                jComboBox1.setSelectedIndex(node.getType());
+                profileTree.reloadData(profile);
             }
         });
 
@@ -100,9 +99,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton5 = new javax.swing.JButton();
@@ -231,7 +227,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jSplitPane3.setDividerLocation(300);
-        jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane3.setName("jSplitPane3"); // NOI18N
 
         jPanel7.setName("jPanel7"); // NOI18N
@@ -243,28 +238,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane3.setRightComponent(jPanel8);
 
         jPanel1.add(jSplitPane3, java.awt.BorderLayout.CENTER);
-
-        jPanel2.setName("jPanel2"); // NOI18N
-
-        jLabel1.setText("Type"); // NOI18N
-        jLabel1.setName("jLabel1"); // NOI18N
-        jPanel2.add(jLabel1);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0 - Omissible", "1 - Not Omissible" }));
-        jComboBox1.setName("jComboBox1"); // NOI18N
-        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox1ItemStateChanged(evt);
-            }
-        });
-        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBox1MouseClicked(evt);
-            }
-        });
-        jPanel2.add(jComboBox1);
-
-        jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         jSplitPane1.setRightComponent(jPanel1);
 
@@ -328,68 +301,31 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-        if (node == null) {
-            return;
-        }
-        ComplexNode obj = (ComplexNode) node.getUserObject();
-        obj.setCondition(new FilePattern(""));
+        FilePattern filePattern = new FilePattern("");
+        profile.addNode(filePattern);
+        profileTree.reloadData(profile);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-        if (node == null) {
-            return;
-        }
-        ComplexNode obj = (ComplexNode) node.getUserObject();
-        obj.setCondition(new FileContent());
+
+        profile.addNode(new FileContent());
+        profileTree.reloadData(profile);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-        if (node == null) {
-            return;
-        }
-        ComplexNode obj = (ComplexNode) node.getUserObject();
-        obj.setCondition(new TextContent());
+
+        profile.addNode(new TextContent());
+        profileTree.reloadData(profile);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-        if (node == null) {
-            return;
-        }
-        ComplexNode obj = (ComplexNode) node.getUserObject();
-        obj.setAction(new ReplaceText("", "", 0));
+        profile.addNode(new ReplaceText("", "", 0));
+        profileTree.reloadData(profile);
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
-
-
-    }//GEN-LAST:event_jComboBox1MouseClicked
-
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        String item = (String) jComboBox1.getSelectedItem();
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-        if (node == null || item == null) {
-            return;
-        }
-        if (node.getUserObject() instanceof ComplexNode) {
-            ComplexNode complexNode = (ComplexNode) node.getUserObject();
-            if (item.startsWith("0")) {
-                complexNode.setType(0);
-            } else {
-                complexNode.setType(1);
-            }
-            profile.reloadGraph();
-        }
-
-    }//GEN-LAST:event_jComboBox1ItemStateChanged
-
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        //DecisionGraph dummyGraph = profile.getGraphBuilder().buildDummyGraph();
-        //profile.getGraphBuilder().export(dummyGraph);
-        
+        DecisionGraph graph = profile.getGraph();
+        System.out.println(new GraphBuilder().exportGraph(graph));
         //System.out.println(profile.getGraphBuilder().export(profile.getGraph()));
     }//GEN-LAST:event_jButton11ActionPerformed
 
@@ -401,7 +337,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
         GraphNode obj = (GraphNode) node.getUserObject();
         profile.moveNode(obj, 1);
         profileTree.reloadData(profile);
@@ -420,10 +356,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;

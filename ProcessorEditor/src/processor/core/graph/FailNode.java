@@ -11,10 +11,15 @@ package processor.core.graph;
  */
 public class FailNode extends GraphNode{
     public String toString() {
-        return "END_NODE";
+        return "FAIL_NODE";
     }
     
     public String getId(){
         return toString();
+    }
+
+    @Override
+    public String generateRandomId() {
+        return "FAIL_NODE";
     }
 }

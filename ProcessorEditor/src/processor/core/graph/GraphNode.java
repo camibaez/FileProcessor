@@ -13,12 +13,16 @@ public abstract class GraphNode{
     protected String id;
 
     public String getId() {
+        if(id == null)
+            id = generateRandomId();
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
     }
+    
+    public abstract String generateRandomId();
     
     
 }

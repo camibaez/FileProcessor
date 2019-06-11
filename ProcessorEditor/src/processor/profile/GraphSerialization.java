@@ -5,20 +5,10 @@
  */
 package processor.profile;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 import org.jgrapht.graph.DefaultDirectedGraph;
-import org.json.simple.JSONArray;
 import processor.core.graph.DecisionEdge;
-import processor.core.graph.DecisionGraph;
-import processor.core.graph.serialization.GraphBuilder;
 import processor.core.graph.GraphNode;
-import processor.core.graph.actions.Action;
-import processor.core.graph.conditions.Condition;
 import processor.core.lineal.ComplexNode;
-import processor.core.lineal.StartNode;
 
 /**
  *
