@@ -8,6 +8,7 @@ package processor.genericeditor.windows;
 import java.awt.Color;
 import java.awt.event.KeyListener;
 import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
 import processor.core.file.Profile;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ReplaceText;
@@ -38,6 +39,10 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
         jTextArea2.setText(action.getReplace());
     }
 
+    protected void loadPorts(){
+        DefaultComboBoxModel model = new DefaultComboBoxModel(profile.getGraph().vertexSet().toArray());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -104,8 +109,6 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
 
         jLabel1.setText("Out");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel2.setText("In:");
 
         jTextField1.setEditable(false);
@@ -169,7 +172,7 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
