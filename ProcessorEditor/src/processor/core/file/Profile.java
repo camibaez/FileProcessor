@@ -62,12 +62,12 @@ public class Profile {
 
     public void addNode(GraphNode node) {
         this.nodes.add(node);
-        this.reloadGraph();
+        this.graph.addVertex(node);
     }
 
     public void removeNode(GraphNode node) {
         this.nodes.remove(node);
-        reloadGraph();
+        this.graph.removeVertex(node);
     }
     
     public void moveNode(GraphNode node, int pos){

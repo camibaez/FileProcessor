@@ -28,7 +28,7 @@ public abstract class ConditionPanel extends javax.swing.JPanel {
     }
 
     protected void addPorts() {
-        //add(new InPanel(this.condition), BorderLayout.NORTH);
+        add(new InPanel(this.condition), BorderLayout.NORTH);
         add(new OutPanel(this.condition), BorderLayout.SOUTH);
     }
 

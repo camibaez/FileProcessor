@@ -67,7 +67,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                     jSplitPane3.setRightComponent(new ProjectEditorActionPanel(profile, (Action) node));
                 }
 
-                profileTree.reloadData(profile);
+                profileTree.repaint();
             }
         });
 

@@ -23,5 +23,9 @@ public class DecisionEdge {
         return sign;
     }
     
+    public String toString(){
+        return sign + "";
+    }
+    
     
 }
