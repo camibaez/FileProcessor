@@ -5,6 +5,7 @@
  */
 package processor.core.graph;
 
+import java.util.Optional;
 import java.util.Set;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
@@ -27,6 +28,13 @@ public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge>
         
     }
     
+    public void masrkAsInitial(GraphNode node){
+        this.removeVertex(S_NODE);
+        this.addVertex(S_NODE);
+        this.addEdge(S_NODE, node, new DecisionEdge(true));
+        
+    }
+    
     public GraphNode getInitialNode() {
         Set<DecisionEdge> outgoingEdgesOf = this.outgoingEdgesOf(S_NODE);
         if(outgoingEdgesOf.size() < 1)
@@ -34,6 +42,37 @@ public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge>
         DecisionEdge edge = outgoingEdgesOf.stream().findFirst().get();
         return this.getEdgeTarget(edge);
     }
+    
+    public DecisionEdge getDecisionEdgeOf(GraphNode node, boolean sign){
+        Optional<DecisionEdge> optional = outgoingEdgesOf(node).stream().filter(e -> e.getSign() == sign).findFirst();
+        if(optional.isPresent())
+            return optional.get();
+        return null;
+        
+    }
+    
+    public GraphNode getDecisionTargetOf(GraphNode node, boolean sign){
+        DecisionEdge edge = getDecisionEdgeOf(node, sign);
+        if(edge != null){
+            GraphNode targetNode = getEdgeTarget(edge);
+            return targetNode;
+        }
+        return null;
+        
+    }
+    
+    
+    public void changeEdgeOf(GraphNode node, boolean sign, GraphNode target){
+         if(target == null)
+            return;
+        Optional edgeOption = outgoingEdgesOf(node).stream().filter(e -> ((DecisionEdge) e).getSign() == sign).findFirst();
+        if (edgeOption.isPresent()) {
+            DecisionEdge edge = (DecisionEdge) edgeOption.get();
+            removeEdge(edge);  
+        }
+        addEdge(node, target, new DecisionEdge(sign));
+    }
+    
     
     public boolean isFailNode(GraphNode node){
         return node == F_NODE;

@@ -35,12 +35,17 @@ public class ProfileWriter {
     
     public static Map writeNode(GraphNode node){
         Map data  = null;
-        if(node instanceof Condition)
+        String type = "";
+        if(node instanceof Condition){
             data = writeCondition((Condition) node);
-        if(node instanceof Action)
+            type = Condition.class.getSimpleName();
+        }
+        if(node instanceof Action){
             data = writeAction((Action) node);
+            type = Action.class.getSimpleName();
+        }
         if(data != null)
-            data.put("type", node.getClass().getSimpleName());
+            data.put("type", type);
         return data;
     }
     

@@ -7,9 +7,6 @@ package processor.core.graph.serialization;
 
 import org.jgrapht.io.ComponentNameProvider;
 import processor.core.graph.GraphNode;
-import processor.core.graph.conditions.FileContent;
-import processor.core.graph.conditions.FilePattern;
-import processor.core.graph.conditions.TextContent;
 
 /**
  *

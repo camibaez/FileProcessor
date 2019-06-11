@@ -81,11 +81,7 @@ public class GraphBuilder {
         
         DOTExporter<GraphNode, DecisionEdge> dotExporter = new DOTExporter<>(idProvider, nodeLabelProvider, edgeIdProvider);
         Writer writer = new StringWriter();
-        try {
-            dotExporter.exportGraph(graph, System.out);
-        } catch (ExportException ex) {
-            ex.printStackTrace();
-        }
+        dotExporter.exportGraph(graph, writer);
         return writer.toString();
     }
     
@@ -176,6 +172,9 @@ public class GraphBuilder {
             ex.printStackTrace();
         }
         return writer.toString();
+        
+        
+        
     }
    
 }

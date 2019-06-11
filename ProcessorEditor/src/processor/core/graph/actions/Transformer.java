@@ -14,7 +14,6 @@ import processor.core.graph.GraphNode;
  * @param <T>
  */
 public abstract class Transformer<T> extends Action{
-    protected String id ="";
     protected String description="";
     
     protected boolean active;
@@ -26,13 +25,7 @@ public abstract class Transformer<T> extends Action{
 
     public abstract Object transform(T target);
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    
 
     public String getDescription() {
         return description;

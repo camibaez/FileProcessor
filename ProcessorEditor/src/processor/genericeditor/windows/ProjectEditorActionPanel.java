@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import processor.core.file.Profile;
 import processor.core.graph.DecisionEdge;
+import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ReplaceText;
@@ -24,31 +25,36 @@ import processor.core.graph.actions.ReplaceText;
  */
 public class ProjectEditorActionPanel extends javax.swing.JPanel {
 
-    protected ReplaceText action;
+    protected ReplaceText node;
     protected Profile profile;
-
+    protected DecisionGraph graph;
+    
     /**
      * Creates new form CleanerPane
      */
     public ProjectEditorActionPanel(Profile profile, Action action) {
         this.profile = profile;
-        this.action = (ReplaceText) action;
+        this.graph = profile.getGraph();
+        this.node = (ReplaceText) action;
         initComponents();
         loadActionData();
+        loadPorts();
     }
 
     private void loadActionData() {
-        boolean ignoreCase = (action.getFlags() & Pattern.CASE_INSENSITIVE) == Pattern.CASE_INSENSITIVE;
+        boolean ignoreCase = (node.getFlags() & Pattern.CASE_INSENSITIVE) == Pattern.CASE_INSENSITIVE;
         jCheckBox1.setSelected(!ignoreCase);
-        jTextArea1.setText(action.getPattern().pattern());
-        jTextArea2.setText(action.getReplace());
+        jTextArea1.setText(node.getPattern().pattern());
+        jTextArea2.setText(node.getReplace());
     }
 
     protected void loadPorts(){
+        GraphNode trueTarget = profile.getGraph().getDecisionTargetOf(node, true);
         DefaultComboBoxModel model = new DefaultComboBoxModel(profile.getGraph().vertexSet().toArray());
         jComboBox1.setModel(model);
+        jComboBox1.setSelectedItem(trueTarget);
         
-        Set<DecisionEdge> incomingEdgesOf = profile.getGraph().incomingEdgesOf(action);
+        Set<DecisionEdge> incomingEdgesOf = profile.getGraph().incomingEdgesOf(node);
         List<GraphNode> pointingGraphs = new LinkedList<>();
         incomingEdgesOf.forEach(e -> {
             pointingGraphs.add(profile.getGraph().getEdgeSource(e));
@@ -133,6 +139,11 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
         jLabel1.setText("Out");
         jPanel1.add(jLabel1);
 
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jComboBox1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -198,12 +209,12 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
-        int flags = action.getFlags();
+        int flags = node.getFlags();
         if (!jCheckBox1.isSelected()) {
             flags |= Pattern.CASE_INSENSITIVE;
         }
         try {
-            action.setPattern(Pattern.compile(action.getPatternText(), flags));
+            node.setPattern(Pattern.compile(node.getPatternText(), flags));
         } catch (Exception e) {
             System.out.println("Error compiling pattern");
         }
@@ -211,18 +222,18 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
 
     private void jTextArea2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyReleased
 
-        action.setReplace(jTextArea2.getText());
+        node.setReplace(jTextArea2.getText());
     }//GEN-LAST:event_jTextArea2KeyReleased
 
     private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
 
         Pattern p = null;
         try {
-            p = Pattern.compile(jTextArea1.getText(), action.getPattern().flags());
-            action.setPattern(p);
+            p = Pattern.compile(jTextArea1.getText(), node.getPattern().flags());
+            node.setPattern(p);
             jTextArea1.setForeground(Color.BLACK);
         } catch (Exception e) {
-            System.err.println("Malformed pattern in rule: " + action);
+            System.err.println("Malformed pattern in rule: " + node);
             jTextArea1.setForeground(Color.RED);
         }
     }//GEN-LAST:event_jTextArea1KeyReleased
@@ -230,6 +241,10 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        profile.getGraph().changeEdgeOf(node, true, (GraphNode) jComboBox1.getSelectedItem());
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     @Override
     public synchronized void addKeyListener(KeyListener l) {

@@ -58,7 +58,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                     return;
                 }
                 GraphNode node = (GraphNode) treeNode.getUserObject();
-                
+
                 if (node instanceof Condition) {
                     jSplitPane3.setLeftComponent(ConditionPanelFactory.generatePanel((Condition) node));
                 }
@@ -86,6 +86,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
@@ -117,6 +118,19 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jToolBar2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar2.setRollover(true);
         jToolBar2.setName("jToolBar2"); // NOI18N
+
+        jButton1.setText("MF");
+        jButton1.setToolTipText("Mark first");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setName("jButton1"); // NOI18N
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton1);
 
         jButton6.setText("+FPT"); // NOI18N
         jButton6.setToolTipText("+FPT"); // NOI18N
@@ -343,9 +357,22 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         profileTree.reloadData(profile);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
+        if (treeNode == null) {
+            return;
+        }
+        if (!(treeNode.getUserObject() instanceof GraphNode)) {
+            return;
+        }
+        GraphNode node = (GraphNode) treeNode.getUserObject();
+        profile.getGraph().masrkAsInitial(node);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;

@@ -47,8 +47,9 @@ public class ProfileAdministration {
         jo.put("lastWorkingDirectory", profile.getLastWorkingDirectory());
         
         JSONArray nodes = ProfileWriter.writeNodes(profile.getNodes());
-
         jo.put("nodes", nodes);
+        
+        jo.put("graph", new GraphBuilder().exportGraph(profile.getGraph()));
         
         return jo.toJSONString();
     }
@@ -78,7 +79,7 @@ public class ProfileAdministration {
             DecisionGraph graph = new DecisionGraph();
             fullNodesList.addAll(graph.vertexSet());
             String graphData = ProfileReader.readGraphData(jsonObject);
-            new GraphBuilder().importGraph(graph, nodes, graphData);
+            new GraphBuilder().importGraph(graph, fullNodesList, graphData);
             project.setGraph(graph);
 
             
