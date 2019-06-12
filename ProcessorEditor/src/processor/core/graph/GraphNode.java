@@ -11,6 +11,8 @@ package processor.core.graph;
  */
 public abstract class GraphNode{ 
     protected String id;
+    protected boolean active = true;
+    
 
     public String getId() {
         if(id == null)
@@ -23,6 +25,15 @@ public abstract class GraphNode{
     }
     
     public abstract String generateRandomId();
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
     
     
 }

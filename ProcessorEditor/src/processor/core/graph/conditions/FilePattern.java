@@ -32,7 +32,7 @@ public class FilePattern extends Condition<File>{
     
     
     public String toString(){
-        return pattern;
+        return "<" + getId() + ">:" + pattern;
     }
 
     public void setPattern(String p){

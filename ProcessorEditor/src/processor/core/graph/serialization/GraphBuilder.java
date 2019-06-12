@@ -125,56 +125,6 @@ public class GraphBuilder {
         return g;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    public String export(Graph graph) {
-        ComponentNameProvider<ComplexNode> idProvider = new ComponentNameProvider<ComplexNode>() {
-            @Override
-            public String getName(ComplexNode t) {
-                return "node_" + t.hashCode();
-            }
-        };
 
-        ComponentNameProvider<ComplexNode> labelProvider = new ComponentNameProvider<ComplexNode>() {
-            @Override
-            public String getName(ComplexNode t) {
-                String label = "";
-                if (t instanceof StartNode) {
-                    label = ((StartNode) t).toString();
-                } else if (t instanceof EndNode) {
-                    label = ((EndNode) t).toString();
-                }else if (t instanceof FailNode){
-                    label = ((FailNode) t).toString();
-                } 
-                else {
-                    label = "" + t.getCondition() + " / " + t.getAction();
-                }
-                return label;
-            }
-        };
-
-        ComponentNameProvider<DecisionEdge> edgeLabel = new ComponentNameProvider<DecisionEdge>() {
-            @Override
-            public String getName(DecisionEdge t) {
-                return t.getSign() + "";
-            }
-        };
-        GraphExporter<ComplexNode, DecisionEdge> exporter = new DOTExporter<>(idProvider, labelProvider, edgeLabel);
-        Writer writer = new StringWriter();
-        try {
-            exporter.exportGraph(graph, writer);
-        } catch (ExportException ex) {
-            ex.printStackTrace();
-        }
-        return writer.toString();
-        
-        
-        
-    }
    
 }

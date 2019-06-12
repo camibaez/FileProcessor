@@ -39,7 +39,7 @@ public class ConditionalPattern {
      * @return Values {-1, 0, 1} => {fail, continue, success}
      */
     public int matches(String str) {
-        found |= pattern.matcher(str).matches();
+        found |= pattern.matcher(str).find();
         return getState();
 
     }

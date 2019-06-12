@@ -1,88 +1,70 @@
 {
     "nodes": [{
-            "action": null,
-            "condition": {
-                "pattern": "*.jsp",
-                "class": "FilePattern",
-                "id": null
-            },
-            "type": 1
+            "pattern": "*.jsp",
+            "class": "FilePattern",
+            "id": "jspFilter",
+            "type": "Condition"
         }, {
-            "action": null,
-            "condition": {
-                "expressions": [{
-                        "pattern": ".*oncontextmenu=\"showPopUp\\(.*",
-                        "flags": 2,
-                        "condition": "+"
-                    }],
-                "class": "FileContent",
-                "id": null
-            },
-            "type": 1
+            "expressions": [{
+                    "pattern": ".*oncontextmenu=\"showPopUp\\(.*",
+                    "flags": 0,
+                    "condition": "+"
+                }],
+            "class": "FileContent",
+            "id": "contextmenuFilter",
+            "type": "Condition"
         }, {
-            "action": {
-                "pattern": "(<script.*\/pages\/e\/javascripts\/eIBS\\.jsp\".*>.*<\/script>)",
-                "replace": "$1\n<script src=\"<%=request.getContextPath()%>\/pages\/e\/javascripts\/optMenu.jsp\"><\/script>",
-                "flags": 2,
-                "class": "ReplaceText",
-                "id": ""
-            },
-            "condition": {
-                "pattern": ".*<script.*src=\".*javascripts\/optMenu\\.jsp\".*>.*<\/script>.*",
-                "flags": 2,
-                "condition": "-",
-                "class": "TextContent",
-                "id": null
-            },
-            "type": 0
+            "pattern": "<script.*src=\".*javascripts\/optMenu\\.jsp\".*>.*<\/script>",
+            "flags": 2,
+            "condition": "-",
+            "class": "TextContent",
+            "id": "c1",
+            "type": "Condition"
         }, {
-            "action": {
-                "pattern": "(oncontextmenu=\"showPopUp\\()",
-                "replace": "class=\"context-menu-help\" onmousedown=\"showPopUp(",
-                "flags": 2,
-                "class": "ReplaceText",
-                "id": ""
-            },
-            "condition": null,
-            "type": 0
+            "pattern": "(<script.*\/pages\/e\/javascripts\/eIBS\\.jsp\".*>.*<\/script>)",
+            "replace": "$1\n<script src=\"<%=request.getContextPath()%>\/pages\/e\/javascripts\/optMenu.jsp\"><\/script>",
+            "flags": 2,
+            "class": "ReplaceText",
+            "id": "addOptionMenuJs",
+            "type": "Action"
         }, {
-            "action": {
-                "pattern": ".*builtHPopUp\\(\\);",
-                "replace": "\/\/builtHPopUp();",
-                "flags": 2,
-                "class": "ReplaceText",
-                "id": ""
-            },
-            "condition": null,
-            "type": 0
+            "pattern": "(oncontextmenu=\"showPopUp\\()",
+            "replace": "class=\"context-menu-help\" onmousedown=\"showPopUp(",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "eventChanger",
+            "type": "Action"
         }, {
-            "action": {
-                "pattern": ".*showPopUpHelp\\(\\).*",
-                "replace": "\/\/showPopUpHelp()",
-                "flags": 2,
-                "class": "ReplaceText",
-                "id": ""
-            },
-            "condition": null,
-            "type": 0
+            "pattern": ".*builtHPopUp\\(\\);",
+            "replace": "\/\/builtHPopUp();",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "comment1",
+            "type": "Action"
         }, {
-            "action": {
-                "pattern": "(<link.*href=\".*\/pages\/style.css\".*rel=\"stylesheet\".*>)",
-                "replace": "<link href=\"<%=request.getContextPath()%>\/jquery\/plugins\/contextMenu\/css\/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text\/css\" \/>\n$1",
-                "flags": 2,
-                "class": "ReplaceText",
-                "id": ""
-            },
-            "condition": {
-                "pattern": "<link.*href=\".*jquery\\.contextMenu\\.css\".*rel=\"stylesheet\".*type=\"text\/css\".*\/>",
-                "flags": 2,
-                "condition": "-",
-                "class": "TextContent",
-                "id": null
-            },
-            "type": 0
+            "pattern": ".*showPopUpHelp\\(\\).*",
+            "replace": "\/\/showPopUpHelp()",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "comment2",
+            "type": "Action"
+        }, {
+            "pattern": "<link.*href=\".*jquery\\.contextMenu\\.css\".*rel=\"stylesheet\".*type=\"text\/css\\\".*\/>",
+            "flags": 0,
+            "condition": "-",
+            "class": "TextContent",
+            "id": "c2",
+            "type": "Condition"
+        }, {
+            "pattern": "(<link.*href=\".*\/pages\/style.css\".*rel=\"stylesheet\".*>)",
+            "replace": "<link href=\"<%=request.getContextPath()%>\/jquery\/plugins\/contextMenu\/css\/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text\/css\" \/>\n$1",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "addContextCss",
+            "type": "Action"
         }],
-    "lastWorkingDirectory": "C:\\Users\\cbaez\\Desktop\\ProcessorWorkspace\files",
-    "name": "Proj Tets",
-    "description": "Project test desc"
+    "lastWorkingDirectory": null,
+    "name": null,
+    "description": null,
+    "graph": "strict digraph G {\r\n  START_NODE [ label=\"START_NODE\" ];\r\n  END_NODE [ label=\"END_NODE\" ];\r\n  FAIL_NODE [ label=\"FAIL_NODE\" ];\r\n  jspFilter [ label=\"jspFilter\" ];\r\n  contextmenuFilter [ label=\"contextmenuFilter\" ];\r\n  c1 [ label=\"c1\" ];\r\n  addOptionMenuJs [ label=\"addOptionMenuJs\" ];\r\n  eventChanger [ label=\"eventChanger\" ];\r\n  comment1 [ label=\"comment1\" ];\r\n  comment2 [ label=\"comment2\" ];\r\n  c2 [ label=\"c2\" ];\r\n  addContextCss [ label=\"addContextCss\" ];\r\n  START_NODE -> jspFilter [ label=\"et2137976750\" ];\r\n  jspFilter -> contextmenuFilter [ label=\"et1166458272\" ];\r\n  jspFilter -> FAIL_NODE [ label=\"ef785571834\" ];\r\n  contextmenuFilter -> c1 [ label=\"et1047440002\" ];\r\n  contextmenuFilter -> FAIL_NODE [ label=\"ef1810355766\" ];\r\n  c1 -> addOptionMenuJs [ label=\"et1230852139\" ];\r\n  c1 -> eventChanger [ label=\"ef751303204\" ];\r\n  addOptionMenuJs -> eventChanger [ label=\"et547054308\" ];\r\n  eventChanger -> comment1 [ label=\"et258313693\" ];\r\n  comment1 -> comment2 [ label=\"et1888603356\" ];\r\n  comment2 -> c2 [ label=\"et109943979\" ];\r\n  addContextCss -> END_NODE [ label=\"et449133543\" ];\r\n  c2 -> addContextCss [ label=\"et1289850027\" ];\r\n  c2 -> END_NODE [ label=\"ef1266208326\" ];\r\n}\r\n"
 }

@@ -38,7 +38,7 @@ public class FileProcessor {
 
     public ProcessingResult processFile(File f) {
         ProcessingResult processingResult = new ProcessingResult();
-        
+        System.out.println("Processing file: " + f.getAbsolutePath());
         DecisionGraph graph = project.getGraph();
         GraphNode node = graph.getInitialNode();
         if(node == null)
@@ -47,6 +47,7 @@ public class FileProcessor {
         Object content = f;
         while (!((node instanceof processor.core.graph.FailNode) || (node instanceof processor.core.graph.EndNode))){            
             boolean res = true;
+            
             if (node instanceof Condition) {
                 try {
                     Object translation = TypeTranslator.translateFor((Condition) node, content);
@@ -69,14 +70,6 @@ public class FileProcessor {
                     res = false;
                 }
             }
-            DecisionEdge directionEdge = null;
-            final boolean finalRes = res;
-            if(graph.outgoingEdgesOf(node).size() > 1){
-                directionEdge = graph.outgoingEdgesOf(node).stream().filter(e -> e.getSign() == finalRes).findFirst().get();
-            }else{
-                directionEdge = (DecisionEdge) graph.outgoingEdgesOf(node).toArray()[0];
-            }
-            node = graph.getEdgeTarget(directionEdge);
             
             GraphNode nextNode;
             if(node instanceof Condition)
@@ -88,6 +81,7 @@ public class FileProcessor {
             
         }
         processingResult.setPassed(!(node instanceof processor.core.graph.FailNode));
+        System.out.println("Result was: " + processingResult.isPassed());
         processingResult.setResult(content);
         return processingResult;
         
