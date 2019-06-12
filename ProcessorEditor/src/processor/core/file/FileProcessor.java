@@ -13,21 +13,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jgrapht.graph.DefaultDirectedGraph;
 import processor.core.graph.DecisionEdge;
-import processor.core.lineal.EndNode;
-import processor.core.lineal.FailNode;
-import processor.core.lineal.StartNode;
+import processor.core.graph.DecisionGraph;
+import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.conditions.Condition;
-import processor.core.lineal.ComplexNode;
 
 /**
  *
@@ -45,47 +38,39 @@ public class FileProcessor {
 
     public ProcessingResult processFile(File f) {
         ProcessingResult processingResult = new ProcessingResult();
-        /*
-        DefaultDirectedGraph<ComplexNode, DecisionEdge> graph = project.getGraph();
-        ComplexNode start = graph.vertexSet().stream().filter(n -> n instanceof StartNode).findFirst().get();
-        Optional<DecisionEdge> findFirst = graph.outgoingEdgesOf(start).stream().filter(e -> e.getSign()).findFirst();
-        if (!findFirst.isPresent()) {
-            return processingResult;
-        }
-        DecisionEdge trueEdge = findFirst.get();
-        ComplexNode node = graph.getEdgeTarget(trueEdge);
         
+        DecisionGraph graph = project.getGraph();
+        GraphNode node = graph.getInitialNode();
+        if(node == null)
+            return null;
+
         Object content = f;
-        while (!((node instanceof EndNode) || (node instanceof FailNode))){            
-            boolean condRes = true;
-            boolean actionRes = true;
-            if (node.getCondition() != null) {
-                Condition condition = node.getCondition();
+        while (!((node instanceof processor.core.graph.FailNode) || (node instanceof processor.core.graph.EndNode))){            
+            boolean res = true;
+            if (node instanceof Condition) {
                 try {
-                    Object translation = TypeTranslator.translateFor(condition, content);
-                    condRes = condition.test(translation);
+                    Object translation = TypeTranslator.translateFor((Condition) node, content);
+                    res = ((Condition)node).test(translation);
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    condRes = false;
+                    res = false;
                 }
             }
-            if(node.getAction() != null && condRes){
-                Action action  = node.getAction();
+            if(node instanceof Action){
                 try {
-                    Object original = TypeTranslator.translateFor(action, content);
-                    content = action.process(original);
+                    Object original = TypeTranslator.translateFor(((Action)node), content);
+                    content = ((Action)node).process(original);
                     if(!original.equals(content)){
-                        processingResult.actions.add(action);
+                        processingResult.actions.add((Action)node);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    actionRes = false;
+                    res = false;
                 }
             }
-            
-            boolean finalRes = condRes && actionRes;
             DecisionEdge directionEdge = null;
+            final boolean finalRes = res;
             if(graph.outgoingEdgesOf(node).size() > 1){
                 directionEdge = graph.outgoingEdgesOf(node).stream().filter(e -> e.getSign() == finalRes).findFirst().get();
             }else{
@@ -93,11 +78,17 @@ public class FileProcessor {
             }
             node = graph.getEdgeTarget(directionEdge);
             
+            GraphNode nextNode;
+            if(node instanceof Condition)
+                nextNode = graph.getDecisionTargetOf(node, res);
+            else
+                nextNode = graph.getDecisionTargetOf(node,true);
+            
+            node = nextNode;
+            
         }
-        processingResult.setPassed(!(node instanceof FailNode));
-           
+        processingResult.setPassed(!(node instanceof processor.core.graph.FailNode));
         processingResult.setResult(content);
-        */
         return processingResult;
         
     }
