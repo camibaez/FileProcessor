@@ -1,0 +1,19 @@
+{
+    "nodes": [{
+            "pattern": "*.jsp",
+            "class": "FilePattern",
+            "id": "c1007623779",
+            "type": "Condition"
+        }, {
+            "pattern": "(.*)align=\"(.*)\"(.*)style=\"(.*)\"(.*)",
+            "replace": "$1$3style=\"$4;text-align:$2\"$5",
+            "flags": 2,
+            "class": "ReplaceText",
+            "id": "a756004392",
+            "type": "Action"
+        }],
+    "lastWorkingDirectory": null,
+    "name": null,
+    "description": null,
+    "graph": "strict digraph G {\r\n  START_NODE [ label=\"START_NODE\" ];\r\n  END_NODE [ label=\"END_NODE\" ];\r\n  FAIL_NODE [ label=\"FAIL_NODE\" ];\r\n  c1007623779 [ label=\"c1007623779\" ];\r\n  a756004392 [ label=\"a756004392\" ];\r\n  START_NODE -> c1007623779 [ label=\"et256193132\" ];\r\n  c1007623779 -> a756004392 [ label=\"et508366149\" ];\r\n  c1007623779 -> FAIL_NODE [ label=\"ef2021217887\" ];\r\n}\r\n"
+}
