@@ -12,8 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import processor.core.file.ProjectCentral;
-
-
 import processor.profile.ProfileAdministration;
 
 public abstract class OpenProjectAction implements ActionListener {

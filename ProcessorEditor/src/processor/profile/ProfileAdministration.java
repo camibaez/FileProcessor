@@ -21,9 +21,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import processor.core.graph.GraphNode;
 import processor.core.file.Profile;
 import processor.core.graph.DecisionGraph;
+import processor.core.graph.GraphNode;
 import processor.core.graph.serialization.GraphBuilder;
 
 /**

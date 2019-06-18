@@ -5,19 +5,11 @@
  */
 package processor.editor.actions;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
-import processor.core.file.ProjectCentral;
-import processor.profile.ProfileAdministration;
 
 @ActionID(
         category = "File",

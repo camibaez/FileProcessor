@@ -7,7 +7,6 @@ package processor.genericeditor.windows.conditions;
 
 import java.awt.BorderLayout;
 import processor.core.graph.conditions.Condition;
-import processor.core.graph.conditions.TextContent;
 
 /**
  *

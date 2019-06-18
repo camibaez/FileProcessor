@@ -5,16 +5,16 @@
  */
 package processor.editor.windows;
 
-import processor.genericeditor.windows.ProcessorEditorMainPanel;
 import java.awt.BorderLayout;
 import org.netbeans.api.diff.DiffView;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
-import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.TopComponent;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
+import processor.genericeditor.windows.ProcessorEditorMainPanel;
 
 /**
  * Top component which displays something.

@@ -5,7 +5,6 @@
  */
 package processor.core.lineal;
 
-import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.conditions.Condition;
 

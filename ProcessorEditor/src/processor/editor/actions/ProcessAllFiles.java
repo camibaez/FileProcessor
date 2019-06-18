@@ -5,15 +5,11 @@
  */
 package processor.editor.actions;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
-import processor.core.file.ProjectCentral;
 
 @ActionID(
         category = "File",

@@ -5,9 +5,6 @@
  */
 package processor.core.lineal;
 
-import processor.core.graph.GraphNode;
-import processor.core.lineal.ComplexNode;
-
 /**
  *
  * @author cbaez

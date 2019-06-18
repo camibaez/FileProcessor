@@ -10,14 +10,13 @@ import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONArray;
 import processor.core.graph.GraphNode;
+import processor.core.graph.actions.Action;
+import processor.core.graph.actions.ExecutableAction;
+import processor.core.graph.actions.ReplaceText;
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
-import processor.core.graph.actions.Action;
-import processor.core.graph.actions.ExecutableAction;
-import processor.core.graph.actions.ReplaceText;
-import processor.core.lineal.ComplexNode;
 
 /**
  *

@@ -6,7 +6,6 @@
 package processor.core.file;
 
 import java.io.File;
-import processor.core.file.Profile;
 import processor.profile.ProfileAdministration;
 
 /**

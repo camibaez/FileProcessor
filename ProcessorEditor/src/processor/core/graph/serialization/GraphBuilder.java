@@ -5,33 +5,23 @@
  */
 package processor.core.graph.serialization;
 
-import java.io.Reader;
 import java.io.StringReader;
-import processor.core.lineal.FailNode;
-import processor.core.lineal.EndNode;
-import processor.core.lineal.StartNode;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
-import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.io.ComponentNameProvider;
 import org.jgrapht.io.DOTExporter;
 import org.jgrapht.io.DOTImporter;
-import org.jgrapht.io.ExportException;
-import org.jgrapht.io.GraphExporter;
 import org.jgrapht.io.ImportException;
-import org.jgrapht.io.VertexProvider;
-import org.openide.util.Exceptions;
 import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.ReplaceText;
 import processor.core.graph.conditions.FilePattern;
-import processor.core.graph.serialization.EdgeIdProvider;
-import processor.core.graph.serialization.NodeIdProvider;
-import processor.core.graph.serialization.NodeLabelProvider;
 import processor.core.lineal.ComplexNode;
+import processor.core.lineal.EndNode;
+import processor.core.lineal.FailNode;
+import processor.core.lineal.StartNode;
 
 /**
  *

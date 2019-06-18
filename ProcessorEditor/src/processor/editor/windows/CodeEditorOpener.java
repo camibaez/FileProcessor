@@ -8,7 +8,6 @@ package processor.editor.windows;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.text.StyledDocument;
-
 import org.openide.cookies.EditorCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;

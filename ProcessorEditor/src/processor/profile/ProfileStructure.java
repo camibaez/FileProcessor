@@ -6,10 +6,10 @@
 package processor.profile;
 
 import java.util.List;
-import processor.core.graph.GraphNode;
-import processor.core.graph.conditions.Condition;
 import processor.core.file.Profile;
+import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
+import processor.core.graph.conditions.Condition;
 
 /**
  *

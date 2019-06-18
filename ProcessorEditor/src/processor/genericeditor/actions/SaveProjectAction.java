@@ -10,10 +10,8 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import processor.core.file.ProjectCentral;
 import processor.profile.ProfileAdministration;
-import static processor.profile.ProfileAdministration.generateProfileJSON;
 
 public class SaveProjectAction implements ActionListener {
 

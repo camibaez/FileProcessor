@@ -6,7 +6,6 @@
 package processor.genericeditor.windows;
 
 import java.awt.BorderLayout;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Path;

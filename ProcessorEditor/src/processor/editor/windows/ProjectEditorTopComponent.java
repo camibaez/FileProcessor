@@ -5,13 +5,13 @@
  */
 package processor.editor.windows;
 
-import processor.genericeditor.windows.ProjectEditorMainPanel;
 import java.awt.BorderLayout;
 import org.netbeans.api.settings.ConvertAsProperties;
-import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
+import org.openide.windows.TopComponent;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
+import processor.genericeditor.windows.ProjectEditorMainPanel;
 
 /**
  * Top component which displays something.

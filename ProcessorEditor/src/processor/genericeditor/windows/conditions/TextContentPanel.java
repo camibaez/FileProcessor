@@ -5,7 +5,6 @@
  */
 package processor.genericeditor.windows.conditions;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.regex.Pattern;
 import processor.core.graph.conditions.ConditionalPattern;

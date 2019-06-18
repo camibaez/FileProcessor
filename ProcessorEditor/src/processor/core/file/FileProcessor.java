@@ -5,7 +5,6 @@
  */
 package processor.core.file;
 
-import processor.core.graph.actions.TypeTranslator;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,10 +16,10 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
+import processor.core.graph.actions.TypeTranslator;
 import processor.core.graph.conditions.Condition;
 
 /**

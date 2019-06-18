@@ -11,20 +11,19 @@ import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
-import processor.core.graph.conditions.Condition;
 import processor.core.file.Profile;
+import processor.core.file.ProjectCentral;
 import processor.core.graph.DecisionGraph;
+import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
+import processor.core.graph.actions.ExecutableAction;
 import processor.core.graph.actions.ReplaceText;
+import processor.core.graph.conditions.Condition;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
-import processor.core.lineal.ComplexNode;
-import processor.editor.windows.CodeEditorOpener;
-import processor.core.file.ProjectCentral;
-import processor.core.graph.GraphNode;
-import processor.core.graph.actions.ExecutableAction;
 import processor.core.graph.serialization.GraphBuilder;
+import processor.editor.windows.CodeEditorOpener;
 import processor.genericeditor.windows.conditions.PanelFactory;
 
 /**

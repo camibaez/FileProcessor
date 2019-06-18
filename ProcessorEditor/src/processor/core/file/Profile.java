@@ -8,16 +8,11 @@ package processor.core.file;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
-import processor.core.graph.serialization.GraphBuilder;
-
-import processor.core.graph.conditions.Condition;
 import processor.core.graph.actions.Action;
-import processor.core.lineal.ComplexNode;
+import processor.core.graph.conditions.Condition;
+import processor.core.graph.serialization.GraphBuilder;
 
 /**
  *
