@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import processor.core.file.Profile;
+import processor.core.file.ProjectCentral;
 import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
@@ -25,35 +26,33 @@ import processor.core.graph.actions.ReplaceText;
  */
 public class ProjectEditorActionPanel extends javax.swing.JPanel {
 
-    protected ReplaceText node;
-    protected Profile profile;
+    protected ReplaceText action;
     protected DecisionGraph graph;
     
     /**
      * Creates new form CleanerPane
      */
-    public ProjectEditorActionPanel(Profile profile, Action action) {
-        this.profile = profile;
-        this.graph = profile.getGraph();
-        this.node = (ReplaceText) action;
+    public ProjectEditorActionPanel(Action action) {
+        this.graph = ProjectCentral.instance().getProfile().getGraph();
+        this.action = (ReplaceText) action;
         initComponents();
         loadActionData();
         loadPorts();
     }
 
     private void loadActionData() {
-        boolean ignoreCase = (node.getFlags() & Pattern.CASE_INSENSITIVE) == Pattern.CASE_INSENSITIVE;
+        boolean ignoreCase = (action.getFlags() & Pattern.CASE_INSENSITIVE) == Pattern.CASE_INSENSITIVE;
         jCheckBox1.setSelected(!ignoreCase);
-        jTextArea1.setText(node.getPattern().pattern());
-        jTextArea2.setText(node.getReplace());
+        jTextArea1.setText(action.getPattern().pattern());
+        jTextArea2.setText(action.getReplace());
     }
 
     protected void loadPorts(){
-        GraphNode trueTarget = profile.getGraph().getDecisionTargetOf(node, true);
-        Set<GraphNode> vertexSet = profile.getGraph().vertexSet();
+        GraphNode trueTarget =graph.getDecisionTargetOf(action, true);
+        Set<GraphNode> vertexSet = graph.vertexSet();
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         vertexSet.forEach(v -> {
-            if(v.equals(node) || v.equals(DecisionGraph.S_NODE))
+            if(v.equals(action) || v.equals(DecisionGraph.S_NODE))
                 return;
             model.addElement(v);
         });
@@ -61,10 +60,10 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
         jComboBox1.setModel(model);
         jComboBox1.setSelectedItem(trueTarget);
         
-        Set<DecisionEdge> incomingEdgesOf = profile.getGraph().incomingEdgesOf(node);
+        Set<DecisionEdge> incomingEdgesOf = graph.incomingEdgesOf(action);
         List<GraphNode> pointingGraphs = new LinkedList<>();
         incomingEdgesOf.forEach(e -> {
-            pointingGraphs.add(profile.getGraph().getEdgeSource(e));
+            pointingGraphs.add(graph.getEdgeSource(e));
         });
         jTextField1.setText(pointingGraphs.toString());
     }
@@ -95,7 +94,7 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new IdField(node);
+        jTextField2 = new IdField(action);
 
         jLabel6.setText("jLabel6");
 
@@ -230,12 +229,12 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
-        int flags = node.getFlags();
+        int flags = action.getFlags();
         if (!jCheckBox1.isSelected()) {
             flags |= Pattern.CASE_INSENSITIVE;
         }
         try {
-            node.setPattern(Pattern.compile(node.getPatternText(), flags));
+            action.setPattern(Pattern.compile(action.getPatternText(), flags));
         } catch (Exception e) {
             System.out.println("Error compiling pattern");
         }
@@ -243,18 +242,18 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
 
     private void jTextArea2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyReleased
 
-        node.setReplace(jTextArea2.getText());
+        action.setReplace(jTextArea2.getText());
     }//GEN-LAST:event_jTextArea2KeyReleased
 
     private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
 
         Pattern p = null;
         try {
-            p = Pattern.compile(jTextArea1.getText(), node.getPattern().flags());
-            node.setPattern(p);
+            p = Pattern.compile(jTextArea1.getText(), action.getPattern().flags());
+            action.setPattern(p);
             jTextArea1.setForeground(Color.BLACK);
         } catch (Exception e) {
-            System.err.println("Malformed pattern in rule: " + node);
+            System.err.println("Malformed pattern in rule: " + action);
             jTextArea1.setForeground(Color.RED);
         }
     }//GEN-LAST:event_jTextArea1KeyReleased
@@ -264,7 +263,7 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        profile.getGraph().changeEdgeOf(node, true, (GraphNode) jComboBox1.getSelectedItem());
+       graph.changeEdgeOf(action, true, (GraphNode) jComboBox1.getSelectedItem());
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     @Override

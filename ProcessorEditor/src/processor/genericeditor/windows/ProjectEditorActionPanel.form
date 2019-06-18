@@ -234,7 +234,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField2">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new IdField(node)"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new IdField(action)"/>
           </AuxValues>
         </Component>
       </SubComponents>

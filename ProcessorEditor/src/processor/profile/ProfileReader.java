@@ -18,6 +18,7 @@ import processor.core.graph.conditions.TextContent;
 import processor.core.file.Profile;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
+import processor.core.graph.actions.ExecutableAction;
 import processor.core.graph.actions.ReplaceText;
 import processor.core.lineal.ComplexNode;
 
@@ -132,6 +133,9 @@ public class ProfileReader {
         if (clazz.equals(ReplaceText.class.getSimpleName())) {
             action = readReplaceText(data);
         }
+        if(clazz.equals(ExecutableAction.class.getSimpleName())){
+            action = readExecutableAction(data);
+        }
         if (action != null) {
             action.setId((String) data.get("id"));
         }
@@ -144,6 +148,12 @@ public class ProfileReader {
         String replace = (String) data.get("replace");
         int flags = ((Long)data.get("flags")).intValue();
         return new ReplaceText(pattern, replace, flags);
+    }
+    
+    public static ExecutableAction readExecutableAction(Map data) {
+        ExecutableAction executableAction = new ExecutableAction();
+        executableAction.setCode((String) data.get("code"));
+        return executableAction;
     }
 
 }

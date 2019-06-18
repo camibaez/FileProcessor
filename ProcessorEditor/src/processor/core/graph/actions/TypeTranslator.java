@@ -6,6 +6,7 @@
 package processor.core.graph.actions;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.conditions.FileContent;
@@ -31,7 +32,7 @@ public class TypeTranslator {
             if(o instanceof String)
                 return (String)o;
             if(o instanceof File){
-                return new String(Files.readAllBytes(((File)o).toPath()));
+                return new String(Files.readAllBytes(((File)o).toPath()), StandardCharsets.ISO_8859_1);
             }
         }
         

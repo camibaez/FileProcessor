@@ -15,11 +15,11 @@ public class ProcessAllFilesAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        /*
+        
         int response = JOptionPane.showConfirmDialog(null, "Are you shure you want to process all the files?");
         if(response == JOptionPane.YES_OPTION){
             ProjectCentral.instance().getProfile().getFileProcessor().processAll();
         }
-*/
+
     }
 }

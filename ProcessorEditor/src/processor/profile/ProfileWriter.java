@@ -15,6 +15,7 @@ import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
 import processor.core.graph.actions.Action;
+import processor.core.graph.actions.ExecutableAction;
 import processor.core.graph.actions.ReplaceText;
 import processor.core.lineal.ComplexNode;
 
@@ -56,6 +57,9 @@ public class ProfileWriter {
         if (action instanceof ReplaceText) {
             actionData = replaceTextAction((ReplaceText) action);
         }
+        if (action instanceof ExecutableAction) {
+            actionData = executableAction((ExecutableAction)action);
+        }
         if (actionData != null) {
             actionData.put("class", action.getClass().getSimpleName());
             actionData.put("id", action.getId());
@@ -68,6 +72,11 @@ public class ProfileWriter {
         ruleData.put("pattern", rule.getPatternText());
         ruleData.put("replace", rule.getReplace());
         ruleData.put("flags", rule.getFlags());
+        return ruleData;
+    }
+    public static Map executableAction(ExecutableAction rule) {
+        Map ruleData = new LinkedHashMap(3);
+        ruleData.put("code", rule.getCode());
         return ruleData;
     }
 

@@ -8,15 +8,19 @@ package processor.genericeditor.windows;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import processor.core.file.FileWalker;
 
 import processor.core.file.Profile;
+import processor.core.file.ProjectCentral;
 
 public final class ProcessorEditorMainPanel extends JPanel {
 
@@ -98,6 +102,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jLabel1 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -153,7 +158,18 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jToolBar1.setRollover(true);
         jToolBar1.add(filler1);
 
-        jButton2.setText("Refresh"); // NOI18N
+        jButton1.setText("Reload Files");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton1);
+
+        jButton2.setText("Reload Table"); // NOI18N
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -216,10 +232,24 @@ public final class ProcessorEditorMainPanel extends JPanel {
         fillFilesTable();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FileWalker fileMatcher = new FileWalker(profile);
+        profile.setFileMatcher(fileMatcher);
+        try {
+            Files.walkFileTree(Paths.get(profile.getWorkingDirectory()), fileMatcher);
+            ProjectCentral.instance().getProfile().getFileMatcher().setDone(true);
+            System.out.println("Matching done!!!");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        fillFilesTable();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel diffContainerPanel;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
