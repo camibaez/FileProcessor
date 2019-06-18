@@ -10,10 +10,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 
-/**
- *
- * @author cbaez
- */
+
 public class FilePattern extends Condition<File>{
     protected String pattern;
     private transient PathMatcher matcher;
@@ -28,9 +25,7 @@ public class FilePattern extends Condition<File>{
         Path name = file.toPath().getFileName();
         return name != null && matcher.matches(name);
     }
-    
-    
-    
+   
     public String toString(){
         return "<" + getId() + ">:" + pattern;
     }
