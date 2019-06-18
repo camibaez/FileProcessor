@@ -50,12 +50,11 @@ public final class EditorProcessorTopComponent extends TopComponent {
         initComponents();
         setName(Bundle.CTL_EditorProcessorTopComponent());
         setToolTipText(Bundle.HINT_EditorProcessorTopComponent());
+       
         
         profile = ProjectCentral.instance().getProfile();
         rootPanel.add(new ProcessorEditorMainPanel(profile), BorderLayout.CENTER);
     }
-    
-   
 
     /**
      * This method is called from within the constructor to initialize the form.

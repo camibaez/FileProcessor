@@ -29,7 +29,6 @@ public abstract class OpenProjectAction implements ActionListener {
             ProjectCentral.instance().setProfile(ProfileSerializer.loadProject(file));
             ProjectCentral.instance().setProfileFile(file);
             openProjectWindow();
-            
         } else {
             Logger.getLogger(OpenProjectAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
         }

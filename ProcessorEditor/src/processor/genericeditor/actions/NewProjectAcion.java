@@ -27,7 +27,7 @@ public abstract class NewProjectAcion implements ActionListener {
 
         int returnVal = fc.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File currentDirectory = fc.getCurrentDirectory();
+            File currentDirectory = fc.getSelectedFile();
             String name = new SimpleDateFormat("yyMMdd_hhmmss").format(new Date()) + ".json";
             File file = new File(currentDirectory, name);
 

@@ -15,10 +15,10 @@ import org.openide.util.Exceptions;
  *
  * @author cbaez
  */
-public class ExecutableCondition extends Condition<Object>{
+public class ExecutableCondition extends Condition<String>{
     protected String code;
     @Override
-    public boolean test(Object target) {
+    public boolean test(String target) {
         Object res = executeCode(target);
         if(res != null && res instanceof Boolean){
             return (boolean) res;
@@ -36,7 +36,7 @@ public class ExecutableCondition extends Condition<Object>{
                    
             engine.eval(code);
             Invocable invocable = (Invocable) engine;
-            Object result = invocable.invokeFunction("cleanFunc", target);
+            Object result = invocable.invokeFunction("testFunction", target);
             return result;
         } catch (ScriptException ex) {
             Exceptions.printStackTrace(ex);
@@ -54,6 +54,8 @@ public class ExecutableCondition extends Condition<Object>{
         this.code = code;
     }
     
-    
+    public String toString() {
+        return "<" + getId() + ">:ExecCondition";
+    }
     
 }

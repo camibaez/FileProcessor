@@ -11,16 +11,23 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.openide.util.Exceptions;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.TypeTranslator;
 import processor.core.graph.conditions.Condition;
+import static processor.profile.ProfileSerializer.generateProfileJSON;
 
 /**
  *
@@ -104,6 +111,7 @@ public class FileProcessor {
             }
 
         }
+        saveLog();
         System.out.println("All files processed");
     }
 
@@ -114,6 +122,34 @@ public class FileProcessor {
         )) {
             writer.write(result);
             project.getFileCentral().getProcessedFiles().add(p);
+        }
+    }
+    
+    
+    public void saveLog() {
+        String fileName = ProjectCentral.instance().getProfileFile().getName();
+        fileName = fileName.substring(0,fileName.lastIndexOf("."));
+        fileName = fileName + "_log_" + System.currentTimeMillis() + ".json";
+        fileName = ProjectCentral.instance().getProfileFile().getParent() + "\\" + fileName;
+        
+        Map m = new JSONObject();
+        List arr = new JSONArray();
+        project.getFileCentral().getProcessedFiles().forEach((Path f) -> {
+            List record = new JSONArray();
+            record.add(f.toString());
+            List<Action> actions = project.getFileCentral().getResultMap().get(f).getActions();
+            actions.forEach(a -> {
+                record.add(a.getId());
+            });
+            arr.add(record);
+        });
+        m.put("logs", arr);
+        
+        try (PrintWriter pw = new PrintWriter(fileName)) {
+            pw.write(((JSONObject) m).toJSONString());
+            pw.flush();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
     }
 

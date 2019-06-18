@@ -28,9 +28,9 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
     /**
      * Creates new form ExecutableAction
      */
-    public ExecutableActionPanel(Action action) {
+    public ExecutableActionPanel(ExecutableAction action) {
         this.graph = ProjectCentral.instance().getProfile().getGraph();
-        this.action = (ExecutableAction) action;
+        this.action =  action;
         initComponents();
         jTextArea1.setText(this.action.getCode());
         loadPorts();

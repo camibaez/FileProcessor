@@ -17,6 +17,7 @@ import processor.core.graph.actions.ExecutableAction;
 import processor.core.graph.actions.ReplaceText;
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.conditions.ConditionalPattern;
+import processor.core.graph.conditions.ExecutableCondition;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
@@ -80,6 +81,9 @@ public class ProfileReader {
         if (clazz.equals(TextContent.class.getSimpleName())) {
             condition = readTextContentCondition(data);
         }
+        if (clazz.equals(ExecutableCondition.class.getSimpleName())) {
+            condition = readExecutableCondition(data);
+        }
         if (condition != null) {
             condition.setId((String) data.get("id"));
         }
@@ -112,6 +116,12 @@ public class ProfileReader {
         int flags = ((Long)data.get("flags")).intValue();
 
         return new TextContent(ConditionalPattern.compile(pattern, flags, condition));
+    }
+    
+    private static Condition readExecutableCondition(Map data) {
+        ExecutableCondition executableCondition = new ExecutableCondition();
+        executableCondition.setCode((String) data.get("code"));
+        return executableCondition;
     }
 
     public static List<Action> readActions(JSONObject data) {
@@ -154,5 +164,7 @@ public class ProfileReader {
         executableAction.setCode((String) data.get("code"));
         return executableAction;
     }
+
+    
 
 }

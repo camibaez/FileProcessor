@@ -9,6 +9,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import processor.core.graph.conditions.Condition;
+import processor.core.graph.conditions.ExecutableCondition;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
@@ -28,7 +29,7 @@ public class TypeTranslator {
         }
         if(condition instanceof FileContent)
             return (File) o;
-        if(condition instanceof TextContent){
+        if(condition instanceof TextContent || condition instanceof ExecutableCondition){
             if(o instanceof String)
                 return (String)o;
             if(o instanceof File){

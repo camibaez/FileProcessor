@@ -14,6 +14,7 @@ import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ExecutableAction;
 import processor.core.graph.actions.ReplaceText;
 import processor.core.graph.conditions.Condition;
+import processor.core.graph.conditions.ExecutableCondition;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
@@ -92,6 +93,9 @@ public class ProfileWriter {
         if(condition instanceof TextContent){
             genericContentCondition(conditionData, (TextContent) condition);
         }
+        if(condition instanceof ExecutableCondition){
+            executableCondition(conditionData, (ExecutableCondition) condition);
+        }
         if (conditionData != null) {
             conditionData.put("class", condition.getClass().getSimpleName());
             conditionData.put("id", condition.getId());
@@ -119,6 +123,10 @@ public class ProfileWriter {
         map.put("pattern", genContent.getPattern().getPattern().pattern());
         map.put("flags", genContent.getPattern().getPattern().flags());
         map.put("condition", genContent.getPattern().getCondition());
+    }
+
+    private static void executableCondition(Map map, ExecutableCondition executableCondition) {
+        map.put("code", executableCondition.getCode());
     }
 
 }

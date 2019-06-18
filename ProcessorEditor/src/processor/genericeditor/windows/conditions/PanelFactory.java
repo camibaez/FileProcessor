@@ -30,6 +30,7 @@ public class PanelFactory {
         {FileContent.class, FileContentPanel.class},
         {TextContent.class, TextContentPanel.class},
         {ExecutableCondition.class, ExecConditionPanel.class},
+        
         {ReplaceText.class, ProjectEditorActionPanel.class},
         {ExecutableAction.class, ExecutableActionPanel.class}
     };
@@ -37,11 +38,11 @@ public class PanelFactory {
     
     public static JPanel generatePanel(GraphNode node){
         JPanel panel = null;
-        
         for(Class[] cls : nodesMap){
             if(cls[0].isInstance(node)){
                 try {
-                    panel = (JPanel) cls[1].getConstructor(node.getClass()).newInstance(node);
+                    Class<? extends GraphNode> aClass = node.getClass();
+                    panel = (JPanel) cls[1].getConstructor(aClass).newInstance(node);
                     break;
                 } catch (NoSuchMethodException ex) {
                     Exceptions.printStackTrace(ex);
@@ -61,6 +62,7 @@ public class PanelFactory {
         return panel;
     }
 
+    /*
     public static ConditionPanel generatePanel(Condition c) {
         ConditionPanel panel = null;
         if (c instanceof FilePattern) {
@@ -87,4 +89,5 @@ public class PanelFactory {
 
         return panel;
     }
+*/
 }

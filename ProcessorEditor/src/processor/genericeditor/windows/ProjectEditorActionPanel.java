@@ -31,9 +31,9 @@ public class ProjectEditorActionPanel extends javax.swing.JPanel {
     /**
      * Creates new form CleanerPane
      */
-    public ProjectEditorActionPanel(Action action) {
+    public ProjectEditorActionPanel(ReplaceText action) {
         this.graph = ProjectCentral.instance().getProfile().getGraph();
-        this.action = (ReplaceText) action;
+        this.action = action;
         initComponents();
         loadActionData();
         loadPorts();

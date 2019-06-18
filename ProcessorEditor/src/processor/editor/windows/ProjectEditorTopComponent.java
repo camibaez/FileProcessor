@@ -40,7 +40,7 @@ public final class ProjectEditorTopComponent extends TopComponent {
         initComponents();
         setName(Bundle.CTL_ProjectEditorTopComponent());
         setToolTipText(Bundle.HINT_ProjectEditorTopComponent());
-        putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.TRUE);
+        //putClientProperty(TopComponent.PROP_CLOSING_DISABLED, Boolean.TRUE);
 
         //FOR TEST
         //DummySuplier.loadDummyProject();
