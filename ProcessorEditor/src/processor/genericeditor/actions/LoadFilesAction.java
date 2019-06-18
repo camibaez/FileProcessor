@@ -43,14 +43,14 @@ public abstract class LoadFilesAction implements ActionListener {
             File file = fc.getSelectedFile();
             profile.setWorkingDirectory(file.getAbsolutePath());
             FileWalker fileMatcher = new FileWalker(profile);
-            profile.setFileMatcher(fileMatcher);
+            profile.setFileWalker(fileMatcher);
             
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Files.walkFileTree(Paths.get(profile.getWorkingDirectory()), fileMatcher);
-                        ProjectCentral.instance().getProfile().getFileMatcher().setDone(true);
+                        ProjectCentral.instance().getProfile().getFileWalker().setDone(true);
                         System.out.println("Matching done!!!");
                     } catch (IOException ex) {
                         ex.printStackTrace();

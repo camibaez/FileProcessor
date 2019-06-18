@@ -38,28 +38,6 @@ public class FileWalker extends SimpleFileVisitor<Path> {
             profile.getFileCentral().registerProcessResult(file, processingResult);
         }
         
-        /*
-        try {
-            FilePrototype basicPrototype = profile.getBasePrototype();
-            if(!checkPrototype(basicPrototype, file))
-                return CONTINUE;
-            profile.getFileCentral().linkFileToPrototype(basicPrototype, file);
-            
-            
-            Collection<FilePrototype> prototypesList = profile.getPrototypesMap().values();
-            //prototypesList.remove(basicPrototype);
-            for (FilePrototype p : prototypesList) {
-                if(p == basicPrototype)
-                    continue;
-                if(checkPrototype(p, file)){
-                    profile.getFileCentral().addFilePrototype(p);
-                    profile.getFileCentral().linkFileToPrototype(p, file);
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(FileMatcher.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    */
         return CONTINUE;
     }
 

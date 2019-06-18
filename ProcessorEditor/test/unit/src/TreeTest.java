@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import processor.core.file.Profile;
-import processor.profile.ProfileAdministration;
+import processor.profile.ProfileSerializer;
 
 /**
  *
@@ -33,7 +33,7 @@ public class TreeTest {
 
     @Test
     public void saveGraph(){
-        System.out.println(ProfileAdministration.generateProfileJSON(profile));
+        System.out.println(ProfileSerializer.generateProfileJSON(profile));
     }
 
 }

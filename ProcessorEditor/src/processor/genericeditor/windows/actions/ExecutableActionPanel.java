@@ -41,7 +41,7 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
         Set<GraphNode> vertexSet = graph.vertexSet();
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         vertexSet.forEach(v -> {
-            if(v.equals(action) || v.equals(DecisionGraph.S_NODE))
+            if(v.equals(action) || v.equals(DecisionGraph.START_NODE))
                 return;
             model.addElement(v);
         });

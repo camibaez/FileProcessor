@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import processor.core.file.ProjectCentral;
-import processor.profile.ProfileAdministration;
+import processor.profile.ProfileSerializer;
 
 public abstract class OpenProjectAction implements ActionListener {
 
@@ -26,7 +26,7 @@ public abstract class OpenProjectAction implements ActionListener {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            ProjectCentral.instance().setProfile(ProfileAdministration.loadProject(file));
+            ProjectCentral.instance().setProfile(ProfileSerializer.loadProject(file));
             ProjectCentral.instance().setProfileFile(file);
             openProjectWindow();
             

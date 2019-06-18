@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFileChooser;
 import processor.core.file.ProjectCentral;
-import processor.profile.ProfileAdministration;
+import processor.profile.ProfileSerializer;
 
 
 public abstract class NewProjectAcion implements ActionListener {
@@ -34,8 +34,8 @@ public abstract class NewProjectAcion implements ActionListener {
             try {
                 if (file.createNewFile()) {
                     System.out.println("Project created at: " + file.getAbsolutePath());
-                    ProfileAdministration.createEmptyProject(file.getAbsolutePath());
-                    ProjectCentral.instance().setProfile(ProfileAdministration.loadProject(file));
+                    ProfileSerializer.createEmptyProject(file.getAbsolutePath());
+                    ProjectCentral.instance().setProfile(ProfileSerializer.loadProject(file));
                     ProjectCentral.instance().setProfileFile(file);
                     openProjectEditorWindow();
                     

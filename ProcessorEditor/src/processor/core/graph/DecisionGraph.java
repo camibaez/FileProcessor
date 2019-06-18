@@ -14,14 +14,14 @@ import org.jgrapht.graph.DefaultDirectedGraph;
  * @author cbaez
  */
 public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge> {
-    public static GraphNode S_NODE = new processor.core.graph.StartNode(), E_NODE = new processor.core.graph.EndNode(),
-                            F_NODE = new processor.core.graph.FailNode();
+    public static GraphNode START_NODE = new processor.core.graph.StartNode(), END_NODE = new processor.core.graph.EndNode(),
+                            FAIL_NODE = new processor.core.graph.FailNode();
 
     public DecisionGraph() {
         super(DecisionEdge.class);
-        addVertex(S_NODE);
-        addVertex(E_NODE);
-        addVertex(F_NODE);
+        addVertex(START_NODE);
+        addVertex(END_NODE);
+        addVertex(FAIL_NODE);
     }
     
     public void reload(){
@@ -29,14 +29,14 @@ public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge>
     }
     
     public void masrkAsInitial(GraphNode node){
-        this.removeVertex(S_NODE);
-        this.addVertex(S_NODE);
-        this.addEdge(S_NODE, node, new DecisionEdge(true));
+        this.removeVertex(START_NODE);
+        this.addVertex(START_NODE);
+        this.addEdge(START_NODE, node, new DecisionEdge(true));
         
     }
     
     public GraphNode getInitialNode() {
-        Set<DecisionEdge> outgoingEdgesOf = this.outgoingEdgesOf(S_NODE);
+        Set<DecisionEdge> outgoingEdgesOf = this.outgoingEdgesOf(START_NODE);
         if(outgoingEdgesOf.size() < 1)
             return null;
         DecisionEdge edge = outgoingEdgesOf.stream().findFirst().get();
@@ -75,15 +75,15 @@ public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge>
     
     
     public boolean isFailNode(GraphNode node){
-        return node == F_NODE;
+        return node == FAIL_NODE;
     }
     
     public boolean isEndNode(GraphNode node){
-        return node == E_NODE;
+        return node == END_NODE;
     }
     
     public boolean isStartNode(GraphNode node){
-        return node == S_NODE;
+        return node == START_NODE;
     }
       
     

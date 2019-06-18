@@ -12,7 +12,7 @@ import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.conditions.Condition;
-import processor.core.graph.serialization.GraphBuilder;
+import processor.core.graph.serialization.GraphSerializer;
 
 /**
  *
@@ -27,18 +27,18 @@ public class Profile {
 
     protected FileCentral fileCentral;
 
-    protected FileWalker fileMatcher;
+    protected FileWalker fileWalker;
     protected FileProcessor fileProcessor;
 
     protected DecisionGraph graph;
-    protected GraphBuilder graphBuilder;
+    protected GraphSerializer graphBuilder;
     protected List<GraphNode> nodes;
    
 
     public Profile() {
         this.fileCentral = new FileCentral(this);
         this.nodes = new LinkedList<>();
-        this.graphBuilder = new GraphBuilder();
+        this.graphBuilder = new GraphSerializer();
         this.graph = new DecisionGraph();
         this.fileProcessor = new FileProcessor(this);
     }
@@ -84,7 +84,7 @@ public class Profile {
 
     }
 
-    public GraphBuilder getGraphBuilder() {
+    public GraphSerializer getGraphBuilder() {
         return graphBuilder;
     }
 
@@ -143,12 +143,12 @@ public class Profile {
         return fileCentral;
     }
 
-    public FileWalker getFileMatcher() {
-        return fileMatcher;
+    public FileWalker getFileWalker() {
+        return fileWalker;
     }
 
-    public void setFileMatcher(FileWalker fileMatcher) {
-        this.fileMatcher = fileMatcher;
+    public void setFileWalker(FileWalker fileMatcher) {
+        this.fileWalker = fileMatcher;
     }
 
     public FileProcessor getFileProcessor() {

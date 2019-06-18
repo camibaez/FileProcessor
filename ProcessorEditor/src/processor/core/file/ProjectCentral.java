@@ -6,7 +6,7 @@
 package processor.core.file;
 
 import java.io.File;
-import processor.profile.ProfileAdministration;
+import processor.profile.ProfileSerializer;
 
 /**
  *
@@ -27,7 +27,7 @@ public class ProjectCentral {
 
     
     public void reloadProject(){
-        profile = ProfileAdministration.loadProject(profileFile);
+        profile = ProfileSerializer.loadProject(profileFile);
     }
     
     

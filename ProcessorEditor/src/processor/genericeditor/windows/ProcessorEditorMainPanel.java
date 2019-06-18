@@ -39,7 +39,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
             public void run() {
                 while (true) {
                     try {
-                        if (profile.getFileMatcher().isDone()) {
+                        if (profile.getFileWalker().isDone()) {
                             fillFilesTable();
                             break;
                         } else {
@@ -232,10 +232,10 @@ public final class ProcessorEditorMainPanel extends JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         FileWalker fileMatcher = new FileWalker(profile);
-        profile.setFileMatcher(fileMatcher);
+        profile.setFileWalker(fileMatcher);
         try {
             Files.walkFileTree(Paths.get(profile.getWorkingDirectory()), fileMatcher);
-            ProjectCentral.instance().getProfile().getFileMatcher().setDone(true);
+            ProjectCentral.instance().getProfile().getFileWalker().setDone(true);
             System.out.println("Matching done!!!");
         } catch (IOException ex) {
             ex.printStackTrace();

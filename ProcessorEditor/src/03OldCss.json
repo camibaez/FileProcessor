@@ -1,0 +1,33 @@
+{
+    "nodes": [{
+            "pattern": "*.jsp",
+            "class": "FilePattern",
+            "id": "extensionFilter",
+            "type": "Condition"
+        }, {
+            "pattern": "<(div|p|a|span|img)\\b([^>]*)align=\"(left|center|right)\"(?:([^>]*)style=\"([^\">]*)\")?([^>]*)>",
+            "replace": "<$1$2style=\"text-align:$3;$5\"$4$6>",
+            "flags": 2,
+            "class": "ReplaceText",
+            "id": "oldAlignFixer",
+            "type": "Action"
+        }, {
+            "pattern": "<!doctype.*>",
+            "flags": 2,
+            "condition": "+",
+            "class": "TextContent",
+            "id": "containsDoctypeFilter",
+            "type": "Condition"
+        }, {
+            "pattern": "(<html(.*?)>)",
+            "replace": "<!doctype html>\n<html$2>",
+            "flags": 2,
+            "class": "ReplaceText",
+            "id": "addDoctypeFixer",
+            "type": "Action"
+        }],
+    "lastWorkingDirectory": null,
+    "name": null,
+    "description": null,
+    "graph": "strict digraph G {\r\n  START_NODE [ label=\"START_NODE\" ];\r\n  END_NODE [ label=\"END_NODE\" ];\r\n  FAIL_NODE [ label=\"FAIL_NODE\" ];\r\n  extensionFilter [ label=\"extensionFilter\" ];\r\n  oldAlignFixer [ label=\"oldAlignFixer\" ];\r\n  containsDoctypeFilter [ label=\"containsDoctypeFilter\" ];\r\n  addDoctypeFixer [ label=\"addDoctypeFixer\" ];\r\n  START_NODE -> extensionFilter [ label=\"et1139666912\" ];\r\n  addDoctypeFixer -> oldAlignFixer [ label=\"et919315121\" ];\r\n  extensionFilter -> containsDoctypeFilter [ label=\"et272066055\" ];\r\n  extensionFilter -> FAIL_NODE [ label=\"ef1591086340\" ];\r\n  oldAlignFixer -> END_NODE [ label=\"et1010957849\" ];\r\n  containsDoctypeFilter -> oldAlignFixer [ label=\"et1229285137\" ];\r\n  containsDoctypeFilter -> addDoctypeFixer [ label=\"ef1056234988\" ];\r\n}\r\n"
+}

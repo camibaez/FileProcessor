@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import processor.core.file.ProjectCentral;
-import processor.profile.ProfileAdministration;
+import processor.profile.ProfileSerializer;
 
 public class SaveProjectAction implements ActionListener {
 
@@ -22,7 +22,7 @@ public class SaveProjectAction implements ActionListener {
                 throw new Exception("No project loaded");
             }
             //System.out.println(generateProfileJSON(ProjectCentral.instance().getProfile()));
-            ProfileAdministration.saveProject(ProjectCentral.instance().getProfile(), ProjectCentral.instance().getProfileFile().getAbsolutePath());
+            ProfileSerializer.saveProject(ProjectCentral.instance().getProfile(), ProjectCentral.instance().getProfileFile().getAbsolutePath());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

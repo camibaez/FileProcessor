@@ -24,13 +24,13 @@ import org.json.simple.parser.ParseException;
 import processor.core.file.Profile;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
-import processor.core.graph.serialization.GraphBuilder;
+import processor.core.graph.serialization.GraphSerializer;
 
 /**
  *
  * @author cbaez
  */
-public class ProfileAdministration {
+public class ProfileSerializer {
     public static void createEmptyProject(String path) throws FileNotFoundException, IOException{
         String data = new String(Files.readAllBytes(Paths.get("C:\\Users\\cbaez\\Documents\\baseproject.json")));
         try (PrintWriter pw = new PrintWriter(path)) {
@@ -49,7 +49,7 @@ public class ProfileAdministration {
         JSONArray nodes = ProfileWriter.writeNodes(profile.getNodes());
         jo.put("nodes", nodes);
         
-        jo.put("graph", new GraphBuilder().exportGraph(profile.getGraph()));
+        jo.put("graph", new GraphSerializer().exportGraph(profile.getGraph()));
         
         return jo.toJSONString();
     }
@@ -79,14 +79,14 @@ public class ProfileAdministration {
             DecisionGraph graph = new DecisionGraph();
             fullNodesList.addAll(graph.vertexSet());
             String graphData = ProfileReader.readGraphData(jsonObject);
-            new GraphBuilder().importGraph(graph, fullNodesList, graphData);
+            new GraphSerializer().importGraph(graph, fullNodesList, graphData);
             project.setGraph(graph);
 
             
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException ex) {
-            Logger.getLogger(ProfileAdministration.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProfileSerializer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return project;
