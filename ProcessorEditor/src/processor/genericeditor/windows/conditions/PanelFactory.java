@@ -5,11 +5,15 @@
  */
 package processor.genericeditor.windows.conditions;
 
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.JPanel;
+import org.openide.util.Exceptions;
+import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ExecutableAction;
 import processor.core.graph.actions.ReplaceText;
 import processor.core.graph.conditions.Condition;
+import processor.core.graph.conditions.ExecutableCondition;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
@@ -21,27 +25,66 @@ import processor.genericeditor.windows.actions.ExecutableActionPanel;
  * @author cbaez
  */
 public class PanelFactory {
-    public static  ConditionPanel generatePanel(Condition c){
-        ConditionPanel panel = null;
-        if(c instanceof FilePattern)
-            panel = new FilePatternPanel((FilePattern) c);
-        if(c instanceof FileContent)
-            panel = new FileContentPanel((FileContent) c);
-        if(c instanceof TextContent)
-            panel = new TextContentPanel((TextContent) c);
+    protected static Class[][] nodesMap = {
+        {FilePattern.class, FilePatternPanel.class},
+        {FileContent.class, FileContentPanel.class},
+        {TextContent.class, TextContentPanel.class},
+        {ExecutableCondition.class, ExecConditionPanel.class},
+        {ReplaceText.class, ProjectEditorActionPanel.class},
+        {ExecutableAction.class, ExecutableActionPanel.class}
+    };
+    
+    
+    public static JPanel generatePanel(GraphNode node){
+        JPanel panel = null;
         
+        for(Class[] cls : nodesMap){
+            if(cls[0].isInstance(node)){
+                try {
+                    panel = (JPanel) cls[1].getConstructor(node.getClass()).newInstance(node);
+                    break;
+                } catch (NoSuchMethodException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (SecurityException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (InstantiationException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (IllegalAccessException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (IllegalArgumentException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (InvocationTargetException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        }
         return panel;
     }
-    
-    public static JPanel generatePanel(Action a){
+
+    public static ConditionPanel generatePanel(Condition c) {
+        ConditionPanel panel = null;
+        if (c instanceof FilePattern) {
+            panel = new FilePatternPanel((FilePattern) c);
+        }
+        if (c instanceof FileContent) {
+            panel = new FileContentPanel((FileContent) c);
+        }
+        if (c instanceof TextContent) {
+            panel = new TextContentPanel((TextContent) c);
+        }
+
+        return panel;
+    }
+
+    public static JPanel generatePanel(Action a) {
         JPanel panel = null;
-        if(a instanceof ReplaceText){
+        if (a instanceof ReplaceText) {
             panel = new ProjectEditorActionPanel(a);
         }
-        if(a instanceof ExecutableAction){
+        if (a instanceof ExecutableAction) {
             panel = new ExecutableActionPanel(a);
         }
-        
+
         return panel;
     }
 }

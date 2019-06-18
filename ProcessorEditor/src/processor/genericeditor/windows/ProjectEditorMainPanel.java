@@ -19,6 +19,7 @@ import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ExecutableAction;
 import processor.core.graph.actions.ReplaceText;
 import processor.core.graph.conditions.Condition;
+import processor.core.graph.conditions.ExecutableCondition;
 import processor.core.graph.conditions.FileContent;
 import processor.core.graph.conditions.FilePattern;
 import processor.core.graph.conditions.TextContent;
@@ -66,7 +67,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                 if (node instanceof Action) {
                     jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Action) node));
                 }
-                
+
                 jTextArea1.setText(new GraphSerializer().exportGraph(profile.getGraph()));
                 profileTree.repaint();
             }
@@ -88,6 +89,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
@@ -129,6 +131,17 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             }
         });
         jToolBar2.add(jButton1);
+
+        jButton13.setText("+EC");
+        jButton13.setFocusable(false);
+        jButton13.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton13.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton13);
 
         jButton6.setText("+FPT"); // NOI18N
         jButton6.setToolTipText("+FPT"); // NOI18N
@@ -370,6 +383,11 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         profileTree.reloadData(profile);
     }//GEN-LAST:event_jButton12ActionPerformed
 
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        profile.addNode(new ExecutableCondition());
+        profileTree.reloadData(profile);
+    }//GEN-LAST:event_jButton13ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
@@ -377,6 +395,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
