@@ -64,6 +64,9 @@ public class ProfileReader {
             node = readAction(map);
         }
         
+        if(node != null){
+            node.setActive((boolean) map.get("active"));
+        }
         return node;
     }
 

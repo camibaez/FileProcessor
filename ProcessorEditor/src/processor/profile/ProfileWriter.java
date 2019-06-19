@@ -45,8 +45,12 @@ public class ProfileWriter {
             data = writeAction((Action) node);
             type = Action.class.getSimpleName();
         }
-        if(data != null)
+        if(data != null){
+            data.put("class", node.getClass().getSimpleName());
+            data.put("id", node.getId());
             data.put("type", type);
+            data.put("active", node.isActive());
+        }
         return data;
     }
     
@@ -60,10 +64,7 @@ public class ProfileWriter {
         if (action instanceof ExecutableAction) {
             actionData = executableAction((ExecutableAction)action);
         }
-        if (actionData != null) {
-            actionData.put("class", action.getClass().getSimpleName());
-            actionData.put("id", action.getId());
-        }
+        
         return actionData;
     }
 
@@ -96,10 +97,7 @@ public class ProfileWriter {
         if(condition instanceof ExecutableCondition){
             executableCondition(conditionData, (ExecutableCondition) condition);
         }
-        if (conditionData != null) {
-            conditionData.put("class", condition.getClass().getSimpleName());
-            conditionData.put("id", condition.getId());
-        }
+        
         return conditionData;
     }
 
