@@ -55,36 +55,32 @@ public class FileProcessor {
         Object content = f;
         while (!((node instanceof processor.core.graph.FailNode) || (node instanceof processor.core.graph.EndNode))) {
             boolean res = true;
+            if (node.isActive()) {
+                if (node instanceof Condition) {
+                    try {
+                        Object translation = TypeTranslator.translateFor((Condition) node, content);
+                        res = ((Condition) node).test(translation);
 
-            if (node instanceof Condition) {
-                try {
-                    Object translation = TypeTranslator.translateFor((Condition) node, content);
-                    res = ((Condition) node).test(translation);
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    res = false;
-                }
-            }
-            if (node instanceof Action) {
-                try {
-                    Object original = TypeTranslator.translateFor(((Action) node), content);
-                    content = ((Action) node).process(original);
-                    if (!original.equals(content)) {
-                        processingResult.actions.add((Action) node);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        res = false;
                     }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    res = false;
+                }
+                if (node instanceof Action) {
+                    try {
+                        Object original = TypeTranslator.translateFor(((Action) node), content);
+                        content = ((Action) node).process(original);
+                        if (!original.equals(content)) {
+                            processingResult.actions.add((Action) node);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
-
+            
             GraphNode nextNode;
-            if (node instanceof Condition) {
-                nextNode = graph.getDecisionTargetOf(node, res);
-            } else {
-                nextNode = graph.getDecisionTargetOf(node, true);
-            }
+            nextNode = graph.getDecisionTargetOf(node, res);
 
             node = nextNode;
 
@@ -124,14 +120,13 @@ public class FileProcessor {
             project.getFileCentral().getProcessedFiles().add(p);
         }
     }
-    
-    
+
     public void saveLog() {
         String fileName = ProjectCentral.instance().getProfileFile().getName();
-        fileName = fileName.substring(0,fileName.lastIndexOf("."));
+        fileName = fileName.substring(0, fileName.lastIndexOf("."));
         fileName = fileName + "_log_" + System.currentTimeMillis() + ".json";
         fileName = ProjectCentral.instance().getProfileFile().getParent() + "\\" + fileName;
-        
+
         Map m = new JSONObject();
         List arr = new JSONArray();
         project.getFileCentral().getProcessedFiles().forEach((Path f) -> {
@@ -144,7 +139,7 @@ public class FileProcessor {
             arr.add(record);
         });
         m.put("logs", arr);
-        
+
         try (PrintWriter pw = new PrintWriter(fileName)) {
             pw.write(((JSONObject) m).toJSONString());
             pw.flush();
@@ -153,5 +148,4 @@ public class FileProcessor {
         }
     }
 
-    
 }

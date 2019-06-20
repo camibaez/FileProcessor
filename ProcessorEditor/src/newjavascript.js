@@ -1,10 +1,11 @@
-function a() {
-    var pattern = /([A-Z][A-Z0-9]{6})(.*Message)/;
-    var found = target.match(pattern);
+function f(target) {
+    var progPattern = /public class JS([A-Za-z0-9])\s+/;
+    var found = target.match(progPattern);
     if (found.length > 0) {
         var pName = found[1];
-        target = target.replace("<cleaner#pname>", pName);
+        var pHolder = /<cleaner#pname>/g;
+        target = target.replace(pHolder, pName);
     }
-
+    
     return target;
 }

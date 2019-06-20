@@ -8,11 +8,17 @@ package processor.genericeditor.windows;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
+import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
@@ -42,8 +48,8 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     public ProjectEditorMainPanel(Profile profile) {
         this.profile = profile;
         initComponents();
-        createTree();
-
+        //createTree();
+        reloadTable();
     }
 
     protected void createTree() {
@@ -76,6 +82,24 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel4.add(profileTree, BorderLayout.CENTER);
     }
 
+    protected void reloadTable() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        profile.getNodes().forEach(n -> {
+            Set<DecisionEdge> incomingEdgesOf = profile.getGraph().incomingEdgesOf(n);
+            List<GraphNode> pointingGraphs = new LinkedList<>();
+            incomingEdgesOf.forEach(e -> {
+                pointingGraphs.add((GraphNode) profile.getGraph().getEdgeSource(e));
+            });
+            GraphNode trueTarget = profile.getGraph().getDecisionTargetOf(n, true);
+            GraphNode falseTarget = profile.getGraph().getDecisionTargetOf(n, false);
+
+            String type = n.getClass().getSimpleName();
+            model.addRow(new Object[]{n.isActive(), n, type, pointingGraphs, trueTarget, falseTarget});
+        });
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,12 +124,17 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jButton2 = new javax.swing.JButton();
+        jSplitPane2 = new javax.swing.JSplitPane();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton5 = new javax.swing.JButton();
@@ -247,6 +276,38 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
         jPanel4.add(jToolBar2, java.awt.BorderLayout.WEST);
 
+        jSplitPane2.setDividerLocation(300);
+        jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jTable1.setModel(new NodesTableModel());
+        jTable1.setColumnSelectionAllowed(true);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        jSplitPane2.setLeftComponent(jPanel2);
+
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jSplitPane2.setRightComponent(jPanel3);
+
+        jPanel4.add(jSplitPane2, java.awt.BorderLayout.CENTER);
+
         jSplitPane1.setLeftComponent(jPanel4);
 
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -257,13 +318,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane3.setLeftComponent(jPanel7);
 
         jPanel8.setLayout(new java.awt.BorderLayout());
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jPanel8.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
         jSplitPane3.setRightComponent(jPanel8);
 
         jPanel1.add(jSplitPane3, java.awt.BorderLayout.CENTER);
@@ -310,40 +364,49 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this prototype?");
         if (showConfirmDialog == JOptionPane.YES_OPTION) {
 
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-            GraphNode obj = (GraphNode) node.getUserObject();
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            int row = jTable1.getSelectedRow();
+            if (row == -1) {
+                return;
+            }
+            GraphNode node = (GraphNode) model.getValueAt(row, 1);
             jSplitPane3.setLeftComponent(new JPanel());
 
-            profile.removeNode(obj);
-            profileTree.reloadData(profile);
+            profile.removeNode(node);
+            //profileTree.reloadData(profile);
+            reloadTable();
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        profileTree.reloadData(profile);
+        reloadTable();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         FilePattern filePattern = new FilePattern("");
         profile.addNode(filePattern);
-        profileTree.reloadData(profile);
+        //profileTree.reloadData(profile);
+        reloadTable();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
 
         profile.addNode(new FileContent());
-        profileTree.reloadData(profile);
+        //profileTree.reloadData(profile);
+        reloadTable();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
 
         profile.addNode(new TextContent());
-        profileTree.reloadData(profile);
+        //profileTree.reloadData(profile);
+        reloadTable();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         profile.addNode(new ReplaceText("", "", 0));
-        profileTree.reloadData(profile);
+        //profileTree.reloadData(profile);
+        reloadTable();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -353,40 +416,71 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-        GraphNode obj = (GraphNode) node.getUserObject();
-        profile.moveNode(obj, -1);
-        profileTree.reloadData(profile);
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
+            return;
+        }
+        GraphNode node = (GraphNode) model.getValueAt(row, 1);
+        profile.moveNode(node, -1);
+        //profileTree.reloadData(profile);
+        reloadTable();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-        GraphNode obj = (GraphNode) node.getUserObject();
-        profile.moveNode(obj, 1);
-        profileTree.reloadData(profile);
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
+            return;
+        }
+        GraphNode node = (GraphNode) model.getValueAt(row, 1);
+        profile.moveNode(node, 1);
+        //profileTree.reloadData(profile);
+        reloadTable();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) profileTree.getLastSelectedPathComponent();
-        if (treeNode == null) {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
             return;
         }
-        if (!(treeNode.getUserObject() instanceof GraphNode)) {
-            return;
-        }
-        GraphNode node = (GraphNode) treeNode.getUserObject();
+        GraphNode node = (GraphNode) model.getValueAt(row, 1);
         profile.getGraph().masrkAsInitial(node);
+        reloadTable();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         profile.addNode(new ExecutableAction());
-        profileTree.reloadData(profile);
+        //profileTree.reloadData(profile);
+        reloadTable();
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         profile.addNode(new ExecutableCondition());
-        profileTree.reloadData(profile);
+        //profileTree.reloadData(profile);
+        reloadTable();
     }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
+            return;
+        }
+        GraphNode node = (GraphNode) model.getValueAt(row, 1);
+
+        if (node instanceof Condition) {
+            jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Condition) node));
+        }
+
+        if (node instanceof Action) {
+            jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Action) node));
+        }
+
+        jTextArea1.setText(new GraphSerializer().exportGraph(profile.getGraph()));
+
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -405,13 +499,18 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;

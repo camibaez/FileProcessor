@@ -13,7 +13,7 @@ package processor.core.graph.actions;
 public abstract class Transformer<T> extends Action{
     protected String description="";
     
-    protected boolean active;
+    
 
     public Object process(Object target) {
         T result = TypeTranslator.transalteFor(this, target);
@@ -32,13 +32,6 @@ public abstract class Transformer<T> extends Action{
         this.description = description;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-    
+   
     
 }
