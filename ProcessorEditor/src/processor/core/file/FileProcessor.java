@@ -34,10 +34,11 @@ import static processor.profile.ProfileSerializer.generateProfileJSON;
  * @author cbaez
  */
 public class FileProcessor {
-
+    public static VariableHolder variableHolder;
+    
     protected int processedCount;
     protected Profile project;
-
+    
     public FileProcessor(Profile project) {
         this.project = project;
 
@@ -51,7 +52,9 @@ public class FileProcessor {
         if (node == null) {
             return null;
         }
-
+        
+        variableHolder = new VariableHolder(); 
+        variableHolder.put("fileName", f.getName());
         Object content = f;
         while (!((node instanceof processor.core.graph.FailNode) || (node instanceof processor.core.graph.EndNode))) {
             boolean res = true;
@@ -147,5 +150,14 @@ public class FileProcessor {
             ex.printStackTrace();
         }
     }
+
+    public static VariableHolder getVariableHolder() {
+        return variableHolder;
+    }
+
+   
+    
+    
+    
 
 }

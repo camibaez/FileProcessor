@@ -6,24 +6,33 @@
 package processor.genericeditor.windows;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import processor.core.file.FileWalker;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
+import processor.core.graph.actions.Action;
 
 public final class ProcessorEditorMainPanel extends JPanel {
 
     Profile profile;
     DiffPanel diffPanel;
+    Set<Action> actionsFilters;
 
     public ProcessorEditorMainPanel(Profile profile) {
         initComponents();
@@ -68,6 +77,27 @@ public final class ProcessorEditorMainPanel extends JPanel {
 
     }
 
+    public void fillFilters(){
+        actionsFilters = new LinkedHashSet<>();
+        profile.getNodes().stream().filter(n -> n instanceof Action).forEach(a -> {
+            JCheckBox jCheckBox = new javax.swing.JCheckBox();
+            jCheckBox.setText(a.getId());
+            jCheckBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(jCheckBox.isSelected())
+                        actionsFilters.add((Action) a);
+                    else
+                        actionsFilters.remove(a);
+                    fillFilesTable();
+                }
+            });
+            
+            jPanel2.add(jCheckBox);
+            actionsFilters.add((Action) a);
+        });
+    }
+    
     private void refreshProcessorView() {
         int row = jTable1.getSelectedRow();
         if (row > -1) {
@@ -98,6 +128,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton3 = new javax.swing.JButton();
@@ -148,6 +179,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
 
         jLabel1.setText("Files processed:"); // NOI18N
         matchedFilesPanel.add(jLabel1, java.awt.BorderLayout.SOUTH);
+        matchedFilesPanel.add(jPanel2, java.awt.BorderLayout.LINE_END);
 
         jSplitPane1.setBottomComponent(matchedFilesPanel);
 
@@ -268,6 +300,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable1;

@@ -10,6 +10,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import org.openide.util.Exceptions;
+import processor.core.file.FileProcessor;
+import processor.core.file.VariableHolder;
 
 /**
  *
@@ -27,16 +29,18 @@ public class ExecutableCondition extends Condition<String>{
     }
     
     protected Object executeCode(Object target){
+        VariableHolder variableHolder = FileProcessor.getVariableHolder();
+        
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("nashorn");
         try {
-            String code = "var testFunction = function(target){\n";
+            String code = "var testFunction = function(target, vars){\n";
                    code += this.code;
                    code += "\n}";
                    
             engine.eval(code);
             Invocable invocable = (Invocable) engine;
-            Object result = invocable.invokeFunction("testFunction", target);
+            Object result = invocable.invokeFunction("testFunction", target, variableHolder.export());
             return result;
         } catch (ScriptException ex) {
             Exceptions.printStackTrace(ex);
