@@ -38,7 +38,7 @@ public class JavaParserUnitTest {
 
     @Test
     public void testCodeScopes(){
-        List<CodeScope> scopes = jParser.getScopes();
+        List<CodeScope> scopes = jParser.getScopes(CodeScope.METHOD);
         
     }
 }

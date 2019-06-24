@@ -10,6 +10,7 @@ package processor.core.graph.parsers;
  * @author cbaez
  */
 public class CodeScope {
+    public static String METHOD = "method", TRY_CATCH = "try-catch";
     protected int start;
     protected int end;
     protected String code;
