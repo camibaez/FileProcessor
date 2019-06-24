@@ -49,7 +49,7 @@ public abstract class LoadFilesAction implements ActionListener {
                 @Override
                 public void run() {
                     try {
-                        System.out.println("Matching done!!!");
+                        System.out.println("Matching Start");
                         Files.walkFileTree(Paths.get(profile.getWorkingDirectory()), fileMatcher);
                         ProjectCentral.instance().getProfile().getFileWalker().setDone(true);
                         System.out.println("Matching done!!!");
