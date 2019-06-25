@@ -34,7 +34,7 @@ public class FileWalker extends SimpleFileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         ProcessingResult processingResult = profile.getFileProcessor().processFile(file.toFile());
         if(processingResult.isPassed()){
-            profile.getFileCentral().getMatchedFiles().add(file);
+            //profile.getFileCentral().getMatchedFiles().add(file);
             profile.getFileCentral().registerProcessResult(file, processingResult);
         }
         
