@@ -62,7 +62,7 @@ public class LogSerializer {
     }
     
     public static Map<String, Set<String>> readLog(String path){
-        Map<String, Set<String>> log = new HashMap<>();
+        Map<String, Set<String>> log = new FilesLog();
         
         JSONParser parser = new JSONParser();
         try (Reader reader = new FileReader(path)) {
@@ -72,6 +72,7 @@ public class LogSerializer {
                 Set<String> cleaners = new HashSet<>();
                 String fileName = (String) ((JSONArray) l).remove(0);
                 cleaners.addAll(((JSONArray)l));
+                log.put(fileName, cleaners);
             });
         } catch (IOException e) {
             e.printStackTrace();

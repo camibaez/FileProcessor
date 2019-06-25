@@ -14,20 +14,18 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.openide.util.Exceptions;
+
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.TypeTranslator;
 import processor.core.graph.conditions.Condition;
-import static processor.profile.ProfileSerializer.generateProfileJSON;
 
 /**
  *
@@ -146,6 +144,7 @@ public class FileProcessor {
         try (PrintWriter pw = new PrintWriter(fileName)) {
             pw.write(((JSONObject) m).toJSONString());
             pw.flush();
+            System.out.println("Savend log " + fileName);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }

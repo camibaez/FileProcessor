@@ -4,7 +4,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import org.openide.util.Exceptions;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -41,9 +41,9 @@ public class ExecutableAction extends TextTransformer {
             Object result = invocable.invokeFunction("cleanFunc", target);
             return result;
         } catch (ScriptException ex) {
-            Exceptions.printStackTrace(ex);
+          ex.printStackTrace();
         } catch (NoSuchMethodException ex) {
-            Exceptions.printStackTrace(ex);
+            ex.printStackTrace();
         }
         return null;
     }

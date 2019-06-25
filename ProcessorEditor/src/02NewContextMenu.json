@@ -3,7 +3,8 @@
             "pattern": "*.jsp",
             "class": "FilePattern",
             "id": "jspFilter",
-            "type": "Condition"
+            "type": "Condition",
+            "active" : true
         }, {
             "expressions": [{
                     "pattern": ".*oncontextmenu=\"showPopUp\\(.*",
@@ -12,56 +13,64 @@
                 }],
             "class": "FileContent",
             "id": "contextmenuFilter",
-            "type": "Condition"
+            "type": "Condition",
+            "active" : true
         }, {
             "pattern": "<script.*src=\".*javascripts\/optMenu\\.jsp\".*>.*<\/script>",
             "flags": 2,
             "condition": "-",
             "class": "TextContent",
             "id": "c1",
-            "type": "Condition"
+            "type": "Condition",
+            "active" : true
         }, {
             "pattern": "(<script.*\/pages\/e\/javascripts\/eIBS\\.jsp\".*>.*<\/script>)",
             "replace": "$1\n<script src=\"<%=request.getContextPath()%>\/pages\/e\/javascripts\/optMenu.jsp\"><\/script>",
             "flags": 2,
             "class": "ReplaceText",
             "id": "addOptionMenuJs",
-            "type": "Action"
+            "type": "Action",
+            "active" : true
         }, {
             "pattern": "(oncontextmenu=\"showPopUp\\()",
             "replace": "class=\"context-menu-help\" onmousedown=\"showPopUp(",
             "flags": 0,
             "class": "ReplaceText",
             "id": "eventChanger",
-            "type": "Action"
+            "type": "Action",
+            "active" : true
         }, {
             "pattern": ".*builtHPopUp\\(\\);",
             "replace": "\/\/builtHPopUp();",
             "flags": 0,
             "class": "ReplaceText",
             "id": "comment1",
-            "type": "Action"
+            "type": "Action",
+            "active" : true
         }, {
             "pattern": ".*showPopUpHelp\\(\\).*",
             "replace": "\/\/showPopUpHelp()",
             "flags": 0,
             "class": "ReplaceText",
             "id": "comment2",
-            "type": "Action"
+            "type": "Action",
+            "active" : true
         }, {
             "pattern": "<link.*href=\".*jquery\\.contextMenu\\.css\".*rel=\"stylesheet\".*type=\"text\/css\\\".*\/>",
             "flags": 0,
             "condition": "-",
             "class": "TextContent",
             "id": "c2",
-            "type": "Condition"
+            "type": "Condition",
+            "active" : true
         }, {
             "pattern": "(<link.*href=\".*\/pages\/style.css\".*rel=\"stylesheet\".*>)",
             "replace": "<link href=\"<%=request.getContextPath()%>\/jquery\/plugins\/contextMenu\/css\/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text\/css\" \/>\n$1",
             "flags": 0,
             "class": "ReplaceText",
             "id": "addContextCss",
-            "type": "Action"
+            "type": "Action",
+            "active" : true
         }],
     "lastWorkingDirectory": null,
     "name": null,

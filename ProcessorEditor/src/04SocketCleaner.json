@@ -32,14 +32,74 @@
             "type": "Action",
             "active": true
         }, {
-            "code": "var pattern = \/extends .*(JSEIBS|Super)Servlet\/;\nvar res = pattern.test(target);\n\nreturn res;",
+            "code": "var pattern = \/extends .*(JSEIBS|Super)Servlet\/;\nvar res = pattern.test(target);\npattern = \/class\\s+BaseServlet\/;\nres = res && !pattern.test(target);\nreturn res;",
             "class": "ExecutableCondition",
             "id": "serveltExecCond",
             "type": "Condition",
+            "active": true
+        }, {
+            "pattern": "Socket\\s+s\\s*=\\snull;",
+            "replace": " ",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "jspChanger1",
+            "type": "Action",
+            "active": true
+        }, {
+            "pattern": "MessageContext\\s+mc\\s*=\\s*null;",
+            "replace": "MessageProcessor mc = null;",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "jspChanger2",
+            "type": "Action",
+            "active": true
+        }, {
+            "pattern": "s\\s*=\\s*new\\s+Socket\\((.|\\s)*?\\);",
+            "replace": " ",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "jspCleaner3",
+            "type": "Action",
+            "active": true
+        }, {
+            "pattern": "\\s?(mc[a-zA-Z0-9]*)\\s*=\\s*new\\s*MessageContext\\((\\s|.)*?\\);",
+            "replace": " mc = new MessageProcessor(\"<cleaner#pname>\");",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "jspCleanerMc",
+            "type": "Action",
+            "active": true
+        }, {
+            "code": "\tprint(\"\\nhere\");    \n    var progPattern = \/getMessageRecord\\(\"([A-Za-z0-9]{7})[A-Za-z0-9]*\"\\)\/;\n    var found = target.match(progPattern);\n\t\n    if (found != null && found.length > 1) {\n        var pName = found[1];\n        var pHolder = \/<cleaner#pname>\/g;\n        target = target.replace(pHolder, pName);\n    }\n    \n    return target;",
+            "class": "ExecutableAction",
+            "id": "jspProgExtractor",
+            "type": "Action",
+            "active": true
+        }, {
+            "pattern": "mc\\.receiveMessage\\(\\);",
+            "replace": "mc.receiveMessageRecord();",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "jspCleaner6",
+            "type": "Action",
+            "active": true
+        }, {
+            "pattern": "s\\.close\\(\\);",
+            "replace": " ",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "jspCLenaer7",
+            "type": "Action",
+            "active": true
+        }, {
+            "code": "\nvar reg = \/getMessageHandler\\(\"[A-Za-z0-9]+\"\\)\/;\nvar found = reg.exec(target);\nif (found != null) {\n\n    varIndex = found.index;\n    var JavaParser = Java.type('processor.core.graph.jslinker.JavaParser');\n    var scope = JavaParser.getMethodScopeOf(target, varIndex);\n\n    if(scope.length){\n\tprint(\"here\");\n        var stringPreSpace = target.substring(0, scope[0]);\n        var stringSpace = target.substring(scope[0], scope[1]);\n        var stringPostSpace = target.substring(scope[1]);\n       \n        stringSpace = stringSpace.replace(\/catch\\s+\\(IOException\/g, \"catch (Exception\");\n        target =  (stringPreSpace + stringSpace + stringPostSpace);\n\t\n    }\n}\n\nreturn target;\n",
+            "class": "ExecutableAction",
+            "id": "cleanException",
+            "type": "Action",
             "active": true
         }],
     "lastWorkingDirectory": null,
     "name": null,
     "description": null,
-    "graph": "strict digraph G {\r\n  START_NODE [ label=\"START_NODE\" ];\r\n  END_NODE [ label=\"END_NODE\" ];\r\n  FAIL_NODE [ label=\"FAIL_NODE\" ];\r\n  jspExtFilter [ label=\"jspExtFilter\" ];\r\n  javaExtFilter [ label=\"javaExtFilter\" ];\r\n  cleanMC [ label=\"cleanMC\" ];\r\n  progrExtractor [ label=\"progrExtractor\" ];\r\n  remSocketRef [ label=\"remSocketRef\" ];\r\n  serveltExecCond [ label=\"serveltExecCond\" ];\r\n  START_NODE -> jspExtFilter [ label=\"et1368261153\" ];\r\n  serveltExecCond -> cleanMC [ label=\"et518521759\" ];\r\n  serveltExecCond -> FAIL_NODE [ label=\"ef1076411994\" ];\r\n  remSocketRef -> END_NODE [ label=\"et1173612748\" ];\r\n  javaExtFilter -> serveltExecCond [ label=\"et485648587\" ];\r\n  javaExtFilter -> FAIL_NODE [ label=\"ef604524668\" ];\r\n  jspExtFilter -> FAIL_NODE [ label=\"et640515299\" ];\r\n  jspExtFilter -> javaExtFilter [ label=\"ef802600253\" ];\r\n  progrExtractor -> remSocketRef [ label=\"et911102602\" ];\r\n  cleanMC -> progrExtractor [ label=\"et830125810\" ];\r\n}\r\n"
+    "graph": "strict digraph G {\r\n  START_NODE [ label=\"START_NODE\" ];\r\n  END_NODE [ label=\"END_NODE\" ];\r\n  FAIL_NODE [ label=\"FAIL_NODE\" ];\r\n  jspExtFilter [ label=\"jspExtFilter\" ];\r\n  javaExtFilter [ label=\"javaExtFilter\" ];\r\n  cleanMC [ label=\"cleanMC\" ];\r\n  progrExtractor [ label=\"progrExtractor\" ];\r\n  remSocketRef [ label=\"remSocketRef\" ];\r\n  serveltExecCond [ label=\"serveltExecCond\" ];\r\n  jspChanger1 [ label=\"jspChanger1\" ];\r\n  jspChanger2 [ label=\"jspChanger2\" ];\r\n  jspCleaner3 [ label=\"jspCleaner3\" ];\r\n  jspCleanerMc [ label=\"jspCleanerMc\" ];\r\n  jspProgExtractor [ label=\"jspProgExtractor\" ];\r\n  jspCleaner6 [ label=\"jspCleaner6\" ];\r\n  jspCLenaer7 [ label=\"jspCLenaer7\" ];\r\n  cleanException [ label=\"cleanException\" ];\r\n  START_NODE -> jspExtFilter [ label=\"et378184337\" ];\r\n  jspChanger2 -> jspCleaner3 [ label=\"et1327480544\" ];\r\n  cleanMC -> progrExtractor [ label=\"et1961616393\" ];\r\n  jspExtFilter -> jspChanger1 [ label=\"et2015593314\" ];\r\n  jspExtFilter -> javaExtFilter [ label=\"ef1238368458\" ];\r\n  serveltExecCond -> cleanMC [ label=\"et526467465\" ];\r\n  serveltExecCond -> FAIL_NODE [ label=\"ef3862624\" ];\r\n  jspChanger1 -> jspChanger2 [ label=\"et2119225046\" ];\r\n  jspCleaner3 -> jspCleanerMc [ label=\"et1718784230\" ];\r\n  jspCleanerMc -> jspProgExtractor [ label=\"et2141260386\" ];\r\n  jspProgExtractor -> jspCleaner6 [ label=\"et1402237462\" ];\r\n  jspCleaner6 -> jspCLenaer7 [ label=\"et1632264638\" ];\r\n  javaExtFilter -> serveltExecCond [ label=\"et1902992058\" ];\r\n  javaExtFilter -> FAIL_NODE [ label=\"ef258069335\" ];\r\n  progrExtractor -> remSocketRef [ label=\"et1058530594\" ];\r\n  remSocketRef -> cleanException [ label=\"et923472292\" ];\r\n  jspCLenaer7 -> END_NODE [ label=\"et986561058\" ];\r\n  cleanException -> END_NODE [ label=\"et353610666\" ];\r\n}\r\n"
 }

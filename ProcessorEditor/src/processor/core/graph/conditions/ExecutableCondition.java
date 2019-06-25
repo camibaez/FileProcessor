@@ -9,7 +9,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import org.openide.util.Exceptions;
+
 import processor.core.file.FileProcessor;
 import processor.core.file.VariableHolder;
 
@@ -43,9 +43,9 @@ public class ExecutableCondition extends Condition<String>{
             Object result = invocable.invokeFunction("testFunction", target, variableHolder.export());
             return result;
         } catch (ScriptException ex) {
-            Exceptions.printStackTrace(ex);
+            ex.printStackTrace();
         } catch (NoSuchMethodException ex) {
-            Exceptions.printStackTrace(ex);
+            ex.printStackTrace();
         }
         return null;
     }

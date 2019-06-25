@@ -3,21 +3,24 @@
             "pattern": "*.jsp",
             "class": "FilePattern",
             "id": "c1007623779",
-            "type": "Condition"
+            "type": "Condition",
+            "active" : true
         }, {
             "pattern": "\\.style\\.pixelTop",
             "replace": ".style.top",
             "flags": 0,
             "class": "ReplaceText",
             "id": "a756004392",
-            "type": "Action"
+            "type": "Action",
+            "active" : true
         }, {
             "pattern": "eval\\('(.+?)'\\s+?[+\\-*]+\\s+([a-z]+).+;",
             "replace": "$1$2;",
             "flags": 0,
             "class": "ReplaceText",
             "id": "a457435906",
-            "type": "Action"
+            "type": "Action",
+            "active" : true
         }],
     "lastWorkingDirectory": null,
     "name": null,

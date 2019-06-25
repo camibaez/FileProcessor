@@ -3,28 +3,32 @@
             "pattern": "*.jsp",
             "class": "FilePattern",
             "id": "extensionFilter",
-            "type": "Condition"
+            "type": "Condition",
+            "active" : true
         }, {
             "pattern": "<(div|p|a|span|img)\\b([^>]*)align=\"(left|center|right)\"(?:([^>]*)style=\"([^\">]*)\")?([^>]*)>",
             "replace": "<$1$2style=\"text-align:$3;$5\"$4$6>",
             "flags": 2,
             "class": "ReplaceText",
             "id": "oldAlignFixer",
-            "type": "Action"
+            "type": "Action",
+            "active" : true
         }, {
             "pattern": "<!doctype.*>",
             "flags": 2,
             "condition": "+",
             "class": "TextContent",
             "id": "containsDoctypeFilter",
-            "type": "Condition"
+            "type": "Condition",
+            "active" : true
         }, {
             "pattern": "(<html(.*?)>)",
             "replace": "<!doctype html>\n<html$2>",
             "flags": 2,
             "class": "ReplaceText",
             "id": "addDoctypeFixer",
-            "type": "Action"
+            "type": "Action",
+            "active" : true
         }],
     "lastWorkingDirectory": null,
     "name": null,
