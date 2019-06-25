@@ -35,7 +35,7 @@ public class FileWalker extends SimpleFileVisitor<Path> {
         ProcessingResult processingResult = profile.getFileProcessor().processFile(file.toFile());
         if(processingResult.isPassed()){
             //profile.getFileCentral().getMatchedFiles().add(file);
-            profile.getFileCentral().registerProcessResult(file, processingResult);
+            profile.getFileCentral().registerProcessResult(file.toAbsolutePath().toString(), processingResult);
         }
         
         return CONTINUE;
@@ -45,7 +45,8 @@ public class FileWalker extends SimpleFileVisitor<Path> {
     // method on each directory.
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-        //find(dir);
+        if(dir.getFileName().toString().equalsIgnoreCase("CVS") || dir.getFileName().toString().equalsIgnoreCase(".git") )
+            return FileVisitResult.SKIP_SUBTREE;
         return CONTINUE;
     }
 

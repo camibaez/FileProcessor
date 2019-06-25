@@ -14,8 +14,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
@@ -59,8 +61,8 @@ public class FileProcessor {
             if (node.isActive()) {
                 if (node instanceof Condition) {
                     try {
-                        Object translation = TypeTranslator.translateFor((Condition) node, content);
-                        res = ((Condition) node).test(translation);
+                        content = TypeTranslator.translateFor((Condition) node, content);
+                        res = ((Condition) node).test(content);
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -79,11 +81,8 @@ public class FileProcessor {
                     }
                 }
             }
-            
-            GraphNode nextNode;
-            nextNode = graph.getDecisionTargetOf(node, res);
 
-            node = nextNode;
+            node = graph.getDecisionTargetOf(node, res);
 
         }
         processingResult.setPassed(!(node instanceof processor.core.graph.FailNode));
@@ -95,8 +94,8 @@ public class FileProcessor {
 
     public void processAll() {
         System.out.println("Starting processing all");
-        for (Map.Entry<Path, ProcessingResult> a : project.getFileCentral().getResultMap().entrySet()) {
-            Path f = a.getKey();
+        for (Map.Entry<String, ProcessingResult> a : project.getFileCentral().getResultMap().entrySet()) {
+            Path f = Paths.get(a.getKey());
             ProcessingResult r = a.getValue();
             if (r.getActions().size() > 0) {
                 try {
@@ -130,10 +129,12 @@ public class FileProcessor {
 
         Map m = new JSONObject();
         List arr = new JSONArray();
-        project.getFileCentral().getProcessedFiles().forEach((Path f) -> {
+        project.getFileCentral().getResultMap().entrySet().forEach((Entry<String, ProcessingResult> e) -> {
+            if(e.getValue().getActions().size() < 1)
+                return;
             List record = new JSONArray();
-            record.add(f.toString());
-            List<Action> actions = project.getFileCentral().getResultMap().get(f).getActions();
+            record.add(e.getKey());
+            List<Action> actions = e.getValue().getActions();
             actions.forEach(a -> {
                 record.add(a.getId());
             });

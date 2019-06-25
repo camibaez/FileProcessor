@@ -21,18 +21,15 @@ public class FileCentral {
 
     protected Profile project;
     protected Set<Path> processedFiles;
-    protected List<Path> matchedFiles;
-    protected Map<Path, ProcessingResult> resultMap;
+    protected Map<String, ProcessingResult> resultMap;
 
     public FileCentral(Profile project) {
         this.project = project;
-        matchedFiles = new LinkedList<>();
         processedFiles = new HashSet<>();
         resultMap = new HashMap<>();
     }
     
     public void cleanData(){
-        matchedFiles = new LinkedList<>();
         processedFiles = new HashSet<>();
         resultMap = new HashMap<>();
     }
@@ -41,16 +38,16 @@ public class FileCentral {
         return processedFiles;
     }
 
-    public List<Path> getMatchedFiles() {
-        return matchedFiles;
-    }
+   
 
-    public Map<Path, ProcessingResult> getResultMap() {
+    public Map<String, ProcessingResult> getResultMap() {
         return resultMap;
     }
     
     
-    public void registerProcessResult(Path p, ProcessingResult res){
+    public void registerProcessResult(String p, ProcessingResult res){
         resultMap.put(p, res);
     }
+    
+   
 }

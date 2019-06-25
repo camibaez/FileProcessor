@@ -102,7 +102,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         int row = jTable1.getSelectedRow();
         if (row > -1) {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            Path path = (Path) model.getValueAt(row, 0);
+            Path path = Paths.get((String) model.getValueAt(row, 0));
             if (profile.getFileProcessor() == null) {
                 System.out.println("You must init the FileProcessor first.");
                 return;
@@ -247,7 +247,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         int row = jTable1.getSelectedRow();
         if (row > -1) {
             if (evt.getKeyCode() == KeyEvent.VK_R) {
-                Path p = (Path) model.getValueAt(row, 0);
+                Path p = Paths.get((String) model.getValueAt(row, 0));
                 try {
                     String result = (String) profile.getFileProcessor().processFile(p.toFile()).getResult();
                     profile.getFileProcessor().saveFile(result, p);

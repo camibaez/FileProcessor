@@ -5,6 +5,8 @@
  */
 package processor.core.graph.conditions;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -17,29 +19,23 @@ import processor.core.file.VariableHolder;
  *
  * @author cbaez
  */
-public class ExecutableCondition extends Condition<String>{
+public class ExecutableCondition extends Condition<String> {
+
     protected String code;
+    Invocable invocable;
+
     @Override
     public boolean test(String target) {
         Object res = executeCode(target);
-        if(res != null && res instanceof Boolean){
+        if (res != null && res instanceof Boolean) {
             return (boolean) res;
         }
         return false;
     }
-    
-    protected Object executeCode(Object target){
+
+    protected Object executeCode(Object target) {
         VariableHolder variableHolder = FileProcessor.getVariableHolder();
-        
-        ScriptEngineManager factory = new ScriptEngineManager();
-        ScriptEngine engine = factory.getEngineByName("nashorn");
         try {
-            String code = "var testFunction = function(target, vars){\n";
-                   code += this.code;
-                   code += "\n}";
-                   
-            engine.eval(code);
-            Invocable invocable = (Invocable) engine;
             Object result = invocable.invokeFunction("testFunction", target, variableHolder.export());
             return result;
         } catch (ScriptException ex) {
@@ -56,10 +52,24 @@ public class ExecutableCondition extends Condition<String>{
 
     public void setCode(String code) {
         this.code = code;
+
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("nashorn");
+        String functionCode = "var testFunction = function(target, vars){\n";
+            functionCode += this.code;
+        functionCode += "\n}";
+
+        try {
+            engine.eval(functionCode);
+            this.invocable = (Invocable) engine;
+        } catch (ScriptException ex) {
+            Logger.getLogger(ExecutableCondition.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
+
     public String toString() {
         return "<" + getId() + ">:ExecCondition";
     }
-    
+
 }

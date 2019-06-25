@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import processor.core.file.ProcessingResult;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
@@ -42,10 +44,10 @@ public class LogSerializer {
 
         Map m = new JSONObject();
         List arr = new JSONArray();
-        ProjectCentral.instance().getProfile().getFileCentral().getProcessedFiles().forEach((Path f) -> {
+        ProjectCentral.instance().getProfile().getFileCentral().getResultMap().entrySet().forEach((Entry<String, ProcessingResult> f) -> {
             List record = new JSONArray();
-            record.add(f.toString());
-            List<Action> actions = ProjectCentral.instance().getProfile().getFileCentral().getResultMap().get(f).getActions();
+            record.add(f.getKey());
+            List<Action> actions = f.getValue().getActions();
             actions.forEach(a -> {
                 record.add(a.getId());
             });

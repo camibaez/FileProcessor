@@ -6,6 +6,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -18,30 +19,24 @@ import javax.script.ScriptException;
 public class ExecutableAction extends TextTransformer {
 
     protected String code;
+    protected Invocable invocable;
 
     @Override
     public Object transform(String target) {
         Object res = executeCode(target);
-        if(res != null){
+        if (res != null) {
             return (String) res;
         }
         return target;
     }
 
     protected Object executeCode(String target) {
-        ScriptEngineManager factory = new ScriptEngineManager();
-        ScriptEngine engine = factory.getEngineByName("nashorn");
+
         try {
-            String code = "var cleanFunc = function(target){\n";
-                   code += this.code;
-                   code += "\n}";
-                   
-            engine.eval(code);
-            Invocable invocable = (Invocable) engine;
             Object result = invocable.invokeFunction("cleanFunc", target);
             return result;
         } catch (ScriptException ex) {
-          ex.printStackTrace();
+            ex.printStackTrace();
         } catch (NoSuchMethodException ex) {
             ex.printStackTrace();
         }
@@ -58,6 +53,21 @@ public class ExecutableAction extends TextTransformer {
 
     public void setCode(String code) {
         this.code = code;
+
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("nashorn");
+
+        String ecode = "var cleanFunc = function(target){\n";
+        ecode += this.code;
+        ecode += "\n}";
+
+        try {
+            engine.eval(ecode);
+            invocable = (Invocable) engine;
+        } catch (ScriptException ex) {
+            ex.printStackTrace();
+        }
+
     }
 
 }
