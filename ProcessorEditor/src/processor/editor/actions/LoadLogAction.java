@@ -13,7 +13,7 @@ import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
 import processor.editor.windows.EditorLogTopComponent;
 import processor.genericeditor.windows.LogEditor;
-import processor.profile.FilesLog;
+import processor.profile.log.FilesLog;
 
 @ActionID(
         category = "File",

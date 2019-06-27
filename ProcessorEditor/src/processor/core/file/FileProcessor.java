@@ -28,6 +28,7 @@ import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.TypeTranslator;
 import processor.core.graph.conditions.Condition;
+import processor.profile.log.LogSerializer;
 
 /**
  *
@@ -38,6 +39,7 @@ public class FileProcessor {
     
     protected int processedCount;
     protected Profile project;
+    
     
     public FileProcessor(Profile project) {
         this.project = project;
@@ -92,14 +94,23 @@ public class FileProcessor {
 
     }
 
-    public void processAll() {
+    public void processAll(boolean saveBackup) {
         System.out.println("Starting processing all");
+        Path backupPath = null;
+        if(saveBackup)
+            backupPath = LogSerializer.generateLogFolder(ProjectCentral.instance().getProfileFile());
+        
         for (Map.Entry<String, ProcessingResult> a : project.getFileCentral().getResultMap().entrySet()) {
             Path f = Paths.get(a.getKey());
             ProcessingResult r = a.getValue();
             if (r.getActions().size() > 0) {
                 try {
                     String result = (String) processFile(f.toFile()).getResult();
+                    
+                    if(saveBackup){
+                        
+                    }
+                    
                     saveFile(result, f);
                 } catch (IOException ex) {
                     Logger.getLogger(FileProcessor.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,7 +118,7 @@ public class FileProcessor {
             }
 
         }
-        saveLog();
+        LogSerializer.saveLog();
         System.out.println("All files processed");
     }
 
@@ -121,40 +132,13 @@ public class FileProcessor {
         }
     }
 
-    public void saveLog() {
-        String fileName = ProjectCentral.instance().getProfileFile().getName();
-        fileName = fileName.substring(0, fileName.lastIndexOf("."));
-        fileName = fileName + "_log_" + System.currentTimeMillis() + ".json";
-        fileName = ProjectCentral.instance().getProfileFile().getParent() + "\\" + fileName;
-
-        Map m = new JSONObject();
-        List arr = new JSONArray();
-        project.getFileCentral().getResultMap().entrySet().forEach((Entry<String, ProcessingResult> e) -> {
-            if(e.getValue().getActions().size() < 1)
-                return;
-            List record = new JSONArray();
-            record.add(e.getKey());
-            List<Action> actions = e.getValue().getActions();
-            actions.forEach(a -> {
-                record.add(a.getId());
-            });
-            arr.add(record);
-        });
-        m.put("logs", arr);
-
-        try (PrintWriter pw = new PrintWriter(fileName)) {
-            pw.write(((JSONObject) m).toJSONString());
-            pw.flush();
-            System.out.println("Savend log " + fileName);
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        }
-    }
+    
 
     public static VariableHolder getVariableHolder() {
         return variableHolder;
     }
 
+   
    
     
     

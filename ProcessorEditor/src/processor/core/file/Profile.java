@@ -5,6 +5,7 @@
  */
 package processor.core.file;
 
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Profile {
     protected String description;
     protected String lastWorkingDirectory;
     protected String workingDirectory;
+    protected Path relativePath;
 
     protected FileCentral fileCentral;
 
@@ -159,8 +161,19 @@ public class Profile {
         this.fileProcessor = fileProcessor;
     }
 
+    public Path getRelativePath() {
+        return relativePath;
+    }
+
+    public void setRelativePath(Path relativePath) {
+        this.relativePath = relativePath;
+    }
+
+    
+    
     public String toString() {
         return getName();
     }
 
+    
 }

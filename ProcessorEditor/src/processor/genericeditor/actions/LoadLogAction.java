@@ -15,8 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import processor.core.file.ProjectCentral;
-import processor.profile.FilesLog;
-import processor.profile.LogSerializer;
+import processor.profile.log.FilesLog;
+import processor.profile.log.LogSerializer;
 import processor.profile.ProfileSerializer;
 
 /**

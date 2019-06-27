@@ -3,14 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.profile;
+package processor.profile.log;
 
+import java.io.File;
+import processor.profile.log.FilesLog;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -24,19 +28,23 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.openide.util.Exceptions;
 import processor.core.file.ProcessingResult;
+import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.serialization.GraphSerializer;
+import processor.profile.ProfileSerializer;
 
 /**
  *
  * @author cbaez
  */
 public class LogSerializer {
-    public static void saveLog(){
+
+    public static void saveLog() {
         String fileName = ProjectCentral.instance().getProfileFile().getName();
         fileName = fileName.substring(0, fileName.lastIndexOf("."));
         fileName = fileName + "_log_" + System.currentTimeMillis() + ".json";
@@ -44,10 +52,14 @@ public class LogSerializer {
 
         Map m = new JSONObject();
         List arr = new JSONArray();
-        ProjectCentral.instance().getProfile().getFileCentral().getResultMap().entrySet().forEach((Entry<String, ProcessingResult> f) -> {
+        Profile profile = ProjectCentral.instance().getProfile();
+        profile.getFileCentral().getResultMap().entrySet().forEach((Entry<String, ProcessingResult> e) -> {
+            if (e.getValue().getActions().size() < 1) {
+                return;
+            }
             List record = new JSONArray();
-            record.add(f.getKey());
-            List<Action> actions = f.getValue().getActions();
+            record.add(e.getKey());
+            List<Action> actions = e.getValue().getActions();
             actions.forEach(a -> {
                 record.add(a.getId());
             });
@@ -58,14 +70,15 @@ public class LogSerializer {
         try (PrintWriter pw = new PrintWriter(fileName)) {
             pw.write(((JSONObject) m).toJSONString());
             pw.flush();
+            System.out.println("Savend log " + fileName);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
     }
-    
-    public static Map<String, Set<String>> readLog(String path){
+
+    public static Map<String, Set<String>> readLog(String path) {
         Map<String, Set<String>> log = new FilesLog();
-        
+
         JSONParser parser = new JSONParser();
         try (Reader reader = new FileReader(path)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
@@ -73,7 +86,7 @@ public class LogSerializer {
             logs.forEach(l -> {
                 Set<String> cleaners = new HashSet<>();
                 String fileName = (String) ((JSONArray) l).remove(0);
-                cleaners.addAll(((JSONArray)l));
+                cleaners.addAll(((JSONArray) l));
                 log.put(fileName, cleaners);
             });
         } catch (IOException e) {
@@ -83,5 +96,30 @@ public class LogSerializer {
         }
 
         return log;
-    } 
+    }
+
+    public static void backupFile(Path origin, Path backupFolder, Path relFile) {
+        String o = origin.toString();
+        String base = relFile.toString();
+        String backup = backupFolder.toString();
+        
+        Path finalPath = Paths.get(backup, o.replace(base, ""));
+        
+        try {
+            Files.createDirectories(finalPath.getParent());
+            Files.copy(origin, finalPath);
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }
+    
+    public static Path generateLogFolder(File profileFile){
+        String fileName = profileFile.getName();
+        fileName = fileName.substring(0, fileName.lastIndexOf("."));
+        fileName = fileName + "_log_" + System.currentTimeMillis();
+        fileName = profileFile.getParent() + "\\" + fileName;
+        
+        return Paths.get(fileName);
+    }
+
 }

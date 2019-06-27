@@ -42,6 +42,7 @@ public abstract class LoadFilesAction implements ActionListener {
             
             File file = fc.getSelectedFile();
             profile.setWorkingDirectory(file.getAbsolutePath());
+
             FileWalker fileMatcher = new FileWalker(profile);
             profile.setFileWalker(fileMatcher);
             
