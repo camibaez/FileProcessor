@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.openide.util.Exceptions;
 
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
@@ -97,8 +98,18 @@ public class FileProcessor {
     public void processAll(boolean saveBackup) {
         System.out.println("Starting processing all");
         Path backupPath = null;
-        if(saveBackup)
-            backupPath = LogSerializer.generateLogFolder(ProjectCentral.instance().getProfileFile());
+        Path basePath = null;
+        if(saveBackup){
+            try {
+                basePath = Paths.get(project.getWorkingDirectory());
+                backupPath = LogSerializer.generateLogFolder(ProjectCentral.instance().getProfileFile());
+                LogSerializer.saveLog(backupPath);
+            } catch (IOException ex) {
+                saveBackup = false;
+                ex.printStackTrace();
+            }
+            
+        }
         
         for (Map.Entry<String, ProcessingResult> a : project.getFileCentral().getResultMap().entrySet()) {
             Path f = Paths.get(a.getKey());
@@ -108,7 +119,7 @@ public class FileProcessor {
                     String result = (String) processFile(f.toFile()).getResult();
                     
                     if(saveBackup){
-                        
+                        LogSerializer.backupFile(basePath, f, backupPath);
                     }
                     
                     saveFile(result, f);
@@ -118,7 +129,7 @@ public class FileProcessor {
             }
 
         }
-        LogSerializer.saveLog();
+       
         System.out.println("All files processed");
     }
 

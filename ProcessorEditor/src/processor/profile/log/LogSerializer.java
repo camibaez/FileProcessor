@@ -44,11 +44,8 @@ import processor.profile.ProfileSerializer;
  */
 public class LogSerializer {
 
-    public static void saveLog() {
-        String fileName = ProjectCentral.instance().getProfileFile().getName();
-        fileName = fileName.substring(0, fileName.lastIndexOf("."));
-        fileName = fileName + "_log_" + System.currentTimeMillis() + ".json";
-        fileName = ProjectCentral.instance().getProfileFile().getParent() + "\\" + fileName;
+    public static void saveLog(Path backupPath) {
+        String fileName = backupPath.toString() + ".json";
 
         Map m = new JSONObject();
         List arr = new JSONArray();
@@ -98,28 +95,29 @@ public class LogSerializer {
         return log;
     }
 
-    public static void backupFile(Path origin, Path backupFolder, Path relFile) {
-        String o = origin.toString();
-        String base = relFile.toString();
-        String backup = backupFolder.toString();
+    public static void backupFile(Path basePath, Path originPath, Path backupPath) {
+        String o = originPath.toString();
+        String base = basePath.toString();
+        String backup = backupPath.toString();
         
         Path finalPath = Paths.get(backup, o.replace(base, ""));
         
         try {
             Files.createDirectories(finalPath.getParent());
-            Files.copy(origin, finalPath);
+            Files.copy(originPath, finalPath);
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
     }
     
-    public static Path generateLogFolder(File profileFile){
+    public static Path generateLogFolder(File profileFile) throws IOException{
         String fileName = profileFile.getName();
         fileName = fileName.substring(0, fileName.lastIndexOf("."));
         fileName = fileName + "_log_" + System.currentTimeMillis();
         fileName = profileFile.getParent() + "\\" + fileName;
-        
-        return Paths.get(fileName);
+        Path folder = Paths.get(fileName);
+        Files.createDirectory(folder);
+        return folder;
     }
 
 }
