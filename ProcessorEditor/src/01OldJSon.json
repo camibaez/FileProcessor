@@ -2,28 +2,44 @@
     "nodes": [{
             "pattern": "*.jsp",
             "class": "FilePattern",
-            "id": "c1007623779",
+            "id": "jspFilter",
             "type": "Condition",
-            "active" : true
+            "active": true
         }, {
-            "pattern": "\\.style\\.pixelTop",
-            "replace": ".style.top",
+            "pattern": "style\\.pixelTop\\s*=(\\s?(.|\\s)*?);",
+            "replace": "style.top = $1 + \"px\";",
             "flags": 0,
             "class": "ReplaceText",
-            "id": "a756004392",
+            "id": "pTopCleaner",
             "type": "Action",
-            "active" : true
+            "active": true
         }, {
             "pattern": "eval\\('(.+?)'\\s+?[+\\-*]+\\s+([a-z]+).+;",
             "replace": "$1$2;",
             "flags": 0,
             "class": "ReplaceText",
-            "id": "a457435906",
+            "id": "evalCleaner",
             "type": "Action",
-            "active" : true
+            "active": true
+        }, {
+            "pattern": "style\\.pixelLeft\\s*=(\\s?(.|\\s)*?);",
+            "replace": "style.left = $1 + \"px\";",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "pLeftCleaner",
+            "type": "Action",
+            "active": true
+        }, {
+            "pattern": "style\\.pixelRight\\s*=(\\s?(.|\\s)*?);",
+            "replace": "style.right = $1 + \"px\";",
+            "flags": 0,
+            "class": "ReplaceText",
+            "id": "pRightCleaner",
+            "type": "Action",
+            "active": true
         }],
     "lastWorkingDirectory": null,
     "name": null,
     "description": null,
-    "graph": "strict digraph G {\r\n  END_NODE [ label=\"END_NODE\" ];\r\n  FAIL_NODE [ label=\"FAIL_NODE\" ];\r\n  c1007623779 [ label=\"c1007623779\" ];\r\n  START_NODE [ label=\"START_NODE\" ];\r\n  a756004392 [ label=\"a756004392\" ];\r\n  a457435906 [ label=\"a457435906\" ];\r\n  START_NODE -> c1007623779 [ label=\"et1599990102\" ];\r\n  a457435906 -> END_NODE [ label=\"et1277026320\" ];\r\n  a756004392 -> a457435906 [ label=\"et817262552\" ];\r\n  c1007623779 -> a756004392 [ label=\"et2040129771\" ];\r\n  c1007623779 -> FAIL_NODE [ label=\"ef450414101\" ];\r\n}\r\n"
+    "graph": "strict digraph G {\r\n  START_NODE [ label=\"START_NODE\" ];\r\n  END_NODE [ label=\"END_NODE\" ];\r\n  FAIL_NODE [ label=\"FAIL_NODE\" ];\r\n  jspFilter [ label=\"jspFilter\" ];\r\n  pTopCleaner [ label=\"pTopCleaner\" ];\r\n  evalCleaner [ label=\"evalCleaner\" ];\r\n  pLeftCleaner [ label=\"pLeftCleaner\" ];\r\n  pRightCleaner [ label=\"pRightCleaner\" ];\r\n  START_NODE -> jspFilter [ label=\"et1382953489\" ];\r\n  pRightCleaner -> END_NODE [ label=\"et272317364\" ];\r\n  pLeftCleaner -> pRightCleaner [ label=\"et449186947\" ];\r\n  evalCleaner -> pTopCleaner [ label=\"et198070401\" ];\r\n  pTopCleaner -> pLeftCleaner [ label=\"et576680207\" ];\r\n  jspFilter -> evalCleaner [ label=\"et658489955\" ];\r\n  jspFilter -> FAIL_NODE [ label=\"ef480817486\" ];\r\n}\r\n"
 }
