@@ -114,7 +114,7 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
 
         jLabel3.setText("Id:");
 
-        jLabel4.setText("function (target){");
+        jLabel4.setText("function (target, data){");
 
         jLabel5.setText("}");
 

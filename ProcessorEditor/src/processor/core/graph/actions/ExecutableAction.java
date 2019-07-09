@@ -4,6 +4,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import processor.core.file.FileProcessor;
 
 
 
@@ -33,7 +34,7 @@ public class ExecutableAction extends TextTransformer {
     protected Object executeCode(String target) {
 
         try {
-            Object result = invocable.invokeFunction("cleanFunc", target);
+            Object result = invocable.invokeFunction("cleanFunc", target, FileProcessor.variableHolder);
             return result;
         } catch (ScriptException ex) {
             ex.printStackTrace();
@@ -57,7 +58,7 @@ public class ExecutableAction extends TextTransformer {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("nashorn");
 
-        String ecode = "var cleanFunc = function(target){\n";
+        String ecode = "var cleanFunc = function(target, data){\n";
         ecode += this.code;
         ecode += "\n}";
 

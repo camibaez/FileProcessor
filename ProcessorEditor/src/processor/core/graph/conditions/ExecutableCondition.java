@@ -36,7 +36,7 @@ public class ExecutableCondition extends Condition<String> {
     protected Object executeCode(Object target) {
         VariableHolder variableHolder = FileProcessor.getVariableHolder();
         try {
-            Object result = invocable.invokeFunction("testFunction", target, variableHolder.export());
+            Object result = invocable.invokeFunction("testFunction", target, variableHolder);
             return result;
         } catch (ScriptException ex) {
             ex.printStackTrace();
@@ -55,7 +55,7 @@ public class ExecutableCondition extends Condition<String> {
 
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("nashorn");
-        String functionCode = "var testFunction = function(target, vars){\n";
+        String functionCode = "var testFunction = function(target, data){\n";
             functionCode += this.code;
         functionCode += "\n}";
 

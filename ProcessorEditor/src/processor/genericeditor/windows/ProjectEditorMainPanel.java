@@ -105,50 +105,47 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
 
     }
-    
-     public void loadGraphEditor(){
-                DecisionGraph graph = profile.getGraph();
-                
-                
-		mxGraph vGraph = new mxGraph();
-		Object parent = vGraph.getDefaultParent();
-		vGraph.getModel().beginUpdate();
-		try
-		{
-                       HashMap<GraphNode, Object> nodesMap = new HashMap<>();
-                        graph.vertexSet().forEach(v -> {
-                           //mxCell cell = new mxCell(v);
-                           Object insertVertex = vGraph.insertVertex(parent, v.getId(), v.toString(), 20, 20, 80, 30);
-                           nodesMap.put(v, insertVertex);
-                        });
-                        
-                        graph.edgeSet().forEach(e -> {
-                           GraphNode edgeSource = graph.getEdgeSource(e);
-                           GraphNode edgeTarget = graph.getEdgeTarget(e);
-                            vGraph.insertEdge(parent, null, e.getSign() + "", nodesMap.get(edgeSource), nodesMap.get(edgeTarget));
-                        });
-                        
-                        /*
+
+    public void loadGraphEditor() {
+        DecisionGraph graph = profile.getGraph();
+
+        mxGraph vGraph = new mxGraph();
+        Object parent = vGraph.getDefaultParent();
+        vGraph.getModel().beginUpdate();
+        try {
+            HashMap<GraphNode, Object> nodesMap = new HashMap<>();
+            graph.vertexSet().forEach(v -> {
+                //mxCell cell = new mxCell(v);
+                Object insertVertex = vGraph.insertVertex(parent, v.getId(), v.toString(), 20, 20, 80, 30);
+                nodesMap.put(v, insertVertex);
+            });
+
+            graph.edgeSet().forEach(e -> {
+                GraphNode edgeSource = graph.getEdgeSource(e);
+                GraphNode edgeTarget = graph.getEdgeTarget(e);
+                vGraph.insertEdge(parent, null, e.getSign() + "", nodesMap.get(edgeSource), nodesMap.get(edgeTarget));
+            });
+
+            /*
 			Object v1 = vGraph.insertVertex(parent, null, "Hello", 20, 20, 80,
 					30);
 			Object v2 = vGraph.insertVertex(parent, null, "World!", 240, 150,
 					80, 30);
 			vGraph.insertEdge(parent, null, "Edge", v1, v2);
-*/
-		}
-		finally
-		{
-			vGraph.getModel().endUpdate();
-		}
-                vGraph.orderCells(true);
-                mxGraphLayout layout = new mxHierarchicalLayout(vGraph);
-                layout.execute(parent);
-		mxGraphComponent graphComponent = new mxGraphComponent(vGraph);
-                
-                
-		//jSplitPane3.remove(2);
-                //jSplitPane3.setRightComponent(graphComponent);
-                jSplitPane2.setRightComponent(graphComponent);
+             */
+        } finally {
+            vGraph.getModel().endUpdate();
+        }
+        vGraph.orderCells(true);
+        mxGraphLayout layout = new mxHierarchicalLayout(vGraph);
+        layout.execute(parent);
+        mxGraphComponent graphComponent = new mxGraphComponent(vGraph);
+
+        //jSplitPane3.remove(2);
+        //jSplitPane3.setRightComponent(graphComponent);
+        int dividerLocation = jSplitPane2.getDividerLocation();
+        jSplitPane2.setBottomComponent(graphComponent);
+        jSplitPane2.setDividerLocation(dividerLocation);
     }
 
     /**
@@ -531,7 +528,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
         jTextArea1.setText(new GraphSerializer().exportGraph(profile.getGraph()));
         loadGraphEditor();
-        
+
     }//GEN-LAST:event_jTable1MouseClicked
 
 

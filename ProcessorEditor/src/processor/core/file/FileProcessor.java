@@ -44,7 +44,7 @@ public class FileProcessor {
     
     public FileProcessor(Profile project) {
         this.project = project;
-
+        variableHolder = new VariableHolder(); 
     }
 
     public ProcessingResult processFile(File f) {
@@ -56,7 +56,7 @@ public class FileProcessor {
             return null;
         }
         
-        variableHolder = new VariableHolder(); 
+        
         variableHolder.put("fileName", f.getName());
         Object content = f;
         while (!((node instanceof processor.core.graph.FailNode) || (node instanceof processor.core.graph.EndNode))) {

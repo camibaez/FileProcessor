@@ -164,7 +164,7 @@ public class FileContentPanel extends ConditionPanel{
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(26, 26, 26)
-                        .addComponent(jComboBox1, 0, 162, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, 0, 94, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
