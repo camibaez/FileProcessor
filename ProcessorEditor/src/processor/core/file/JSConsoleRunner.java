@@ -5,6 +5,7 @@
  */
 package processor.core.file;
 
+import java.io.PrintStream;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -17,12 +18,18 @@ import javax.script.ScriptException;
 public class JSConsoleRunner {
     protected String code;
     protected Invocable invocable;
+    
 
+    public JSConsoleRunner(PrintStream out){
+        System.setOut(out);
+    }
+    
+    
     public JSConsoleRunner(){
         
     }
     
-     protected Object executeCode(String code) {
+     public  Object executeCode(String code) {
         setCode(code);
         try {
             Object result = invocable.invokeFunction("consoleCode", FileProcessor.variableHolder);
@@ -44,7 +51,7 @@ public class JSConsoleRunner {
         ScriptEngine engine = factory.getEngineByName("nashorn");
 
         String ecode = "var consoleCode = function(data){\n";
-        ecode += "return " + this.code;
+        ecode += this.code;
         ecode += "\n}";
 
         try {

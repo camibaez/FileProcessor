@@ -10,6 +10,7 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
+import processor.editor.windows.ConsoleEditorTopComponent;
 import processor.editor.windows.EditorProcessorTopComponent;
 
 @ActionID(
@@ -32,6 +33,7 @@ public final class LoadFilesAction extends processor.genericeditor.actions.LoadF
     @Override
     public void openProcessorWindow() {
         new EditorProcessorTopComponent().open();
+        new ConsoleEditorTopComponent().open();
     }
 
    

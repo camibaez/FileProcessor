@@ -5,19 +5,24 @@
  */
 package processor.genericeditor.windows;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+import java.awt.event.KeyEvent;
+import java.io.PrintStream;
+import processor.core.file.JSConsoleRunner;
+
 /**
  *
  * @author cbaez
  */
 public class JSConsolePanel extends javax.swing.JPanel {
-
-
     
     /**
      * Creates new form JSConsole
      */
     public JSConsolePanel() {
         initComponents();
+        
+        
     }
 
     /**
@@ -34,17 +39,37 @@ public class JSConsolePanel extends javax.swing.JPanel {
         jEditorPane1 = new javax.swing.JEditorPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
 
         jEditorPane1.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
+        jEditorPane1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jEditorPane1KeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jEditorPane1);
 
         jSplitPane1.setLeftComponent(jScrollPane1);
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
         jSplitPane1.setRightComponent(jScrollPane2);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 298, Short.MAX_VALUE)
+        );
+
+        jSplitPane1.setLeftComponent(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -58,9 +83,21 @@ public class JSConsolePanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jEditorPane1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jEditorPane1KeyReleased
+        if (evt.isControlDown() && evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            PrintStream out = System.out;
+            PrintStream newOut = new PrintStream(new ByteOutputStream());
+            new JSConsoleRunner(newOut).executeCode(jEditorPane1.getText());
+            System.setOut(out);
+            
+            jTextArea1.setText(newOut.toString());
+        }
+    }//GEN-LAST:event_jEditorPane1KeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JEditorPane jEditorPane1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
