@@ -114,6 +114,8 @@ public class FileProcessor {
         for (Map.Entry<String, ProcessingResult> a : project.getFileCentral().getResultMap().entrySet()) {
             Path f = Paths.get(a.getKey());
             ProcessingResult r = a.getValue();
+            if(!r.isActive())
+                continue;
             if (r.getActions().size() > 0) {
                 try {
                     String result = (String) processFile(f.toFile()).getResult();

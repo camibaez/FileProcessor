@@ -14,6 +14,7 @@ import processor.core.graph.actions.Action;
  * @author cbaez
  */
 public class ProcessingResult {
+    protected boolean active;
     protected boolean passed;
     protected List<Action> actions;
     protected Object result;
@@ -21,6 +22,7 @@ public class ProcessingResult {
     public ProcessingResult(){
         actions = new LinkedList<>();
         passed = false;
+        active = true;
     }
     
     
@@ -42,6 +44,14 @@ public class ProcessingResult {
 
     public List<Action> getActions() {
         return actions;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
     

@@ -69,7 +69,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
 
         profile.getFileCentral().getResultMap().forEach((k, v) -> {
             if (v.getActions().size() > 0) {
-                tableModel.addRow(new Object[]{k, v.getActions()});
+                tableModel.addRow(new Object[]{v.isActive(), k, v.getActions()});
             }
         });
 
@@ -102,7 +102,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         int row = jTable1.getSelectedRow();
         if (row > -1) {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            Path path = Paths.get((String) model.getValueAt(row, 0));
+            Path path = Paths.get((String) model.getValueAt(row, 1));
             if (profile.getFileProcessor() == null) {
                 System.out.println("You must init the FileProcessor first.");
                 return;
@@ -146,22 +146,8 @@ public final class ProcessorEditorMainPanel extends JPanel {
         matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Files Result"));
         matchedFilesPanel.setLayout(new java.awt.BorderLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "File", "Cleaners"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        jTable1.setModel(new FilesTableModel()
+        );
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -247,7 +233,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         int row = jTable1.getSelectedRow();
         if (row > -1) {
             if (evt.getKeyCode() == KeyEvent.VK_R) {
-                Path p = Paths.get((String) model.getValueAt(row, 0));
+                Path p = Paths.get((String) model.getValueAt(row, 1));
                 try {
                     String result = (String) profile.getFileProcessor().processFile(p.toFile()).getResult();
                     profile.getFileProcessor().saveFile(result, p);
