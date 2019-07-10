@@ -29,9 +29,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.openide.util.Exceptions;
+import processor.core.file.FileProcessor;
 import processor.core.file.ProcessingResult;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
+import processor.core.file.VariableHolder;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
@@ -63,6 +65,7 @@ public class LogSerializer {
             arr.add(record);
         });
         m.put("logs", arr);
+        m.put("dataDump", FileProcessor.getVariableHolder());
 
         try (PrintWriter pw = new PrintWriter(fileName)) {
             pw.write(((JSONObject) m).toJSONString());
@@ -73,8 +76,10 @@ public class LogSerializer {
         }
     }
 
-    public static Map<String, Set<String>> readLog(String path) {
-        Map<String, Set<String>> log = new FilesLog();
+    public static Map<String, Object> readLog(String path) {
+        Map<String, Object> logData = new HashMap<>();
+        Map<String, Set<String>> filesLog = new FilesLog();
+        VariableHolder data = new VariableHolder();
 
         JSONParser parser = new JSONParser();
         try (Reader reader = new FileReader(path)) {
@@ -84,15 +89,20 @@ public class LogSerializer {
                 Set<String> cleaners = new HashSet<>();
                 String fileName = (String) ((JSONArray) l).remove(0);
                 cleaners.addAll(((JSONArray) l));
-                log.put(fileName, cleaners);
+                filesLog.put(fileName, cleaners);
             });
+            ((Map)jsonObject.get("dataDump")).forEach((k, v) -> {
+                data.put((String)k, v);
+            });
+            logData.put("filesLog", filesLog);
+            logData.put("data", data);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException ex) {
             Logger.getLogger(ProfileSerializer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return log;
+        return logData;
     }
 
     public static void backupFile(Path basePath, Path originPath, Path backupPath) {

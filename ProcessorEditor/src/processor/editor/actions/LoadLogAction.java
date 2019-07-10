@@ -11,6 +11,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
+import processor.core.file.VariableHolder;
 import processor.editor.windows.EditorLogTopComponent;
 import processor.genericeditor.windows.LogEditor;
 import processor.profile.log.FilesLog;
@@ -28,9 +29,9 @@ public final class LoadLogAction extends processor.genericeditor.actions.LoadLog
 
 
     @Override
-    public void openProjectWindow(FilesLog log) {
+    public void openProjectWindow(FilesLog log, VariableHolder data) {
         EditorLogTopComponent editorLogTopComponent = new EditorLogTopComponent();
         editorLogTopComponent.open();
-        editorLogTopComponent.addLogPanel(new LogEditor(log));
+        editorLogTopComponent.addLogPanel(new LogEditor(log, data));
     }
 }

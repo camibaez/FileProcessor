@@ -80,7 +80,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                     jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Action) node));
                 }
 
-                jTextArea1.setText(new GraphSerializer().exportGraph(profile.getGraph()));
+                
                 profileTree.repaint();
             }
         });
@@ -177,8 +177,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
@@ -345,13 +343,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane2.setLeftComponent(jPanel2);
 
         jPanel3.setLayout(new java.awt.BorderLayout());
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
         jSplitPane2.setRightComponent(jPanel3);
 
         jPanel4.add(jSplitPane2, java.awt.BorderLayout.CENTER);
@@ -526,7 +517,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Action) node));
         }
 
-        jTextArea1.setText(new GraphSerializer().exportGraph(profile.getGraph()));
+        
         loadGraphEditor();
 
     }//GEN-LAST:event_jTable1MouseClicked
@@ -553,14 +544,12 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables

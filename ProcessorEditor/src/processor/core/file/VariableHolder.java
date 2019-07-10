@@ -11,14 +11,14 @@ import java.util.HashMap;
  *
  * @author cbaez
  */
-public class VariableHolder extends HashMap<String, String>{
+public class VariableHolder extends HashMap<String, Object>{
     public String[][] export(){
         int rows = keySet().size();
         String[][] data = new String[rows][2];
         int i = 0;
-        for(Entry<String, String> e: this.entrySet()){
+        for(Entry<String, Object> e: this.entrySet()){
             data[i][0] = e.getKey();
-            data[i][1] = e.getValue();
+            data[i][1] = e.getValue().toString();
         };
         
         return data;

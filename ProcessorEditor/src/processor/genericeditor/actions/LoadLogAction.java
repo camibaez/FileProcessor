@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import processor.core.file.ProjectCentral;
+import processor.core.file.VariableHolder;
 import processor.profile.log.FilesLog;
 import processor.profile.log.LogSerializer;
 import processor.profile.ProfileSerializer;
@@ -30,19 +31,22 @@ public abstract class LoadLogAction implements ActionListener {
         //Create a file chooser
         final JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Open project");
-        fc.setCurrentDirectory(new java.io.File("C:\\Users\\cbaez\\Desktop\\ProcessorWorkspace"));
         int returnVal = fc.showOpenDialog(null);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            FilesLog log = (FilesLog) LogSerializer.readLog(file.toString());
-            openProjectWindow(log);
+            Map<String, Object> logData = LogSerializer.readLog(file.toString());
+            
+            
+            FilesLog log = (FilesLog) logData.get("filesLog");
+            VariableHolder data = (VariableHolder) logData.get("data");
+            openProjectWindow(log, data);
             
         } else {
             Logger.getLogger(OpenProjectAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
         }
     }
 
-    public abstract void openProjectWindow(FilesLog log);
+    public abstract void openProjectWindow(FilesLog log, VariableHolder data);
 
 }
