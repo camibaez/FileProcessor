@@ -23,7 +23,7 @@ import processor.genericeditor.windows.JSConsolePanel;
 @TopComponent.Description(
         preferredID = "ConsoleEditorTopComponent",
         //iconBase="SET/PATH/TO/ICON/HERE", 
-        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = false)
 @ActionID(category = "Window", id = "processor.editor.windows.ConsoleEditorTopComponent")
@@ -43,7 +43,7 @@ public final class ConsoleEditorTopComponent extends TopComponent {
         initComponents();
         setName(Bundle.CTL_ConsoleEditorTopComponent());
         setToolTipText(Bundle.HINT_ConsoleEditorTopComponent());
-
+        addEditorPanel();
     }
     
     

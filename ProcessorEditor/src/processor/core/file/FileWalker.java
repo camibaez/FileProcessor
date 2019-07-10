@@ -24,6 +24,7 @@ public class FileWalker extends SimpleFileVisitor<Path> {
     public FileWalker(Profile profile) {
         this.profile = profile;
         this.profile.getFileCentral().cleanData();
+        FileProcessor.variableHolder = new VariableHolder();
         
     }
     
