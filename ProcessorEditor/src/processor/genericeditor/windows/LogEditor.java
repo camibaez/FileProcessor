@@ -27,8 +27,10 @@ import processor.profile.log.LogSerializer;
  * @author cbaez
  */
 public class LogEditor extends javax.swing.JPanel {
+
     FilesLog filesLog;
     Path exportFolder;
+
     /**
      * Creates new form LogEditor
      */
@@ -38,25 +40,27 @@ public class LogEditor extends javax.swing.JPanel {
         loadFilesTable();
         loadVariablesTable(data);
     }
-    
-    public void loadFilesTable(){
+
+    public void loadFilesTable() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        
+
         int i = 1;
-        for(Entry<String, Set<String>> e: filesLog.entrySet()){
-            model.addRow(new Object[] {i, e.getKey(), e.getValue()});
-            i++;
+        for (Entry<String, Set<String>> e : filesLog.entrySet()) {
+            
+                model.addRow(new Object[]{i, e.getKey(), e.getValue()});
+                i++;
+            
         }
     }
-    
-    public void loadVariablesTable(VariableHolder data){
+
+    public void loadVariablesTable(VariableHolder data) {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
-        data.forEach((k, v)-> {
-            model.addRow(new Object[] {k, v});
+        data.forEach((k, v) -> {
+            model.addRow(new Object[]{k, v});
         });
-        
+
     }
 
     /**
@@ -216,23 +220,21 @@ public class LogEditor extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(exportFolder != null){
-            
+        if (exportFolder != null) {
+
             filesLog.keySet().forEach((String f) -> {
                 String target = exportFolder.toString() + "\\";
-                
+
                 File fileSource = new File(f);
-                if(f.endsWith(".java")){
+                if (f.endsWith(".java")) {
                     String classFolderStart = jTextField2.getText();
                     f = f.replace(classFolderStart, "WebContent\\WEB-INF\\classes").replace(".java", ".class");
                     fileSource = new File(f);
                     target = target + f.substring(f.indexOf("WEB-INF"));
-                }
-                else{
+                } else {
                     target = target + f.substring(f.indexOf("WebContent") + 11);
                 }
-                
-                
+
                 try {
                     Files.createDirectories(Paths.get(target).getParent());
                     //boolean r2 = new File(target).createNewFile();
@@ -246,7 +248,7 @@ public class LogEditor extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         final JFileChooser fc = new JFileChooser();
-        
+
         fc.setDialogTitle("Select export folder");
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fc.setAcceptAllFileFilterUsed(false);
@@ -254,7 +256,7 @@ public class LogEditor extends javax.swing.JPanel {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             exportFolder = file.toPath();
-            
+
             jTextField1.setText(exportFolder.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed

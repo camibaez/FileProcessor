@@ -63,7 +63,7 @@ public class ExecutableCondition extends Condition<String> {
             engine.eval(functionCode);
             this.invocable = (Invocable) engine;
         } catch (ScriptException ex) {
-            Logger.getLogger(ExecutableCondition.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
 
     }

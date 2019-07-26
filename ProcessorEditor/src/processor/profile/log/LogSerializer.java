@@ -45,7 +45,8 @@ import processor.profile.ProfileSerializer;
  * @author cbaez
  */
 public class LogSerializer {
-
+    public static List<String> files;
+    public static List<String> foundFiles;
     public static void saveLog(Path backupPath) {
         String fileName = backupPath.toString() + ".json";
 
@@ -105,6 +106,39 @@ public class LogSerializer {
         return logData;
     }
 
+    
+    //TO DELETE
+    public static void loadFilesList(){
+        String logPath = "C:\\Users\\cbaez\\Desktop\\LASTIME CHANGE\\04SocketClean\\04SocketClean_log_1563916580644.json";
+        Map<String, Object> readLog = readLog(logPath);
+        Map<String, Set<String>> get = (Map<String, Set<String>>) readLog.get("filesLog");
+        List<String> files = new LinkedList<>();
+        
+        get.keySet().forEach(f -> {
+            int i = f.lastIndexOf("\\");
+            files.add(f.substring(i + 1));
+        });
+        
+        LogSerializer.files = files;
+        LogSerializer.foundFiles = new LinkedList<>();
+    }
+    
+    public static boolean isContained(String fileName){
+        if(files == null){
+            loadFilesList();
+        }
+        boolean res = files.contains(fileName);
+        if(res) 
+            foundFiles.add(fileName);
+        return res;
+    }
+    
+    public static void calculateNone(){
+        List<String> noneList = new LinkedList<>();
+        files.forEach(f -> {
+            
+        });
+    }
     public static void backupFile(Path basePath, Path originPath, Path backupPath) {
         String o = originPath.toString();
         String base = basePath.toString();
