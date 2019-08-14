@@ -19,4 +19,6 @@ public class JavaParser {
             return new int[]{};
         return new int[]{scope.getStart(), scope.getEnd()};
     }
+    
+  
 }

@@ -161,12 +161,15 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JToolBar.Separator();
         jButton13 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
         jButton8 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JToolBar.Separator();
         jButton7 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -206,6 +209,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             }
         });
         jToolBar2.add(jButton1);
+        jToolBar2.add(jSeparator3);
 
         jButton13.setText("+EC");
         jButton13.setFocusable(false);
@@ -253,6 +257,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             }
         });
         jToolBar2.add(jButton10);
+        jToolBar2.add(jSeparator2);
 
         jButton8.setText("+A"); // NOI18N
         jButton8.setToolTipText("+A"); // NOI18N
@@ -276,6 +281,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             }
         });
         jToolBar2.add(jButton12);
+        jToolBar2.add(jSeparator4);
 
         jButton7.setText("-"); // NOI18N
         jButton7.setToolTipText("-"); // NOI18N
@@ -546,6 +552,9 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;

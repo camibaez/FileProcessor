@@ -87,6 +87,8 @@ public class JavaParser {
 
         return scope;
     }
+    
+    
 
     public CodeScope getTryScopeOf(int index) {
         CodeScope methodScopeOf = getMethodScopeOf(index);

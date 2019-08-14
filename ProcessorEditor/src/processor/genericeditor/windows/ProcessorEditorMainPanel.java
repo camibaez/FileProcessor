@@ -33,6 +33,8 @@ public final class ProcessorEditorMainPanel extends JPanel {
     Profile profile;
     DiffPanel diffPanel;
     Set<Action> actionsFilters;
+    
+    boolean onlyChanged;
 
     public ProcessorEditorMainPanel(Profile profile) {
         initComponents();
@@ -68,12 +70,13 @@ public final class ProcessorEditorMainPanel extends JPanel {
         tableModel.setRowCount(0);
 
         profile.getFileCentral().getResultMap().forEach((k, v) -> {
-            if (v.getActions().size() > 0) {
+            if (!onlyChanged || (onlyChanged && v.getActions().size() > 0)) {
                 tableModel.addRow(new Object[]{v.isActive(), k, v.getActions()});
             }
         });
 
-        jLabel1.setText(tableModel.getRowCount() + " files matched");
+        
+        jLabel1.setText(tableModel.getRowCount() + " files of " + profile.getFileCentral().getResultMap().size());
 
     }
 
@@ -131,7 +134,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jPanel2 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jButton3 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -175,16 +178,16 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jToolBar1.setRollover(true);
         jToolBar1.add(filler1);
 
-        jButton3.setText("Save Log");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jToggleButton1.setText("Only Changed");
+        jToggleButton1.setFocusable(false);
+        jToggleButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jToggleButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jToggleButton1ActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton3);
+        jToolBar1.add(jToggleButton1);
 
         jButton1.setText("Reload Files");
         jButton1.setFocusable(false);
@@ -273,9 +276,11 @@ public final class ProcessorEditorMainPanel extends JPanel {
         fillFilesTable();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        this.onlyChanged = jToggleButton1.isSelected();
+        fillFilesTable();
+        
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -283,13 +288,13 @@ public final class ProcessorEditorMainPanel extends JPanel {
     private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel matchedFilesPanel;
     // End of variables declaration//GEN-END:variables
