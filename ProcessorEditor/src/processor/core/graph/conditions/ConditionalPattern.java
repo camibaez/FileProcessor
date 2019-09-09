@@ -91,7 +91,7 @@ public class ConditionalPattern {
     }
     
     public String toString(){
-        return condition + pattern.toString();
+        return "<" + condition + ">";
         
     }
 

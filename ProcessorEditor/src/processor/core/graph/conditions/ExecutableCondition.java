@@ -69,7 +69,7 @@ public class ExecutableCondition extends Condition<String> {
     }
 
     public String toString() {
-        return "<" + getId() + ">:ExecCondition";
+        return "<" + getId() + ">:";
     }
 
 }

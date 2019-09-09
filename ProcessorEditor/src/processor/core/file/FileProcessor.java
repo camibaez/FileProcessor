@@ -36,15 +36,15 @@ import processor.profile.log.LogSerializer;
  * @author cbaez
  */
 public class FileProcessor {
+
     public static VariableHolder variableHolder;
-    
+
     protected int processedCount;
     protected Profile project;
-    
-    
+
     public FileProcessor(Profile project) {
         this.project = project;
-        variableHolder = new VariableHolder(); 
+        variableHolder = new VariableHolder();
     }
 
     public ProcessingResult processFile(File f) {
@@ -55,8 +55,6 @@ public class FileProcessor {
         if (node == null) {
             return null;
         }
-        
-        
         variableHolder.put("fileName", f.getName());
         Object content = f;
         while (!((node instanceof processor.core.graph.FailNode) || (node instanceof processor.core.graph.EndNode))) {
@@ -71,6 +69,7 @@ public class FileProcessor {
                         ex.printStackTrace();
                         res = false;
                     }
+                    System.out.println("Condition " + node.toString() + " returned " + res);
                 }
                 if (node instanceof Action) {
                     try {
@@ -99,7 +98,7 @@ public class FileProcessor {
         System.out.println("Starting processing all");
         Path backupPath = null;
         Path basePath = null;
-        if(saveBackup){
+        if (saveBackup) {
             try {
                 basePath = Paths.get(project.getWorkingDirectory());
                 backupPath = LogSerializer.generateLogFolder(ProjectCentral.instance().getProfileFile());
@@ -108,22 +107,23 @@ public class FileProcessor {
                 saveBackup = false;
                 ex.printStackTrace();
             }
-            
+
         }
-        
+
         for (Map.Entry<String, ProcessingResult> a : project.getFileCentral().getResultMap().entrySet()) {
             Path f = Paths.get(a.getKey());
             ProcessingResult r = a.getValue();
-            if(!r.isActive())
+            if (!r.isActive()) {
                 continue;
+            }
             if (r.getActions().size() > 0) {
                 try {
                     String result = (String) processFile(f.toFile()).getResult();
-                    
-                    if(saveBackup){
+
+                    if (saveBackup) {
                         LogSerializer.backupFile(basePath, f, backupPath);
                     }
-                    
+
                     saveFile(result, f);
                 } catch (IOException ex) {
                     Logger.getLogger(FileProcessor.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,7 +131,7 @@ public class FileProcessor {
             }
 
         }
-       
+
         System.out.println("All files processed");
     }
 
@@ -145,16 +145,8 @@ public class FileProcessor {
         }
     }
 
-    
-
     public static VariableHolder getVariableHolder() {
         return variableHolder;
     }
-
-   
-   
-    
-    
-    
 
 }

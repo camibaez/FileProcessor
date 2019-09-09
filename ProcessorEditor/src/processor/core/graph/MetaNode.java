@@ -15,5 +15,6 @@ public class MetaNode extends GraphNode{
     public String generateRandomId() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+        
     
 }

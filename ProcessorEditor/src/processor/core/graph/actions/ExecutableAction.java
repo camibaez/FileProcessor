@@ -45,7 +45,7 @@ public class ExecutableAction extends TextTransformer {
     }
 
     public String toString() {
-        return "<" + getId() + ">:ExecAction";
+        return "<" + getId() + ">";
     }
 
     public String getCode() {

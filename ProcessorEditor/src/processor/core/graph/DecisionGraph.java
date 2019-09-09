@@ -5,8 +5,11 @@
  */
 package processor.core.graph;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
 /**
@@ -26,6 +29,12 @@ public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge>
     
     public void reload(){
         
+    }
+    
+    public List<GraphNode> getNodesList(){
+        return vertexSet().stream().filter(v -> {
+            return !(isFailNode(v) || isStartNode(v) || isEndNode(v));
+        }).collect(Collectors.toList());
     }
     
     public void masrkAsInitial(GraphNode node){
@@ -86,5 +95,23 @@ public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge>
         return node == START_NODE;
     }
       
+    
+    
+    public void includeGraph(DecisionGraph graph){
+        graph.vertexSet().forEach(v -> {
+            if(v instanceof StartNode || v instanceof EndNode || v instanceof FailNode)
+                return;
+            if(addVertex(v))
+                 System.out.println("Vertex added to graph.");
+        });
+        
+        graph.edgeSet().forEach(e -> {
+            if(!(graph.getEdgeSource(e) instanceof StartNode)){
+                boolean resp = this.addEdge(graph.getEdgeSource(e), graph.getEdgeTarget(e), e);
+                if(resp)
+                    System.out.println("Edge added to graph.");
+            }
+        });
+    }
     
 }

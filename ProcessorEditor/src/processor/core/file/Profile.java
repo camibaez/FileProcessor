@@ -44,6 +44,12 @@ public class Profile {
         this.graph = new DecisionGraph();
         this.fileProcessor = new FileProcessor(this);
     }
+    
+    
+    public void includeGraph(DecisionGraph graph){
+        graph.getNodesList().forEach(v -> nodes.add(v));
+        this.getGraph().includeGraph(graph);
+    }
 
     public void reloadGraph() {
         this.graph.reload();

@@ -60,7 +60,7 @@ public class ReplaceText extends TextTransformer {
     }
     
     public String toString(){
-        return "<" + getId() + ">:" +  pattern.toString();
+        return "<" + getId() + ">";
     }
 
 }

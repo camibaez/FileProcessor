@@ -70,7 +70,7 @@ public class FileContent extends Condition<File>{
     
     @Override
     public String toString(){
-        return "<" + getId() + ">:" + expressions.toString();
+        return "<" + getId() + ">";
     }
 
     public List<ConditionalPattern> getExpressions() {

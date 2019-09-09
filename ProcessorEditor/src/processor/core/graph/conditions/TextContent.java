@@ -30,7 +30,7 @@ public class TextContent extends Condition<String>{
     }
     
      public String toString(){
-        return "<" + getId() + ">:" + pattern.toString();
+        return "<" + getId() + ">";
     }
 
     public ConditionalPattern getPattern() {

@@ -27,7 +27,7 @@ public class FilePattern extends Condition<File>{
     }
    
     public String toString(){
-        return "<" + getId() + ">:" + pattern;
+        return "<" + getId() + ">";
     }
 
     public void setPattern(String p){
