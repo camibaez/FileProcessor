@@ -8,6 +8,7 @@ package processor.genericeditor.windows;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.layout.mxCompactTreeLayout;
 import com.mxgraph.layout.mxGraphLayout;
+import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 import java.awt.BorderLayout;
@@ -26,7 +27,10 @@ import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
+import processor.core.graph.EndNode;
+import processor.core.graph.FailNode;
 import processor.core.graph.GraphNode;
+import processor.core.graph.StartNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ExecutableAction;
 import processor.core.graph.actions.ReplaceText;
@@ -47,15 +51,21 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
 
     Profile profile = null;
     ProjectsTree profileTree;
+    HashMap<GraphNode, Object> nodesMap = new HashMap<>();
+    mxGraph vGraph;
 
+    NodePropertiesPanel nodePropertiesPanel;
+    
     /**
      * Creates new form ProjectEditorMainPanel
      */
     public ProjectEditorMainPanel(Profile profile) {
         this.profile = profile;
+        this.nodePropertiesPanel = new NodePropertiesPanel(this);
+        
         initComponents();
         //createTree();
-        reloadTable();
+        jSplitPane3.setRightComponent(nodePropertiesPanel);
     }
 
     protected void createTree() {
@@ -80,7 +90,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
                     jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Action) node));
                 }
 
-                
                 profileTree.repaint();
             }
         });
@@ -113,10 +122,18 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         Object parent = vGraph.getDefaultParent();
         vGraph.getModel().beginUpdate();
         try {
-            HashMap<GraphNode, Object> nodesMap = new HashMap<>();
+            nodesMap.clear();
             graph.vertexSet().forEach(v -> {
                 //mxCell cell = new mxCell(v);
-                Object insertVertex = vGraph.insertVertex(parent, v.getId(), v.toString(), 20, 20, 80, 30);
+                String color = "";
+                if(v.isActive()){
+                     color = v instanceof Condition ? "#a0a0ff" : "#a0ffa4";
+                }else
+                    color = "#eeeeee";
+                
+               
+                Object insertVertex = vGraph.insertVertex(parent, v.getId(), v, 20, 20, 80, 30, "defaultVertex;fillColor=" + color);
+
                 nodesMap.put(v, insertVertex);
             });
 
@@ -140,6 +157,17 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         mxGraphLayout layout = new mxHierarchicalLayout(vGraph);
         layout.execute(parent);
         mxGraphComponent graphComponent = new mxGraphComponent(vGraph);
+        graphComponent.getGraphControl().addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                mxCell cell = (mxCell) graphComponent.getCellAt(e.getX(), e.getY());
+                if (cell != null) {
+                    GraphNode node = (GraphNode) cell.getValue();
+                    if(node instanceof StartNode || node instanceof EndNode || node instanceof FailNode)
+                        return;
+                    nodePropertiesPanel.loadFields(profile.getGraph(), node);
+                }
+            }
+        });
 
         //jSplitPane3.remove(2);
         //jSplitPane3.setRightComponent(graphComponent);
@@ -157,6 +185,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
@@ -188,6 +217,8 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jButton5 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
+
+        jLabel2.setText("jLabel2");
 
         setLayout(new java.awt.BorderLayout());
 
@@ -362,7 +393,17 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel7.setLayout(new java.awt.BorderLayout());
         jSplitPane3.setLeftComponent(jPanel7);
 
-        jPanel8.setLayout(new java.awt.BorderLayout());
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 204, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 558, Short.MAX_VALUE)
+        );
+
         jSplitPane3.setRightComponent(jPanel8);
 
         jPanel1.add(jSplitPane3, java.awt.BorderLayout.CENTER);
@@ -426,7 +467,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         reloadTable();
         loadGraphEditor();
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -524,8 +565,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         if (node instanceof Action) {
             jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Action) node));
         }
-
-        
         loadGraphEditor();
 
     }//GEN-LAST:event_jTable1MouseClicked
@@ -546,6 +585,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

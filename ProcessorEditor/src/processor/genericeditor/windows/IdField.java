@@ -24,7 +24,6 @@ public class IdField extends JTextField{
         this.setText(node.getId());
         
         this.addKeyListener(new KeyAdapter() {
-            
             @Override
             public void keyReleased(KeyEvent e){
                 node.setId(IdField.this.getText());
