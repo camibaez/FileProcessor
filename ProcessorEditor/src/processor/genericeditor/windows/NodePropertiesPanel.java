@@ -7,9 +7,15 @@ package processor.genericeditor.windows;
 
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import processor.core.file.Profile;
 import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
+import processor.core.graph.StartNode;
 import processor.core.graph.conditions.Condition;
 
 /**
@@ -20,13 +26,16 @@ public class NodePropertiesPanel extends javax.swing.JPanel {
     GraphNode node;
     DecisionGraph graph;
     ProjectEditorMainPanel mainPanel;
+    Profile profile;
     
     /**
      * Creates new form NodePropertiesPanel
      */
-    public NodePropertiesPanel(ProjectEditorMainPanel mainPanel) {
-        initComponents();
+    public NodePropertiesPanel(Profile profile, ProjectEditorMainPanel mainPanel) {
+        this.profile = profile;
         this.mainPanel = mainPanel;
+        initComponents();
+        
     }
 
     public void loadFields(DecisionGraph graph, GraphNode node) {
@@ -35,10 +44,20 @@ public class NodePropertiesPanel extends javax.swing.JPanel {
         
         jTextField3.setText(node.getClass().getSimpleName());
         jTextField2.setText(node.getId());
+        
+        if(node instanceof StartNode){
+            jCheckBox1.setEnabled(false);
+            jButton2.setVisible(false);
+        }else{
+            jCheckBox1.setEnabled(true);
+            jButton2.setVisible(true);
+        }
+        jCheckBox1.setSelected(node.isActive());
+        
         Set<DecisionEdge> incomingEdgesOf = graph.incomingEdgesOf(node);
         jTextField1.setText(incomingEdgesOf.toString());
 
-        jCheckBox1.setSelected(node.isActive());
+        
         
         GraphNode trueTarget = graph.getDecisionTargetOf(node, true);
         Set vertexSet = graph.vertexSet();
@@ -63,6 +82,8 @@ public class NodePropertiesPanel extends javax.swing.JPanel {
 
             jComboBox2.setModel(model2);
             jComboBox2.setSelectedItem(falseTarget);
+            jLabel4.setVisible(true);
+            jComboBox2.setVisible(true);
         }else{
             jLabel4.setVisible(false);
             jComboBox2.setVisible(false);
@@ -91,6 +112,7 @@ public class NodePropertiesPanel extends javax.swing.JPanel {
         jTextField3 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jButton2 = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(NodePropertiesPanel.class, "NodePropertiesPanel.border.title"))); // NOI18N
 
@@ -140,6 +162,13 @@ public class NodePropertiesPanel extends javax.swing.JPanel {
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(jButton2, org.openide.util.NbBundle.getMessage(NodePropertiesPanel.class, "NodePropertiesPanel.jButton2.text")); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,9 +193,12 @@ public class NodePropertiesPanel extends javax.swing.JPanel {
                                 .addComponent(jCheckBox1)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jTextField1)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, 210, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, 219, Short.MAX_VALUE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -196,7 +228,9 @@ public class NodePropertiesPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -221,8 +255,17 @@ public class NodePropertiesPanel extends javax.swing.JPanel {
          mainPanel.loadGraphEditor();
     }//GEN-LAST:event_jTextField2KeyReleased
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       int response = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this node?");
+       if( response == JOptionPane.YES_OPTION){
+            profile.removeNode(node);
+            mainPanel.loadGraphEditor();
+       }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;

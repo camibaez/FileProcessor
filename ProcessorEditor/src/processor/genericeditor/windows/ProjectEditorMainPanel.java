@@ -55,16 +55,17 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     mxGraph vGraph;
 
     NodePropertiesPanel nodePropertiesPanel;
-    
+
     /**
      * Creates new form ProjectEditorMainPanel
      */
     public ProjectEditorMainPanel(Profile profile) {
         this.profile = profile;
-        this.nodePropertiesPanel = new NodePropertiesPanel(this);
-        
+        this.nodePropertiesPanel = new NodePropertiesPanel(profile, this);
+
         initComponents();
         //createTree();
+        loadGraphEditor();
         jSplitPane3.setRightComponent(nodePropertiesPanel);
     }
 
@@ -97,24 +98,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jPanel4.add(profileTree, BorderLayout.CENTER);
     }
 
-    protected void reloadTable() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        profile.getNodes().forEach(n -> {
-            Set<DecisionEdge> incomingEdgesOf = profile.getGraph().incomingEdgesOf(n);
-            List<GraphNode> pointingGraphs = new LinkedList<>();
-            incomingEdgesOf.forEach(e -> {
-                pointingGraphs.add((GraphNode) profile.getGraph().getEdgeSource(e));
-            });
-            GraphNode trueTarget = profile.getGraph().getDecisionTargetOf(n, true);
-            GraphNode falseTarget = profile.getGraph().getDecisionTargetOf(n, false);
-
-            String type = n.getClass().getSimpleName();
-            model.addRow(new Object[]{n.isActive(), n, type, pointingGraphs, trueTarget, falseTarget});
-        });
-
-    }
-
     public void loadGraphEditor() {
         DecisionGraph graph = profile.getGraph();
 
@@ -126,12 +109,12 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             graph.vertexSet().forEach(v -> {
                 //mxCell cell = new mxCell(v);
                 String color = "";
-                if(v.isActive()){
-                     color = v instanceof Condition ? "#a0a0ff" : "#a0ffa4";
-                }else
+                if (v.isActive()) {
+                    color = v instanceof Condition ? "#a0a0ff" : "#a0ffa4";
+                } else {
                     color = "#eeeeee";
-                
-               
+                }
+
                 Object insertVertex = vGraph.insertVertex(parent, v.getId(), v, 20, 20, 80, 30, "defaultVertex;fillColor=" + color);
 
                 nodesMap.put(v, insertVertex);
@@ -160,20 +143,34 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         graphComponent.getGraphControl().addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent e) {
                 mxCell cell = (mxCell) graphComponent.getCellAt(e.getX(), e.getY());
-                if (cell != null) {
+                if (cell != null && cell.getValue() instanceof GraphNode) {
                     GraphNode node = (GraphNode) cell.getValue();
-                    if(node instanceof StartNode || node instanceof EndNode || node instanceof FailNode)
+                    if (node instanceof EndNode || node instanceof FailNode) {
                         return;
+                    }
                     nodePropertiesPanel.loadFields(profile.getGraph(), node);
+
+                    int location = jSplitPane3.getDividerLocation();
+                    if (node instanceof Condition) {
+                        jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Condition) node));
+                       
+                    }
+
+                    if (node instanceof Action) {
+                        jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Action) node));
+                    }
+                    
+                    jSplitPane3.setDividerLocation(location);
                 }
             }
         });
 
-        //jSplitPane3.remove(2);
-        //jSplitPane3.setRightComponent(graphComponent);
-        int dividerLocation = jSplitPane2.getDividerLocation();
-        jSplitPane2.setBottomComponent(graphComponent);
-        jSplitPane2.setDividerLocation(dividerLocation);
+        vGraph.refresh();
+        
+        jPanel5.removeAll();
+        jPanel5.add(graphComponent, BorderLayout.CENTER);
+        jPanel5.validate();
+
     }
 
     /**
@@ -189,8 +186,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel4 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jSeparator3 = new javax.swing.JToolBar.Separator();
         jButton13 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
@@ -199,16 +194,9 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jButton8 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
-        jButton7 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JToolBar.Separator();
         jButton2 = new javax.swing.JButton();
-        jSplitPane2 = new javax.swing.JSplitPane();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
         jPanel7 = new javax.swing.JPanel();
@@ -228,19 +216,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jToolBar2.setFloatable(false);
         jToolBar2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar2.setRollover(true);
-
-        jButton1.setText("MF");
-        jButton1.setToolTipText("Mark first");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jToolBar2.add(jButton1);
-        jToolBar2.add(jSeparator3);
 
         jButton13.setText("+EC");
         jButton13.setFocusable(false);
@@ -314,40 +289,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jToolBar2.add(jButton12);
         jToolBar2.add(jSeparator4);
 
-        jButton7.setText("-"); // NOI18N
-        jButton7.setToolTipText("-"); // NOI18N
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-        jToolBar2.add(jButton7);
-
-        jButton3.setText("Up"); // NOI18N
-        jButton3.setToolTipText("Up"); // NOI18N
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jToolBar2.add(jButton3);
-
-        jButton4.setText("Down"); // NOI18N
-        jButton4.setToolTipText("Down"); // NOI18N
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jToolBar2.add(jButton4);
-        jToolBar2.add(jSeparator1);
-
         jButton2.setText("R"); // NOI18N
         jButton2.setToolTipText("R"); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -357,32 +298,21 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         });
         jToolBar2.add(jButton2);
 
-        jPanel4.add(jToolBar2, java.awt.BorderLayout.WEST);
-
-        jSplitPane2.setDividerLocation(300);
-        jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-
-        jPanel2.setLayout(new java.awt.BorderLayout());
-
-        jTable1.setModel(new NodesTableModel());
-        jTable1.setColumnSelectionAllowed(true);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+        jButton1.setText("jButton1");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
-        jScrollPane2.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jToolBar2.add(jButton1);
 
-        jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        jPanel4.add(jToolBar2, java.awt.BorderLayout.WEST);
 
-        jSplitPane2.setLeftComponent(jPanel2);
-
-        jPanel3.setLayout(new java.awt.BorderLayout());
-        jSplitPane2.setRightComponent(jPanel3);
-
-        jPanel4.add(jSplitPane2, java.awt.BorderLayout.CENTER);
+        jPanel5.setLayout(new java.awt.BorderLayout());
+        jPanel4.add(jPanel5, java.awt.BorderLayout.CENTER);
 
         jSplitPane1.setLeftComponent(jPanel4);
 
@@ -446,27 +376,10 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         new CodeEditorOpener().openEditor(ProjectCentral.instance().getProfileFile());
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        int showConfirmDialog = JOptionPane.showConfirmDialog(this, "Are you shure you want to delete this prototype?");
-        if (showConfirmDialog == JOptionPane.YES_OPTION) {
-
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            int row = jTable1.getSelectedRow();
-            if (row == -1) {
-                return;
-            }
-            GraphNode node = (GraphNode) model.getValueAt(row, 1);
-            jSplitPane3.setLeftComponent(new JPanel());
-
-            profile.removeNode(node);
-            //profileTree.reloadData(profile);
-            reloadTable();
-        }
-    }//GEN-LAST:event_jButton7ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        reloadTable();
+
         loadGraphEditor();
+
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -474,27 +387,27 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         FilePattern filePattern = new FilePattern("");
         profile.addNode(filePattern);
         //profileTree.reloadData(profile);
-        reloadTable();
+        loadGraphEditor();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
 
         profile.addNode(new FileContent());
         //profileTree.reloadData(profile);
-        reloadTable();
+        loadGraphEditor();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
 
         profile.addNode(new TextContent());
         //profileTree.reloadData(profile);
-        reloadTable();
+        loadGraphEditor();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         profile.addNode(new ReplaceText("", "", 0));
         //profileTree.reloadData(profile);
-        reloadTable();
+        loadGraphEditor();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -503,71 +416,21 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         //System.out.println(profile.getGraphBuilder().export(profile.getGraph()));
     }//GEN-LAST:event_jButton11ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int row = jTable1.getSelectedRow();
-        if (row == -1) {
-            return;
-        }
-        GraphNode node = (GraphNode) model.getValueAt(row, 1);
-        profile.moveNode(node, -1);
-        //profileTree.reloadData(profile);
-        reloadTable();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int row = jTable1.getSelectedRow();
-        if (row == -1) {
-            return;
-        }
-        GraphNode node = (GraphNode) model.getValueAt(row, 1);
-        profile.moveNode(node, 1);
-        //profileTree.reloadData(profile);
-        reloadTable();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int row = jTable1.getSelectedRow();
-        if (row == -1) {
-            return;
-        }
-        GraphNode node = (GraphNode) model.getValueAt(row, 1);
-        profile.getGraph().masrkAsInitial(node);
-        reloadTable();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         profile.addNode(new ExecutableAction());
         //profileTree.reloadData(profile);
-        reloadTable();
+        loadGraphEditor();
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         profile.addNode(new ExecutableCondition());
         //profileTree.reloadData(profile);
-        reloadTable();
+        loadGraphEditor();
     }//GEN-LAST:event_jButton13ActionPerformed
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int row = jTable1.getSelectedRow();
-        if (row == -1) {
-            return;
-        }
-        GraphNode node = (GraphNode) model.getValueAt(row, 1);
-
-        if (node instanceof Condition) {
-            jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Condition) node));
-        }
-
-        if (node instanceof Action) {
-            jSplitPane3.setLeftComponent(PanelFactory.generatePanel((Action) node));
-        }
-        loadGraphEditor();
-
-    }//GEN-LAST:event_jTable1MouseClicked
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       jSplitPane3.setLeftComponent(new CodeEditorPanel());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -578,29 +441,20 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
-    private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables
