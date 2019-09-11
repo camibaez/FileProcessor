@@ -195,7 +195,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         jButton12 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jSplitPane3 = new javax.swing.JSplitPane();
@@ -297,17 +296,6 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
             }
         });
         jToolBar2.add(jButton2);
-
-        jButton1.setText("jButton1");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jToolBar2.add(jButton1);
 
         jPanel4.add(jToolBar2, java.awt.BorderLayout.WEST);
 
@@ -428,14 +416,9 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
         loadGraphEditor();
     }//GEN-LAST:event_jButton13ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       jSplitPane3.setLeftComponent(new CodeEditorPanel());
-    }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;

@@ -28,6 +28,7 @@ public class CodeEditorOpener {
             EditorCookie ec = (EditorCookie) d.getLookup().lookup(EditorCookie.class);
             ec.open();
             StyledDocument doc = ec.openDocument();
+            
 
         } catch (DataObjectNotFoundException ex) {
             Exceptions.printStackTrace(ex);

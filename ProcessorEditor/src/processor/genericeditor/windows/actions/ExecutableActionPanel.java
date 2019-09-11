@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.text.EditorKit;
+import org.openide.text.CloneableEditorSupport;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
@@ -24,16 +26,18 @@ import processor.genericeditor.windows.IdField;
  */
 public class ExecutableActionPanel extends javax.swing.JPanel {
 
-    protected DecisionGraph graph;
+
     protected ExecutableAction action;
     /**
      * Creates new form ExecutableAction
      */
     public ExecutableActionPanel(ExecutableAction action) {
-        this.graph = ProjectCentral.instance().getProfile().getGraph();
         this.action =  action;
         initComponents();
-        jTextArea1.setText(this.action.getCode());
+        
+        EditorKit kit = CloneableEditorSupport.getEditorKit("text/javascript");
+        jEditorPane1.setEditorKit(kit);
+        jEditorPane1.setText(this.action.getCode());
     }
 
     
@@ -48,28 +52,16 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("Executable Action"));
         setLayout(new java.awt.BorderLayout());
 
         jPanel3.setLayout(new java.awt.BorderLayout());
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextArea1KeyReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jLabel4.setText("function (target, data){");
         jPanel3.add(jLabel4, java.awt.BorderLayout.NORTH);
@@ -82,7 +74,7 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 569, Short.MAX_VALUE))
+                .addGap(0, 832, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,22 +83,31 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
                 .addContainerGap(97, Short.MAX_VALUE))
         );
 
-        jPanel3.add(jPanel4, java.awt.BorderLayout.PAGE_END);
+        jPanel3.add(jPanel4, java.awt.BorderLayout.SOUTH);
+
+        jEditorPane1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jEditorPane1KeyReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jEditorPane1);
+
+        jPanel3.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         add(jPanel3, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
-        action.setCode(jTextArea1.getText());
-    }//GEN-LAST:event_jTextArea1KeyReleased
+    private void jEditorPane1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jEditorPane1KeyReleased
+         action.setCode(jEditorPane1.getText());
+    }//GEN-LAST:event_jEditorPane1KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

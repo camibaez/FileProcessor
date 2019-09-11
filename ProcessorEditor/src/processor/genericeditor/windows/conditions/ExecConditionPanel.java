@@ -5,6 +5,8 @@
  */
 package processor.genericeditor.windows.conditions;
 
+import javax.swing.text.EditorKit;
+import org.openide.text.CloneableEditorSupport;
 import processor.core.graph.conditions.ExecutableCondition;
 import processor.genericeditor.windows.IdField;
 
@@ -22,7 +24,10 @@ public class ExecConditionPanel extends ConditionPanel {
         super(condition);
         this.condition = condition;
         initComponents();
-        loadConditionData();
+        
+        EditorKit kit = CloneableEditorSupport.getEditorKit("text/javascript");
+        jEditorPane1.setEditorKit(kit);
+        jEditorPane1.setText(this.condition.getCode());
     }
 
     /**
@@ -35,30 +40,17 @@ public class ExecConditionPanel extends ConditionPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
 
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Executable Condition"));
-        jPanel1.setLayout(new java.awt.BorderLayout());
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextArea1KeyReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jLabel1.setText("function(target, data){");
-        jPanel1.add(jLabel1, java.awt.BorderLayout.NORTH);
 
         jLabel3.setText("}");
 
@@ -77,27 +69,53 @@ public class ExecConditionPanel extends ConditionPanel {
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_END);
+        jEditorPane1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jEditorPane1KeyReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jEditorPane1);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(84, 84, 84)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(106, 106, 106)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextArea1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyReleased
-        condition.setCode(jTextArea1.getText());
-    }//GEN-LAST:event_jTextArea1KeyReleased
+    private void jEditorPane1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jEditorPane1KeyReleased
+       this.condition.setCode(jEditorPane1.getText());
+    }//GEN-LAST:event_jEditorPane1KeyReleased
 
     @Override
     public void loadConditionData() {
-        jTextArea1.setText(condition.getCode());
+        
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

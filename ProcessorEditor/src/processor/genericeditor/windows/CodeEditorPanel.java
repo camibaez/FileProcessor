@@ -32,10 +32,10 @@ public class CodeEditorPanel extends javax.swing.JPanel {
     }
 
     public void loadEditor(){
-       EditorKit kit = CloneableEditorSupport.getEditorKit("text/html");
+       EditorKit kit = CloneableEditorSupport.getEditorKit("text/javascript");
         jEditorPane1.setEditorKit(kit);
         //DialogBinding.bindComponentToDocument(jEditorPane1.getDocument(), 0, 0, jEditorPane1);
-        jEditorPane1.setText("Egypt");
+        //jEditorPane1.setText("Egypt");
     }
 
     /**
