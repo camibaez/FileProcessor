@@ -27,7 +27,7 @@ import org.openide.util.Exceptions;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
-import processor.core.graph.actions.TypeTranslator;
+import processor.core.graph.TypeTranslator;
 import processor.core.graph.conditions.Condition;
 import processor.profile.log.LogSerializer;
 
@@ -47,7 +47,12 @@ public class FileProcessor {
         variableHolder = new VariableHolder();
     }
 
-    public ProcessingResult processFile(File f) {
+    
+    public ProcessingResult processFile(File f){
+        return processFile(f, true);
+    }
+    
+    public ProcessingResult processFile(File f, boolean full) {
         ProcessingResult processingResult = new ProcessingResult();
         System.out.println("Processing file: " + f.getAbsolutePath());
         DecisionGraph graph = project.getGraph();
@@ -89,7 +94,8 @@ public class FileProcessor {
         }
         processingResult.setPassed(!(node instanceof processor.core.graph.FailNode));
         System.out.println("Result was: " + processingResult.isPassed());
-        processingResult.setResult(content);
+        if(full)
+            processingResult.setResult(content);
         return processingResult;
 
     }

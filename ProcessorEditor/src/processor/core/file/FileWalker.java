@@ -33,7 +33,7 @@ public class FileWalker extends SimpleFileVisitor<Path> {
     // method on each file.
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-        ProcessingResult processingResult = profile.getFileProcessor().processFile(file.toFile());
+        ProcessingResult processingResult = profile.getFileProcessor().processFile(file.toFile(), false);
         if(processingResult.isPassed()){
             //profile.getFileCentral().getMatchedFiles().add(file);
             profile.getFileCentral().registerProcessResult(file.toAbsolutePath().toString(), processingResult);

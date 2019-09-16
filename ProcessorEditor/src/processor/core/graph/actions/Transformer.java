@@ -5,6 +5,8 @@
  */
 package processor.core.graph.actions;
 
+import processor.core.graph.TypeTranslator;
+
 /**
  *
  * @author cbaez

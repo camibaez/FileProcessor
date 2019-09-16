@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package processor.core.graph.actions;
+package processor.core.graph;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import processor.core.graph.actions.Action;
+import processor.core.graph.actions.TextTransformer;
+import processor.core.graph.actions.Transformer;
 import processor.core.graph.conditions.Condition;
 import processor.core.graph.conditions.ExecutableCondition;
 import processor.core.graph.conditions.FileContent;
