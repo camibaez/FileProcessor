@@ -52,6 +52,15 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
+                    <code-name-base>org.netbeans.modules.parsing.api</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <release-version>1</release-version>
+                        <specification-version>9.5.1.8</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
                     <code-name-base>org.netbeans.modules.refactoring.api</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
@@ -172,16 +181,32 @@
                 <binary-origin>release/modules/ext/commons-lang3-3.8.1.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/gson-2.8.5.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/gson-2.8.5.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
                 <runtime-relative-path>ext/json-simple-1.1.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/json-simple-1.1.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jgrapht-ext-1.3.0.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/jgrapht-ext-1.3.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/roaster-api-2.21.1-SNAPSHOT.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/roaster-api-2.21.1-SNAPSHOT.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jgrapht-io-1.3.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/jgrapht-io-1.3.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/commons-text-1.5.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/commons-text-1.5.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/guava-26.0-jre.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/guava-26.0-jre.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/gson-2.8.5.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/gson-2.8.5.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jgrapht-core-1.3.0.jar</runtime-relative-path>
@@ -200,20 +225,12 @@
                 <binary-origin>release/modules/ext/jgrapht-bundle-1.3.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/jgrapht-io-1.3.0.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jgrapht-io-1.3.0.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/commons-text-1.5.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/commons-text-1.5.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
                 <runtime-relative-path>ext/antlr4-runtime-4.7.1.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/antlr4-runtime-4.7.1.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/guava-26.0-jre.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/guava-26.0-jre.jar</binary-origin>
+                <runtime-relative-path>ext/roaster-jdt-2.21.0.Final.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/roaster-jdt-2.21.0.Final.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import processor.core.graph.parsers.CodeScope;
-import processor.core.graph.parsers.JavaParser;
+import processor.core.graph.parsers.JavaParserUtils;
 
 /**
  *
@@ -24,13 +24,13 @@ import processor.core.graph.parsers.JavaParser;
  */
 public class JavaParserUnitTest {
     String code;
-    JavaParser jParser;
+    JavaParserUtils jParser;
     
     @Before
     public void setUp() throws IOException {
         Path file = Paths.get("C:\\Users\\cbaez\\Desktop\\ProcessorWorkspace\\SSLMigration\\test\\files\\JSEIN0530.java");
         code = new String(Files.readAllBytes(file));
-        jParser = new JavaParser(code);
+        jParser = new JavaParserUtils(code);
         
     }
     

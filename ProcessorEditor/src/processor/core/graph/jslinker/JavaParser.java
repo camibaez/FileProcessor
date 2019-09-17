@@ -14,7 +14,7 @@ import processor.core.graph.parsers.CodeScope;
 public class JavaParser {
 
     public static int[] getMethodScopeOf(String code, int index){
-         CodeScope scope = new processor.core.graph.parsers.JavaParser(code).getMethodScopeOf(index);
+         CodeScope scope = new processor.core.graph.parsers.JavaParserUtils(code).getMethodScopeOf(index);
         if(scope == null)
             return new int[]{};
         return new int[]{scope.getStart(), scope.getEnd()};
