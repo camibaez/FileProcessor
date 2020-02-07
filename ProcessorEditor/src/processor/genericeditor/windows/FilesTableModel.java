@@ -12,13 +12,15 @@ import processor.core.file.ProcessingResult;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.GraphNode;
+import processor.profile.DIEmulator;
 
 /**
  *
  * @author cbaez
  */
 public class FilesTableModel extends DefaultTableModel{
-
+    Profile profile = DIEmulator.getProfile();
+    
     Class[] types = new Class[]{
         java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class};
     boolean[] canEdit = new boolean[]{
@@ -50,7 +52,7 @@ public class FilesTableModel extends DefaultTableModel{
         
         if (columnIndex == 0) {
             String path = (String) getValueAt(rowIndex,1);
-            Profile p  = ProjectCentral.instance().getProfile();
+            Profile p  = profile;
             ProcessingResult result = p.getFileCentral().getResultMap().get(path);
             
             result.setActive((boolean) aValue);

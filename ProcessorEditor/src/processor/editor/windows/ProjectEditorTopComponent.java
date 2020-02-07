@@ -12,6 +12,7 @@ import org.openide.windows.TopComponent;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
 import processor.genericeditor.windows.ProjectEditorMainPanel;
+import processor.profile.DIEmulator;
 
 /**
  * Top component which displays something.
@@ -33,7 +34,7 @@ import processor.genericeditor.windows.ProjectEditorMainPanel;
     "HINT_ProjectEditorTopComponent=This is a ProjectEditor window"
 })
 public final class ProjectEditorTopComponent extends TopComponent {
-
+    ProjectCentral projectCentral = DIEmulator.getProjectCentral();
     Profile project = null;
 
     public ProjectEditorTopComponent() {
@@ -44,10 +45,11 @@ public final class ProjectEditorTopComponent extends TopComponent {
 
         //FOR TEST
         //DummySuplier.loadDummyProject();
-        if (ProjectCentral.instance().getProfile() == null) {
+        
+        if (projectCentral.getProfile() == null) {
             this.setEnabled(false);
         } else {
-            project = ProjectCentral.instance().getProfile();
+            project = projectCentral.getProfile();
             jPanel1.add(new ProjectEditorMainPanel(project), BorderLayout.CENTER);
 
         }

@@ -12,10 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import processor.core.file.ProjectCentral;
+import processor.profile.DIEmulator;
 import processor.profile.ProfileSerializer;
 
 public abstract class OpenProjectAction implements ActionListener {
-
+    ProjectCentral projectCentral = DIEmulator.getProjectCentral();
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         //Create a file chooser
@@ -26,8 +28,8 @@ public abstract class OpenProjectAction implements ActionListener {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            ProjectCentral.instance().setProfile(ProfileSerializer.loadProject(file));
-            ProjectCentral.instance().setProfileFile(file);
+            projectCentral.setProfile(ProfileSerializer.loadProject(file));
+            projectCentral.setProfileFile(file);
             openProjectWindow();
         } else {
             Logger.getLogger(OpenProjectAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");

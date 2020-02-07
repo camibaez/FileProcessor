@@ -12,13 +12,14 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.DecisionEdge;
 import processor.core.graph.GraphNode;
+import processor.profile.DIEmulator;
 
 /**
  *
  * @author cbaez
  */
 public class InPanel extends javax.swing.JPanel {
-    DefaultDirectedGraph graph;
+    DefaultDirectedGraph graph =  DIEmulator.getProfile().getGraph();
     GraphNode node;
 
     /**
@@ -26,7 +27,6 @@ public class InPanel extends javax.swing.JPanel {
      */
     public InPanel(GraphNode node) {
         this.node = node;
-        graph = ProjectCentral.instance().getProfile().getGraph();
         initComponents();
         loadPorts();
         

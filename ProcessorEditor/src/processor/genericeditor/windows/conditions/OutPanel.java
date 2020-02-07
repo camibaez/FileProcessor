@@ -10,6 +10,7 @@ import javax.swing.DefaultComboBoxModel;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
+import processor.profile.DIEmulator;
 
 /**
  *
@@ -17,7 +18,7 @@ import processor.core.graph.GraphNode;
  */
 public class OutPanel extends javax.swing.JPanel {
 
-    DecisionGraph graph;
+    DecisionGraph graph = DIEmulator.getProfile().getGraph();
     GraphNode node;
 
     /**
@@ -25,7 +26,6 @@ public class OutPanel extends javax.swing.JPanel {
      */
     public OutPanel(GraphNode node) {
         this.node = node;
-        graph = ProjectCentral.instance().getProfile().getGraph();
         initComponents();
         loadPorts();
     }

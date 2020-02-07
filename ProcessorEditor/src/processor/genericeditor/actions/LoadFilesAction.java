@@ -16,14 +16,13 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import processor.core.file.FileWalker;
 import processor.core.file.Profile;
-import processor.core.file.ProjectCentral;
+import processor.profile.DIEmulator;
 
 
 public abstract class LoadFilesAction implements ActionListener {
-
+    Profile profile = DIEmulator.getProfile();
     @Override
     public void actionPerformed(ActionEvent e) {
-        Profile profile = ProjectCentral.instance().getProfile();
         if (profile == null) {
             return;
         }
@@ -52,7 +51,7 @@ public abstract class LoadFilesAction implements ActionListener {
                     try {
                         System.out.println("Matching Start");
                         Files.walkFileTree(Paths.get(profile.getWorkingDirectory()), fileMatcher);
-                        ProjectCentral.instance().getProfile().getFileWalker().setDone(true);
+                        profile.getFileWalker().setDone(true);
                         System.out.println("Matching done!!!");
                     } catch (IOException ex) {
                         ex.printStackTrace();

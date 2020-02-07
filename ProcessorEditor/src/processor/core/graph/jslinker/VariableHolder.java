@@ -5,15 +5,17 @@
  */
 package processor.core.graph.jslinker;
 
-import processor.core.file.FileProcessor;
+import java.util.Map;
+import processor.profile.DIEmulator;
 
 /**
  *
  * @author cbaez
  */
 public class VariableHolder {
+    protected static Map variableHolder = DIEmulator.getVariableHolder();
     public static Object get(String key){
-        return FileProcessor.variableHolder.get(key);
+        return variableHolder.get(key);
         
     }
 }

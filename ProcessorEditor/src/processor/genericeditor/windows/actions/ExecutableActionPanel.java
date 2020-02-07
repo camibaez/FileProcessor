@@ -5,20 +5,9 @@
  */
 package processor.genericeditor.windows.actions;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.text.EditorKit;
 import org.openide.text.CloneableEditorSupport;
-import processor.core.file.ProjectCentral;
-import processor.core.graph.DecisionEdge;
-import processor.core.graph.DecisionGraph;
-import processor.core.graph.GraphNode;
-import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ExecutableAction;
-import processor.genericeditor.windows.CodeEditorPanel;
-import processor.genericeditor.windows.IdField;
 
 /**
  *
@@ -35,8 +24,8 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
         this.action =  action;
         initComponents();
         
-        EditorKit kit = CloneableEditorSupport.getEditorKit("text/javascript");
-        jEditorPane1.setEditorKit(kit);
+        //EditorKit kit = CloneableEditorSupport.getEditorKit("text/javascript");
+        //jEditorPane1.setEditorKit(kit);
         jEditorPane1.setText(this.action.getCode());
     }
 
@@ -55,6 +44,7 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
 
@@ -68,23 +58,37 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
 
         jLabel5.setText("}");
 
+        jButton1.setText("Compile");
+        jButton1.setEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 832, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(0, 328, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(0, 68, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel4, java.awt.BorderLayout.SOUTH);
 
+        jEditorPane1.setContentType("text/javascript"); // NOI18N
+        jEditorPane1.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         jEditorPane1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jEditorPane1KeyReleased(evt);
@@ -99,10 +103,18 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
 
     private void jEditorPane1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jEditorPane1KeyReleased
          action.setCode(jEditorPane1.getText());
+         jButton1.setEnabled(true);
     }//GEN-LAST:event_jEditorPane1KeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       int result = action.compile();
+       if(result == 0)
+        jButton1.setEnabled(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

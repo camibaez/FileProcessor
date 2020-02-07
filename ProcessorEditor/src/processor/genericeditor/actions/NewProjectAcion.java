@@ -13,11 +13,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFileChooser;
 import processor.core.file.ProjectCentral;
+import processor.profile.DIEmulator;
 import processor.profile.ProfileSerializer;
 
 
 public abstract class NewProjectAcion implements ActionListener {
-
+    ProjectCentral projectCentral = DIEmulator.getProjectCentral();
     @Override
     public void actionPerformed(ActionEvent e) {
         final JFileChooser fc = new JFileChooser();
@@ -35,8 +36,8 @@ public abstract class NewProjectAcion implements ActionListener {
                 if (file.createNewFile()) {
                     System.out.println("Project created at: " + file.getAbsolutePath());
                     ProfileSerializer.createEmptyProject(file.getAbsolutePath());
-                    ProjectCentral.instance().setProfile(ProfileSerializer.loadProject(file));
-                    ProjectCentral.instance().setProfileFile(file);
+                    projectCentral.setProfile(ProfileSerializer.loadProject(file));
+                    projectCentral.setProfileFile(file);
                     openProjectEditorWindow();
                     
                 }

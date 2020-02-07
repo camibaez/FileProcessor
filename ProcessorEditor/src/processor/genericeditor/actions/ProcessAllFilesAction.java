@@ -12,15 +12,16 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import processor.core.file.FileWalker;
 import processor.core.file.ProjectCentral;
+import processor.profile.DIEmulator;
 
 public class ProcessAllFilesAction implements ActionListener {
-
+    ProjectCentral projectCentral = DIEmulator.getProjectCentral();
     @Override
     public void actionPerformed(ActionEvent e) {
 
         int response = JOptionPane.showConfirmDialog(null, "Are you shure you want to process all the files?");
         if (response == JOptionPane.YES_OPTION) {
-            ProjectCentral.instance().getProfile().getFileProcessor().processAll(true);
+            projectCentral.getProfile().getFileProcessor().processAll(true);
             /*
             final JFileChooser fc = new JFileChooser();
             fc.setDialogTitle("Select backup directory");

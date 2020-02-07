@@ -11,11 +11,14 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Map;
+import processor.profile.DIEmulator;
 
 /**
  * A {@code FileVisitor} that finds all files that match the specified pattern.
  */
 public class FileWalker extends SimpleFileVisitor<Path> {
+    Map variableHolder=  DIEmulator.getVariableHolder();
     protected boolean done;
     protected Profile profile;
    
@@ -24,7 +27,7 @@ public class FileWalker extends SimpleFileVisitor<Path> {
     public FileWalker(Profile profile) {
         this.profile = profile;
         this.profile.getFileCentral().cleanData();
-        FileProcessor.variableHolder = new VariableHolder();
+        variableHolder.clear();
         
     }
     

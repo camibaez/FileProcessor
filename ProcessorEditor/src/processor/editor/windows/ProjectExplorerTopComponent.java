@@ -13,6 +13,7 @@ import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 import processor.core.file.ProjectCentral;
 import processor.genericeditor.windows.ProjectsTree;
+import processor.profile.DIEmulator;
 
 /**
  * Top component which displays something.
@@ -39,7 +40,7 @@ import processor.genericeditor.windows.ProjectsTree;
     "HINT_ProjectExplorerTopComponent=This is a ProjectExplorer window"
 })
 public final class ProjectExplorerTopComponent extends TopComponent {
-    
+    ProjectCentral projectCentral = DIEmulator.getProjectCentral();
     
     public ProjectExplorerTopComponent() {
         initComponents();
@@ -49,7 +50,7 @@ public final class ProjectExplorerTopComponent extends TopComponent {
         putClientProperty(TopComponent.PROP_MAXIMIZATION_DISABLED, Boolean.TRUE);
         putClientProperty(TopComponent.PROP_UNDOCKING_DISABLED, Boolean.TRUE);
         
-        jPanel1.add(new ProjectsTree(ProjectCentral.instance().getProfile()), BorderLayout.CENTER);
+        jPanel1.add(new ProjectsTree(projectCentral.getProfile()), BorderLayout.CENTER);
         
         
     }

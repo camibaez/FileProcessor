@@ -11,18 +11,19 @@ import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import processor.core.file.ProjectCentral;
+import processor.profile.DIEmulator;
 import processor.profile.ProfileSerializer;
 
 public class SaveProjectAction implements ActionListener {
-
+    ProjectCentral projectCentral = DIEmulator.getProjectCentral();
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            if (ProjectCentral.instance().getProfile() == null) {
+            if (projectCentral.getProfile() == null) {
                 throw new Exception("No project loaded");
             }
             //System.out.println(generateProfileJSON(ProjectCentral.instance().getProfile()));
-            ProfileSerializer.saveProject(ProjectCentral.instance().getProfile(), ProjectCentral.instance().getProfileFile().getAbsolutePath());
+            ProfileSerializer.saveProject(projectCentral.getProfile(), projectCentral.getProfileFile().getAbsolutePath());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

@@ -1,10 +1,12 @@
 package processor.core.graph.actions;
 
+import java.util.Map;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import processor.core.file.FileProcessor;
+import processor.core.graph.ExecutableNode;
+import processor.profile.DIEmulator;
 
 
 
@@ -17,8 +19,8 @@ import processor.core.file.FileProcessor;
  *
  * @author cbaez
  */
-public class ExecutableAction extends TextTransformer {
-
+public class ExecutableAction extends TextTransformer implements ExecutableNode{
+    Map variableHolder = DIEmulator.getVariableHolder();
     protected String code;
     protected Invocable invocable;
 
@@ -31,10 +33,11 @@ public class ExecutableAction extends TextTransformer {
         return target;
     }
 
-    protected Object executeCode(String target) {
+    @Override
+    public Object executeCode(Object target) {
 
         try {
-            Object result = invocable.invokeFunction("cleanFunc", target, FileProcessor.variableHolder);
+            Object result = invocable.invokeFunction("cleanFunc", target, variableHolder);
             return result;
         } catch (ScriptException ex) {
             ex.printStackTrace();
@@ -44,18 +47,23 @@ public class ExecutableAction extends TextTransformer {
         return null;
     }
 
+    @Override
     public String toString() {
         return "<" + getId() + ">";
     }
 
+    @Override
     public String getCode() {
         return code;
     }
 
     public void setCode(String code) {
         this.code = code;
+    }
 
-        ScriptEngineManager factory = new ScriptEngineManager();
+    @Override
+    public int compile() {
+       ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("nashorn");
 
         String ecode = "var cleanFunc = function(target, data){\n";
@@ -67,8 +75,11 @@ public class ExecutableAction extends TextTransformer {
             invocable = (Invocable) engine;
         } catch (ScriptException ex) {
             ex.printStackTrace();
+            return 1;
         }
-
+        return 0;
     }
+
+    
 
 }

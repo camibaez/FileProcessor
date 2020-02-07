@@ -6,16 +6,19 @@
 package processor.core.file;
 
 import java.io.PrintStream;
+import java.util.Map;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import processor.profile.DIEmulator;
 
 /**
  *
  * @author cbaez
  */
 public class JSConsoleRunner {
+    protected Map variableHolder = DIEmulator.getVariableHolder();
     protected String code;
     protected Invocable invocable;
     
@@ -32,7 +35,7 @@ public class JSConsoleRunner {
      public  Object executeCode(String code) {
         setCode(code);
         try {
-            Object result = invocable.invokeFunction("consoleCode", FileProcessor.variableHolder);
+            Object result = invocable.invokeFunction("consoleCode", variableHolder);
             return result;
         } catch (ScriptException ex) {
             ex.printStackTrace();

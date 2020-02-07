@@ -5,22 +5,21 @@
  */
 package processor.core.graph.conditions;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import processor.core.file.FileProcessor;
 import processor.core.file.VariableHolder;
+import processor.core.graph.ExecutableNode;
+import processor.profile.DIEmulator;
 
 /**
  *
  * @author cbaez
  */
-public class ExecutableCondition extends Condition<String> {
-
+public class ExecutableCondition extends Condition<String> implements ExecutableNode{
+    VariableHolder variableHolder = DIEmulator.getVariableHolder();
     protected String code;
     Invocable invocable;
 
@@ -33,8 +32,7 @@ public class ExecutableCondition extends Condition<String> {
         return false;
     }
 
-    protected Object executeCode(Object target) {
-        VariableHolder variableHolder = FileProcessor.getVariableHolder();
+    public Object executeCode(Object target) {
         try {
             Object result = invocable.invokeFunction("testFunction", target, variableHolder);
             return result;
@@ -46,13 +44,23 @@ public class ExecutableCondition extends Condition<String> {
         return null;
     }
 
+    @Override
     public String getCode() {
         return code;
     }
 
+    @Override
     public void setCode(String code) {
         this.code = code;
+    }
 
+    @Override
+    public String toString() {
+        return "<" + getId() + ">:";
+    }
+
+    @Override
+    public int compile() {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("nashorn");
         String functionCode = "var testFunction = function(target, data){\n";
@@ -64,12 +72,9 @@ public class ExecutableCondition extends Condition<String> {
             this.invocable = (Invocable) engine;
         } catch (ScriptException ex) {
             ex.printStackTrace();
+            return 1;
         }
-
-    }
-
-    public String toString() {
-        return "<" + getId() + ">:";
+        return 0;
     }
 
 }

@@ -18,6 +18,7 @@ import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.actions.ReplaceText;
+import processor.profile.DIEmulator;
 
 /**
  *
@@ -26,13 +27,12 @@ import processor.core.graph.actions.ReplaceText;
 public class ProjectEditorActionPanel extends javax.swing.JPanel {
 
     protected ReplaceText action;
-    protected DecisionGraph graph;
+    protected DecisionGraph graph = DIEmulator.getProfile().getGraph();
     
     /**
      * Creates new form CleanerPane
      */
     public ProjectEditorActionPanel(ReplaceText action) {
-        this.graph = ProjectCentral.instance().getProfile().getGraph();
         this.action = action;
         initComponents();
         loadActionData();

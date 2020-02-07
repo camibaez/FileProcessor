@@ -29,6 +29,7 @@ import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.TypeTranslator;
 import processor.core.graph.conditions.Condition;
+import processor.profile.DIEmulator;
 import processor.profile.log.LogSerializer;
 
 /**
@@ -37,14 +38,14 @@ import processor.profile.log.LogSerializer;
  */
 public class FileProcessor {
 
-    public static VariableHolder variableHolder;
-
+    protected ProjectCentral projectCentral = DIEmulator.getProjectCentral();
+    protected Map variableHolder = DIEmulator.getVariableHolder();
     protected int processedCount;
     protected Profile project;
 
     public FileProcessor(Profile project) {
         this.project = project;
-        variableHolder = new VariableHolder();
+        variableHolder.clear();
     }
 
     
@@ -107,7 +108,7 @@ public class FileProcessor {
         if (saveBackup) {
             try {
                 basePath = Paths.get(project.getWorkingDirectory());
-                backupPath = LogSerializer.generateLogFolder(ProjectCentral.instance().getProfileFile());
+                backupPath = LogSerializer.generateLogFolder(projectCentral.getProfileFile());
                 LogSerializer.saveLog(backupPath);
             } catch (IOException ex) {
                 saveBackup = false;
@@ -150,9 +151,6 @@ public class FileProcessor {
             project.getFileCentral().getProcessedFiles().add(p);
         }
     }
-
-    public static VariableHolder getVariableHolder() {
-        return variableHolder;
-    }
+ 
 
 }

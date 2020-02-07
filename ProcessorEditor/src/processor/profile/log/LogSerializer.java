@@ -38,6 +38,7 @@ import processor.core.graph.DecisionGraph;
 import processor.core.graph.GraphNode;
 import processor.core.graph.actions.Action;
 import processor.core.graph.serialization.GraphSerializer;
+import processor.profile.DIEmulator;
 import processor.profile.ProfileSerializer;
 
 /**
@@ -45,6 +46,9 @@ import processor.profile.ProfileSerializer;
  * @author cbaez
  */
 public class LogSerializer {
+    protected static Map variableHolder = DIEmulator.getVariableHolder();
+    protected static ProjectCentral projectCentral = DIEmulator.getProjectCentral();
+    
     public static List<String> files;
     public static List<String> foundFiles;
     public static void saveLog(Path backupPath) {
@@ -52,7 +56,7 @@ public class LogSerializer {
 
         Map m = new JSONObject();
         List arr = new JSONArray();
-        Profile profile = ProjectCentral.instance().getProfile();
+        Profile profile = projectCentral.getProfile();
         profile.getFileCentral().getResultMap().entrySet().forEach((Entry<String, ProcessingResult> e) -> {
             if (e.getValue().getActions().size() < 1) {
                 return;
@@ -66,7 +70,7 @@ public class LogSerializer {
             arr.add(record);
         });
         m.put("logs", arr);
-        m.put("dataDump", FileProcessor.getVariableHolder());
+        m.put("dataDump", variableHolder);
 
         try (PrintWriter pw = new PrintWriter(fileName)) {
             pw.write(((JSONObject) m).toJSONString());

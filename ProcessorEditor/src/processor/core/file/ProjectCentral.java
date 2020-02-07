@@ -13,40 +13,49 @@ import processor.profile.ProfileSerializer;
  * @author cbaez
  */
 public class ProjectCentral {
+ 
+    private Profile profile;
+    private File profileFile;
 
-    protected static ProjectCentral instance;
-    protected static Profile profile;
-    protected static File profileFile;
-
-    public static ProjectCentral instance() {
-        if (instance == null) {
-            instance = new ProjectCentral();
-        }
-        return instance;
-    }
+    
 
     
     public void reloadProject(){
-        profile = ProfileSerializer.loadProject(profileFile);
-    }
-    
-    
-    
-    public void setProfile(Profile p) {
-        profile = p;
-
+        setProfile(ProfileSerializer.loadProject(getProfileFile()));
     }
 
+    
+    /**
+     * @return the profile
+     */
     public Profile getProfile() {
         return profile;
     }
 
+    /**
+     * @param profile the profile to set
+     */
+    
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+    
+
+    /**
+     * @return the profileFile
+     */
     public File getProfileFile() {
         return profileFile;
     }
 
+    /**
+     * @param profileFile the profileFile to set
+     */
     public void setProfileFile(File profileFile) {
-        ProjectCentral.profileFile = profileFile;
+        this.profileFile = profileFile;
     }
-
+    
+    
+    
+     
 }

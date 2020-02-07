@@ -15,6 +15,7 @@ import org.openide.windows.TopComponent;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
 import processor.genericeditor.windows.ProcessorEditorMainPanel;
+import processor.profile.DIEmulator;
 
 /**
  * Top component which displays something.
@@ -41,8 +42,8 @@ import processor.genericeditor.windows.ProcessorEditorMainPanel;
     "HINT_EditorProcessorTopComponent=This is a EditorProcessor window"
 })
 public final class EditorProcessorTopComponent extends TopComponent {
+    ProjectCentral projectCentral = DIEmulator.getProjectCentral();
     
-    Profile profile;
     TopComponent diffTopComponent = null;
     DiffView openendDiff = null;
     
@@ -50,10 +51,7 @@ public final class EditorProcessorTopComponent extends TopComponent {
         initComponents();
         setName(Bundle.CTL_EditorProcessorTopComponent());
         setToolTipText(Bundle.HINT_EditorProcessorTopComponent());
-       
-        
-        profile = ProjectCentral.instance().getProfile();
-        rootPanel.add(new ProcessorEditorMainPanel(profile), BorderLayout.CENTER);
+        rootPanel.add(new ProcessorEditorMainPanel(), BorderLayout.CENTER);
     }
 
     /**

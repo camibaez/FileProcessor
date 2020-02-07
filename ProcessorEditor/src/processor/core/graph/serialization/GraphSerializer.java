@@ -9,18 +9,12 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
-import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.io.DOTExporter;
 import org.jgrapht.io.DOTImporter;
 import org.jgrapht.io.ImportException;
 import processor.core.graph.DecisionEdge;
 import processor.core.graph.DecisionGraph;
-import processor.core.graph.EndNode;
-import processor.core.graph.FailNode;
 import processor.core.graph.GraphNode;
-import processor.core.graph.StartNode;
-import processor.core.graph.actions.ReplaceText;
-import processor.core.graph.conditions.FilePattern;
 
 
 /**

@@ -42,13 +42,14 @@ import processor.core.graph.conditions.TextContent;
 import processor.core.graph.serialization.GraphSerializer;
 import processor.editor.windows.CodeEditorOpener;
 import processor.genericeditor.windows.conditions.PanelFactory;
+import processor.profile.DIEmulator;
 
 /**
  *
  * @author cbaez
  */
 public class ProjectEditorMainPanel extends javax.swing.JPanel {
-
+    ProjectCentral projectCentral = DIEmulator.getProjectCentral();
     Profile profile = null;
     ProjectsTree profileTree;
     HashMap<GraphNode, Object> nodesMap = new HashMap<>();
@@ -361,7 +362,7 @@ public class ProjectEditorMainPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        new CodeEditorOpener().openEditor(ProjectCentral.instance().getProfileFile());
+        new CodeEditorOpener().openEditor(projectCentral.getProfileFile());
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

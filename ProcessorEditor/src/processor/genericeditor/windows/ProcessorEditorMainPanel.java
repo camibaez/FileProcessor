@@ -27,18 +27,19 @@ import processor.core.file.FileWalker;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.actions.Action;
+import processor.profile.DIEmulator;
 
 public final class ProcessorEditorMainPanel extends JPanel {
 
-    Profile profile;
+    Profile profile = DIEmulator.getProfile();
     DiffPanel diffPanel;
     Set<Action> actionsFilters;
     
     boolean onlyChanged;
 
-    public ProcessorEditorMainPanel(Profile profile) {
+    public ProcessorEditorMainPanel() {
         initComponents();
-        this.profile = profile;
+       
         diffPanel = new DiffPanel(profile);
         diffContainerPanel.add(diffPanel, BorderLayout.CENTER);
         startFillingThread();
@@ -268,7 +269,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         profile.setFileWalker(fileMatcher);
         try {
             Files.walkFileTree(Paths.get(profile.getWorkingDirectory()), fileMatcher);
-            ProjectCentral.instance().getProfile().getFileWalker().setDone(true);
+            profile.getFileWalker().setDone(true);
             System.out.println("Matching done!!!");
         } catch (IOException ex) {
             ex.printStackTrace();

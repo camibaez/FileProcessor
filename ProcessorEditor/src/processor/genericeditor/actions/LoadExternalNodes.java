@@ -14,6 +14,7 @@ import javax.swing.JFileChooser;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.DecisionGraph;
+import processor.profile.DIEmulator;
 import processor.profile.ProfileSerializer;
 
 /**
@@ -21,7 +22,7 @@ import processor.profile.ProfileSerializer;
  * @author cbaez
  */
 public class LoadExternalNodes implements ActionListener{
-
+    Profile project = DIEmulator.getProfile();
     @Override
     public void actionPerformed(ActionEvent e) {
         //Create a file chooser
@@ -33,7 +34,6 @@ public class LoadExternalNodes implements ActionListener{
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             DecisionGraph graph = ProfileSerializer.loadProject(file).getGraph();
-            Profile project = ProjectCentral.instance().getProfile();
             project.includeGraph(graph);
         } else {
             Logger.getLogger(OpenProjectAction.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
