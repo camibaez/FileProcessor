@@ -10,6 +10,8 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
+import processor.editor.windows.ConsoleEditorTopComponent;
+import processor.editor.windows.EditorProcessorTopComponent;
 import processor.editor.windows.ProjectEditorTopComponent;
 
 @ActionID(
@@ -29,6 +31,8 @@ public final class OpenProjectAction extends processor.genericeditor.actions.Ope
     @Override
     public void openProjectWindow() {
         new ProjectEditorTopComponent().open();
+        new EditorProcessorTopComponent().open();
+        new ConsoleEditorTopComponent().open();
         //new ProjectExplorerTopComponent().open();
         
     }

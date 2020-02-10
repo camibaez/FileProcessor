@@ -50,7 +50,7 @@ public class ExecConditionPanel extends ConditionPanel {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Executable Condition"));
 
-        jLabel1.setText("function(target, data){");
+        jLabel1.setText("function(in, config){");
 
         jLabel3.setText("}");
 

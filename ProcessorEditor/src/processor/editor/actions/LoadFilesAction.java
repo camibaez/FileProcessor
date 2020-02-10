@@ -32,8 +32,8 @@ public final class LoadFilesAction extends processor.genericeditor.actions.LoadF
 
     @Override
     public void openProcessorWindow() {
-        new EditorProcessorTopComponent().open();
-        new ConsoleEditorTopComponent().open();
+        //new EditorProcessorTopComponent().open();
+        //new ConsoleEditorTopComponent().open();
     }
 
    

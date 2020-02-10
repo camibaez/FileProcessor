@@ -53,7 +53,7 @@ public class ExecutableActionPanel extends javax.swing.JPanel {
 
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setText("function (target, data){");
+        jLabel4.setText("function (in, config){");
         jPanel3.add(jLabel4, java.awt.BorderLayout.NORTH);
 
         jLabel5.setText("}");

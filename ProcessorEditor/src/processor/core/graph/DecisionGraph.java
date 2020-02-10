@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
 /**
@@ -17,7 +18,8 @@ import org.jgrapht.graph.DefaultDirectedGraph;
  * @author cbaez
  */
 public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge> {
-    public static GraphNode START_NODE = new processor.core.graph.StartNode(), END_NODE = new processor.core.graph.EndNode(),
+    public static GraphNode START_NODE = new processor.core.graph.StartNode(), 
+                            END_NODE = new processor.core.graph.EndNode(),
                             FAIL_NODE = new processor.core.graph.FailNode();
 
     public DecisionGraph() {
@@ -112,6 +114,19 @@ public class DecisionGraph extends DefaultDirectedGraph<GraphNode, DecisionEdge>
                     System.out.println("Edge added to graph.");
             }
         });
+    }
+    
+    public int compile(){
+        int returnCode = 0;
+        for(GraphNode n : getNodesList()){
+            if(n instanceof ExecutableNode){
+                returnCode = ((ExecutableNode) n).compile();
+                if(returnCode != 0)
+                    break;    
+            }
+        }
+        
+        return returnCode;
     }
     
 }

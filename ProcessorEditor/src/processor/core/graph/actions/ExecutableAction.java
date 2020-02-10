@@ -66,7 +66,7 @@ public class ExecutableAction extends TextTransformer implements ExecutableNode{
        ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("nashorn");
 
-        String ecode = "var cleanFunc = function(target, data){\n";
+        String ecode = "var cleanFunc = function(in, config){\n";
         ecode += this.code;
         ecode += "\n}";
 

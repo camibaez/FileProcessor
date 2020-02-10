@@ -20,6 +20,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +29,7 @@ import processor.core.file.FileWalker;
 import processor.core.file.Profile;
 import processor.core.file.ProjectCentral;
 import processor.core.graph.actions.Action;
+import processor.editor.actions.LoadFilesAction;
 import processor.profile.DIEmulator;
 
 public final class ProcessorEditorMainPanel extends JPanel {
@@ -42,7 +45,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
        
         diffPanel = new DiffPanel(profile);
         diffContainerPanel.add(diffPanel, BorderLayout.CENTER);
-        startFillingThread();
+        //startFillingThread();
     }
 
     private void startFillingThread() {
@@ -138,6 +141,9 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jToggleButton1 = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -179,7 +185,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jToolBar1.setRollover(true);
         jToolBar1.add(filler1);
 
-        jToggleButton1.setText("Only Changed");
+        jToggleButton1.setText("Show Only Changed");
         jToggleButton1.setFocusable(false);
         jToggleButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -190,7 +196,7 @@ public final class ProcessorEditorMainPanel extends JPanel {
         });
         jToolBar1.add(jToggleButton1);
 
-        jButton1.setText("Reload Files");
+        jButton1.setText("Process Files");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -214,6 +220,36 @@ public final class ProcessorEditorMainPanel extends JPanel {
         jButton2.getAccessibleContext().setAccessibleDescription("Refresh");
 
         jPanel1.add(jToolBar1, java.awt.BorderLayout.SOUTH);
+
+        jButton3.setText("Select Folder");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
+                .addGap(2, 2, 2))
+        );
+
+        jPanel1.add(jPanel3, java.awt.BorderLayout.NORTH);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -265,16 +301,25 @@ public final class ProcessorEditorMainPanel extends JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FileWalker fileMatcher = new FileWalker(profile);
-        profile.setFileWalker(fileMatcher);
+        
+        
         try {
+            int returnCode = profile.getGraph().compile();
+            if(returnCode != 0){
+                throw new Exception("Error compiling graph.");
+            }
+            FileWalker fileMatcher = new FileWalker(profile);
+            profile.setFileWalker(fileMatcher);
             Files.walkFileTree(Paths.get(profile.getWorkingDirectory()), fileMatcher);
             profile.getFileWalker().setDone(true);
             System.out.println("Matching done!!!");
-        } catch (IOException ex) {
+            fillFilesTable();
+        }catch (Exception ex){
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An errror ocurred processing files. Eror message: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            
         }
-        fillFilesTable();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
@@ -283,18 +328,26 @@ public final class ProcessorEditorMainPanel extends JPanel {
         
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        new LoadFilesAction().actionPerformed(evt);
+        jTextField1.setText(profile.getWorkingDirectory());
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel diffContainerPanel;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel matchedFilesPanel;

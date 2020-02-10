@@ -42,6 +42,7 @@ public abstract class LoadFilesAction implements ActionListener {
             File file = fc.getSelectedFile();
             profile.setWorkingDirectory(file.getAbsolutePath());
 
+            /*
             FileWalker fileMatcher = new FileWalker(profile);
             profile.setFileWalker(fileMatcher);
             
@@ -58,7 +59,7 @@ public abstract class LoadFilesAction implements ActionListener {
                     }
                 }
             }).start();
-
+            */
             //FileProcessor fileProcessor = new FileProcessor(profile, profile.getCleaners());
             //profile.setFileProcessor(fileProcessor);
             openProcessorWindow();
