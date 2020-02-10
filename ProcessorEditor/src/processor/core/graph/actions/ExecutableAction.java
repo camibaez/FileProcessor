@@ -1,10 +1,12 @@
 package processor.core.graph.actions;
 
+import java.util.HashMap;
 import java.util.Map;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import processor.core.graph.Exchange;
 import processor.core.graph.ExecutableNode;
 import processor.profile.DIEmulator;
 
@@ -37,7 +39,14 @@ public class ExecutableAction extends TextTransformer implements ExecutableNode{
     public Object executeCode(Object target) {
 
         try {
-            Object result = invocable.invokeFunction("cleanFunc", target, variableHolder);
+            Exchange exchange = new Exchange();
+            exchange.setIn(target);
+            exchange.setContext(variableHolder);
+            
+            Map<String, Object> exchangeMap = new HashMap<>();
+            exchangeMap.put("in", exchange.getIn());
+            exchangeMap.put("context", exchange.getContext());
+            Object result = invocable.invokeFunction(this.id, exchangeMap);
             return result;
         } catch (ScriptException ex) {
             ex.printStackTrace();
@@ -57,6 +66,7 @@ public class ExecutableAction extends TextTransformer implements ExecutableNode{
         return code;
     }
 
+    @Override
     public void setCode(String code) {
         this.code = code;
     }
@@ -66,7 +76,7 @@ public class ExecutableAction extends TextTransformer implements ExecutableNode{
        ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("nashorn");
 
-        String ecode = "var cleanFunc = function(in, config){\n";
+        String ecode = "var "+ this.id + "= function(exchange){\n";
         ecode += this.code;
         ecode += "\n}";
 

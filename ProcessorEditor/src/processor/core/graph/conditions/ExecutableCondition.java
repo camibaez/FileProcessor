@@ -5,12 +5,15 @@
  */
 package processor.core.graph.conditions;
 
+import java.util.HashMap;
+import java.util.Map;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import processor.core.file.VariableHolder;
+import processor.core.graph.Exchange;
 import processor.core.graph.ExecutableNode;
 import processor.profile.DIEmulator;
 
@@ -32,9 +35,17 @@ public class ExecutableCondition extends Condition<String> implements Executable
         return false;
     }
 
+    @Override
     public Object executeCode(Object target) {
         try {
-            Object result = invocable.invokeFunction("testFunction", target, variableHolder);
+            Exchange exchange = new Exchange();
+            exchange.setIn(target);
+            exchange.setContext(variableHolder);
+            Map<String, Object> exchangeMap = new HashMap<String, Object>();
+            exchangeMap.put("in", exchange.getIn());
+            exchangeMap.put("context", exchange.getContext());
+            
+            Object result = invocable.invokeFunction(this.id, target, variableHolder);
             return result;
         } catch (ScriptException ex) {
             ex.printStackTrace();
@@ -63,7 +74,7 @@ public class ExecutableCondition extends Condition<String> implements Executable
     public int compile() {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("nashorn");
-        String functionCode = "var testFunction = function(target, data){\n";
+        String functionCode = "var " + this.id +"= function(in, config){\n";
             functionCode += this.code;
         functionCode += "\n}";
 
