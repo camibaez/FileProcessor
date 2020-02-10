@@ -7,7 +7,7 @@ package processor.genericeditor.windows.conditions;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import processor.core.graph.conditions.FilePattern;
+import com.datapro.nfp.core.graph.conditions.FilePattern;
 import processor.genericeditor.windows.IdField;
 
 /**

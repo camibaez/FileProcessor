@@ -9,7 +9,7 @@ package processor.genericeditor.windows;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import processor.core.file.JSConsoleRunner;
+import com.datapro.nfp.core.file.JSConsoleRunner;
 
 /**
  *

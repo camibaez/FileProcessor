@@ -14,11 +14,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import processor.core.file.ProjectCentral;
-import processor.core.file.VariableHolder;
-import processor.profile.log.FilesLog;
-import processor.profile.log.LogSerializer;
-import processor.profile.ProfileSerializer;
+import com.datapro.nfp.core.file.ProjectCentral;
+import com.datapro.nfp.core.file.VariableHolder;
+import com.datapro.nfp.profile.log.FilesLog;
+import com.datapro.nfp.profile.log.LogSerializer;
+import com.datapro.nfp.profile.ProfileSerializer;
 
 /**
  *

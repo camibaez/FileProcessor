@@ -14,9 +14,9 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import processor.core.file.FileWalker;
-import processor.core.file.Profile;
-import processor.profile.DIEmulator;
+import com.datapro.nfp.core.file.FileWalker;
+import com.datapro.nfp.core.file.Profile;
+import com.datapro.nfp.profile.DIEmulator;
 
 
 public abstract class LoadFilesAction implements ActionListener {

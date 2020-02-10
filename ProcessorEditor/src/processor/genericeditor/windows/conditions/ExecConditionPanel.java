@@ -7,7 +7,7 @@ package processor.genericeditor.windows.conditions;
 
 import javax.swing.text.EditorKit;
 import org.openide.text.CloneableEditorSupport;
-import processor.core.graph.conditions.ExecutableCondition;
+import com.datapro.nfp.core.graph.conditions.ExecutableCondition;
 
 /**
  *

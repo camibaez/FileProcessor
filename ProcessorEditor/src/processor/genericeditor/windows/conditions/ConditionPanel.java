@@ -6,7 +6,7 @@
 package processor.genericeditor.windows.conditions;
 
 import java.awt.BorderLayout;
-import processor.core.graph.conditions.Condition;
+import com.datapro.nfp.core.graph.conditions.Condition;
 
 /**
  *

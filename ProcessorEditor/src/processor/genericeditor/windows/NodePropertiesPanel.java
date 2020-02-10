@@ -11,12 +11,12 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import processor.core.file.Profile;
-import processor.core.graph.DecisionEdge;
-import processor.core.graph.DecisionGraph;
-import processor.core.graph.GraphNode;
-import processor.core.graph.StartNode;
-import processor.core.graph.conditions.Condition;
+import com.datapro.nfp.core.file.Profile;
+import com.datapro.nfp.core.graph.DecisionEdge;
+import com.datapro.nfp.core.graph.DecisionGraph;
+import com.datapro.nfp.core.graph.GraphNode;
+import com.datapro.nfp.core.graph.StartNode;
+import com.datapro.nfp.core.graph.conditions.Condition;
 
 /**
  *

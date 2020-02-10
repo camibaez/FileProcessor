@@ -7,8 +7,8 @@ package processor.genericeditor.windows.conditions;
 
 import java.awt.Color;
 import java.util.regex.Pattern;
-import processor.core.graph.conditions.ConditionalPattern;
-import processor.core.graph.conditions.TextContent;
+import com.datapro.nfp.core.graph.conditions.ConditionalPattern;
+import com.datapro.nfp.core.graph.conditions.TextContent;
 import processor.genericeditor.windows.IdField;
 
 /**

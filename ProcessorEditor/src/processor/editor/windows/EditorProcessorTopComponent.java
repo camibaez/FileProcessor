@@ -12,10 +12,10 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
-import processor.core.file.Profile;
-import processor.core.file.ProjectCentral;
+import com.datapro.nfp.core.file.Profile;
+import com.datapro.nfp.core.file.ProjectCentral;
 import processor.genericeditor.windows.ProcessorEditorMainPanel;
-import processor.profile.DIEmulator;
+import com.datapro.nfp.profile.DIEmulator;
 
 /**
  * Top component which displays something.

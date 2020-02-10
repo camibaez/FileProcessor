@@ -7,10 +7,10 @@ package processor.genericeditor.windows.conditions;
 
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
-import processor.core.file.ProjectCentral;
-import processor.core.graph.DecisionGraph;
-import processor.core.graph.GraphNode;
-import processor.profile.DIEmulator;
+import com.datapro.nfp.core.file.ProjectCentral;
+import com.datapro.nfp.core.graph.DecisionGraph;
+import com.datapro.nfp.core.graph.GraphNode;
+import com.datapro.nfp.profile.DIEmulator;
 
 /**
  *

@@ -7,7 +7,7 @@ package processor.genericeditor.windows;
 
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
-import processor.core.graph.GraphNode;
+import com.datapro.nfp.core.graph.GraphNode;
 
 /**
  *

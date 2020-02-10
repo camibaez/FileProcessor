@@ -11,11 +11,11 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import processor.core.file.Profile;
-import processor.core.file.ProjectCentral;
-import processor.core.graph.DecisionGraph;
-import processor.profile.DIEmulator;
-import processor.profile.ProfileSerializer;
+import com.datapro.nfp.core.file.Profile;
+import com.datapro.nfp.core.file.ProjectCentral;
+import com.datapro.nfp.core.graph.DecisionGraph;
+import com.datapro.nfp.profile.DIEmulator;
+import com.datapro.nfp.profile.ProfileSerializer;
 
 /**
  *

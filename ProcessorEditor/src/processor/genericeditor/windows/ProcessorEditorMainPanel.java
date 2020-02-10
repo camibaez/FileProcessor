@@ -25,12 +25,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import processor.core.file.FileWalker;
-import processor.core.file.Profile;
-import processor.core.file.ProjectCentral;
-import processor.core.graph.actions.Action;
+import com.datapro.nfp.core.file.FileWalker;
+import com.datapro.nfp.core.file.Profile;
+import com.datapro.nfp.core.file.ProjectCentral;
+import com.datapro.nfp.core.graph.actions.Action;
 import processor.editor.actions.LoadFilesAction;
-import processor.profile.DIEmulator;
+import com.datapro.nfp.profile.DIEmulator;
 
 public final class ProcessorEditorMainPanel extends JPanel {
 

@@ -9,8 +9,8 @@ import java.awt.Color;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import processor.core.graph.conditions.ConditionalPattern;
-import processor.core.graph.conditions.FileContent;
+import com.datapro.nfp.core.graph.conditions.ConditionalPattern;
+import com.datapro.nfp.core.graph.conditions.FileContent;
 import processor.genericeditor.windows.IdField;
 
 /**

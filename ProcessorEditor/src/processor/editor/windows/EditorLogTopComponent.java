@@ -12,7 +12,7 @@ import org.openide.awt.ActionReference;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
 import processor.genericeditor.windows.LogEditor;
-import processor.profile.log.FilesLog;
+import com.datapro.nfp.profile.log.FilesLog;
 
 /**
  * Top component which displays something.

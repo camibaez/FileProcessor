@@ -8,7 +8,7 @@ package processor.genericeditor.windows;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JTextField;
-import processor.core.graph.GraphNode;
+import com.datapro.nfp.core.graph.GraphNode;
 
 /**
  *

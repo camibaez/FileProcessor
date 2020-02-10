@@ -8,11 +8,11 @@ package processor.genericeditor.windows;
 import java.util.Map;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
-import processor.core.file.ProcessingResult;
-import processor.core.file.Profile;
-import processor.core.file.ProjectCentral;
-import processor.core.graph.GraphNode;
-import processor.profile.DIEmulator;
+import com.datapro.nfp.core.file.ProcessingResult;
+import com.datapro.nfp.core.file.Profile;
+import com.datapro.nfp.core.file.ProjectCentral;
+import com.datapro.nfp.core.graph.GraphNode;
+import com.datapro.nfp.profile.DIEmulator;
 
 /**
  *

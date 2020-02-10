@@ -11,9 +11,9 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import processor.core.file.ProjectCentral;
-import processor.profile.DIEmulator;
-import processor.profile.ProfileSerializer;
+import com.datapro.nfp.core.file.ProjectCentral;
+import com.datapro.nfp.profile.DIEmulator;
+import com.datapro.nfp.profile.ProfileSerializer;
 
 public abstract class OpenProjectAction implements ActionListener {
     ProjectCentral projectCentral = DIEmulator.getProjectCentral();

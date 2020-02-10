@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFileChooser;
-import processor.core.file.ProjectCentral;
-import processor.profile.DIEmulator;
-import processor.profile.ProfileSerializer;
+import com.datapro.nfp.core.file.ProjectCentral;
+import com.datapro.nfp.profile.DIEmulator;
+import com.datapro.nfp.profile.ProfileSerializer;
 
 
 public abstract class NewProjectAcion implements ActionListener {

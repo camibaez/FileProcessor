@@ -7,8 +7,8 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import processor.core.file.Profile;
-import processor.profile.ProfileSerializer;
+import com.datapro.nfp.core.file.Profile;
+import com.datapro.nfp.profile.ProfileSerializer;
 
 /**
  *

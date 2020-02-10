@@ -18,7 +18,7 @@ import org.netbeans.modules.editor.EditorModule;
 import org.openide.text.EditorSupport;
 import org.openide.util.Exceptions;
 import org.openide.windows.TopComponent;
-import processor.core.file.Profile;
+import com.datapro.nfp.core.file.Profile;
 
 /**
  *

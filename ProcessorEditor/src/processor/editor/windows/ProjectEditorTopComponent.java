@@ -9,10 +9,10 @@ import java.awt.BorderLayout;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
-import processor.core.file.Profile;
-import processor.core.file.ProjectCentral;
+import com.datapro.nfp.core.file.Profile;
+import com.datapro.nfp.core.file.ProjectCentral;
 import processor.genericeditor.windows.ProjectEditorMainPanel;
-import processor.profile.DIEmulator;
+import com.datapro.nfp.profile.DIEmulator;
 
 /**
  * Top component which displays something.

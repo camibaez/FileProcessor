@@ -11,10 +11,10 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
-import processor.core.file.VariableHolder;
+import com.datapro.nfp.core.file.VariableHolder;
 import processor.editor.windows.EditorLogTopComponent;
 import processor.genericeditor.windows.LogEditor;
-import processor.profile.log.FilesLog;
+import com.datapro.nfp.profile.log.FilesLog;
 
 @ActionID(
         category = "File",

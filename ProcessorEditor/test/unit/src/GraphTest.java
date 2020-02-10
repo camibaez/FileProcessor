@@ -1,8 +1,8 @@
 
-import processor.core.graph.DecisionEdge;
-import processor.core.graph.DecisionGraph;
-import processor.core.graph.actions.ReplaceText;
-import processor.core.graph.conditions.FilePattern;
+import com.datapro.nfp.core.graph.DecisionEdge;
+import com.datapro.nfp.core.graph.DecisionGraph;
+import com.datapro.nfp.core.graph.actions.ReplaceText;
+import com.datapro.nfp.core.graph.conditions.FilePattern;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

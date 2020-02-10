@@ -7,7 +7,7 @@ package processor.genericeditor.windows.actions;
 
 import javax.swing.text.EditorKit;
 import org.openide.text.CloneableEditorSupport;
-import processor.core.graph.actions.ExecutableAction;
+import com.datapro.nfp.core.graph.actions.ExecutableAction;
 
 /**
  *

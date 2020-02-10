@@ -15,8 +15,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import processor.core.graph.parsers.CodeScope;
-import processor.core.graph.parsers.JavaParserUtils;
+import com.datapro.nfp.core.graph.parsers.CodeScope;
+import com.datapro.nfp.core.graph.parsers.JavaParserUtils;
 
 /**
  *

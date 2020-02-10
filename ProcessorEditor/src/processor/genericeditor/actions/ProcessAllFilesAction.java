@@ -10,9 +10,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import processor.core.file.FileWalker;
-import processor.core.file.ProjectCentral;
-import processor.profile.DIEmulator;
+import com.datapro.nfp.core.file.FileWalker;
+import com.datapro.nfp.core.file.ProjectCentral;
+import com.datapro.nfp.profile.DIEmulator;
 
 public class ProcessAllFilesAction implements ActionListener {
     ProjectCentral projectCentral = DIEmulator.getProjectCentral();

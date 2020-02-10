@@ -9,10 +9,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import org.jgrapht.graph.DefaultDirectedGraph;
-import processor.core.file.ProjectCentral;
-import processor.core.graph.DecisionEdge;
-import processor.core.graph.GraphNode;
-import processor.profile.DIEmulator;
+import com.datapro.nfp.core.file.ProjectCentral;
+import com.datapro.nfp.core.graph.DecisionEdge;
+import com.datapro.nfp.core.graph.GraphNode;
+import com.datapro.nfp.profile.DIEmulator;
 
 /**
  *
