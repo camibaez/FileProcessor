@@ -13,7 +13,7 @@ import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
 import com.datapro.nfp.core.file.VariableHolder;
 import processor.editor.windows.EditorLogTopComponent;
-import processor.genericeditor.windows.LogEditor;
+import com.datapro.nfp.ui.windows.LogEditor;
 import com.datapro.nfp.profile.log.FilesLog;
 
 @ActionID(
@@ -25,7 +25,7 @@ import com.datapro.nfp.profile.log.FilesLog;
 )
 @ActionReference(path = "Menu/File", position = 787)
 @Messages("CTL_LoadLogAction=Load Log")
-public final class LoadLogAction extends processor.genericeditor.actions.LoadLogAction {
+public final class LoadLogAction extends com.datapro.nfp.ui.actions.LoadLogAction {
 
 
     @Override

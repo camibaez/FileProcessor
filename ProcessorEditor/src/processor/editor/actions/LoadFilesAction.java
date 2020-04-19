@@ -28,7 +28,7 @@ import processor.editor.windows.EditorProcessorTopComponent;
     @ActionReference(path = "Shortcuts", name = "D-L")
 })
 @Messages("CTL_LoadFilesAction=Load Files")
-public final class LoadFilesAction extends processor.genericeditor.actions.LoadFilesAction{
+public final class LoadFilesAction extends com.datapro.nfp.ui.actions.LoadFilesAction{
 
     @Override
     public void openProcessorWindow() {

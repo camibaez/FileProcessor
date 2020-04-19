@@ -14,7 +14,7 @@ import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 import com.datapro.nfp.core.file.Profile;
 import com.datapro.nfp.core.file.ProjectCentral;
-import processor.genericeditor.windows.ProcessorEditorMainPanel;
+import com.datapro.nfp.ui.windows.ProcessorEditorMainPanel;
 import com.datapro.nfp.profile.DIEmulator;
 
 /**

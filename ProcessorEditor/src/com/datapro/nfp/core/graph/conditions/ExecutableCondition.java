@@ -45,11 +45,10 @@ public class ExecutableCondition extends Condition<String> implements Executable
             exchangeMap.put("in", exchange.getIn());
             exchangeMap.put("context", exchange.getContext());
             
-            Object result = invocable.invokeFunction(this.id, target, variableHolder);
+            Object result = invocable.invokeFunction(this.id, exchangeMap);
             return result;
-        } catch (ScriptException ex) {
-            ex.printStackTrace();
-        } catch (NoSuchMethodException ex) {
+        } catch (Exception ex) {
+            System.err.println("Error executing Condition: " + id);
             ex.printStackTrace();
         }
         return null;
@@ -74,7 +73,7 @@ public class ExecutableCondition extends Condition<String> implements Executable
     public int compile() {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("nashorn");
-        String functionCode = "var " + this.id +"= function(in, config){\n";
+        String functionCode = "var " + this.id +"= function(exchange){\n";
             functionCode += this.code;
         functionCode += "\n}";
 

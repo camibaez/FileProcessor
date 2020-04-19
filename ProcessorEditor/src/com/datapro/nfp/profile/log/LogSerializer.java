@@ -111,7 +111,7 @@ public class LogSerializer {
     }
 
     
-    //TO DELETE
+    //TODO DELETE
     public static void loadFilesList(){
         String logPath = "C:\\Users\\cbaez\\Desktop\\LASTIME CHANGE\\04SocketClean\\04SocketClean_log_1563916580644.json";
         Map<String, Object> readLog = readLog(logPath);

@@ -21,6 +21,6 @@ import org.openide.util.NbBundle.Messages;
 )
 @ActionReference(path = "Menu/File", position = 0)
 @Messages("CTL_LoadExternalNodes=Load External Nodes")
-public final class LoadExternalNodes extends processor.genericeditor.actions.LoadExternalNodes {
+public final class LoadExternalNodes extends com.datapro.nfp.ui.actions.LoadExternalNodes {
     
 }

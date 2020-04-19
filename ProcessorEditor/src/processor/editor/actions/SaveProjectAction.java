@@ -23,7 +23,7 @@ import org.openide.util.NbBundle.Messages;
     @ActionReference(path = "Shortcuts", name = "D-S")
 })
 @Messages("CTL_SaveProjectAction=Save Project")
-public final class SaveProjectAction extends processor.genericeditor.actions.SaveProjectAction{
+public final class SaveProjectAction extends com.datapro.nfp.ui.actions.SaveProjectAction{
 
   
 }

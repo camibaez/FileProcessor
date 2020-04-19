@@ -37,7 +37,7 @@ public class ExecutableAction extends TextTransformer implements ExecutableNode{
 
     @Override
     public Object executeCode(Object target) {
-
+        
         try {
             Exchange exchange = new Exchange();
             exchange.setIn(target);
@@ -48,11 +48,10 @@ public class ExecutableAction extends TextTransformer implements ExecutableNode{
             exchangeMap.put("context", exchange.getContext());
             Object result = invocable.invokeFunction(this.id, exchangeMap);
             return result;
-        } catch (ScriptException ex) {
-            ex.printStackTrace();
-        } catch (NoSuchMethodException ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception e) {
+            System.err.println("Error executing Action: " + id);
+            e.printStackTrace();
+        } 
         return null;
     }
 

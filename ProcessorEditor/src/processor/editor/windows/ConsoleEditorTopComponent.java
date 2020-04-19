@@ -11,7 +11,7 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.windows.TopComponent;
 import org.openide.util.NbBundle.Messages;
-import processor.genericeditor.windows.JSConsolePanel;
+import com.datapro.nfp.ui.windows.JSConsolePanel;
 
 /**
  * Top component which displays something.

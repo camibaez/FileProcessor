@@ -24,7 +24,7 @@ import org.openide.util.NbBundle.Messages;
     @ActionReference(path = "Shortcuts", name = "DS-R")
 })
 @Messages("CTL_ProcessAllFiles=Process All Files")
-public final class ProcessAllFiles extends processor.genericeditor.actions.ProcessAllFilesAction {
+public final class ProcessAllFiles extends com.datapro.nfp.ui.actions.ProcessAllFilesAction {
 
    
 }

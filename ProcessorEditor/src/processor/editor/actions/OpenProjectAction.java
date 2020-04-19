@@ -26,7 +26,7 @@ import processor.editor.windows.ProjectEditorTopComponent;
     @ActionReference(path = "Shortcuts", name = "D-O")
 })
 @Messages("CTL_OpenProjectAction=Open Project")
-public final class OpenProjectAction extends processor.genericeditor.actions.OpenProjectAction {
+public final class OpenProjectAction extends com.datapro.nfp.ui.actions.OpenProjectAction {
 
     @Override
     public void openProjectWindow() {
