@@ -32,8 +32,8 @@ public final class LoadFilesAction extends com.datapro.nfp.ui.actions.LoadFilesA
 
     @Override
     public void openProcessorWindow() {
-        //new EditorProcessorTopComponent().open();
-        //new ConsoleEditorTopComponent().open();
+        new EditorProcessorTopComponent().open();
+        new ConsoleEditorTopComponent().open();
     }
 
    

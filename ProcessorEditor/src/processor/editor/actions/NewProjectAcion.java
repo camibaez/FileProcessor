@@ -9,6 +9,8 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle.Messages;
+import processor.editor.windows.ConsoleEditorTopComponent;
+import processor.editor.windows.EditorProcessorTopComponent;
 import processor.editor.windows.ProjectEditorTopComponent;
 
 @ActionID(
@@ -24,6 +26,8 @@ public final class NewProjectAcion extends com.datapro.nfp.ui.actions.NewProject
     @Override
     public void openProjectEditorWindow() {
          new ProjectEditorTopComponent().open();
+         new EditorProcessorTopComponent().open();
+        new ConsoleEditorTopComponent().open();
     }
     
 }
